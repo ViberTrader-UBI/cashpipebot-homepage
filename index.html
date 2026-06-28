@@ -604,17 +604,39 @@ function applyLang(l){
 }
 document.getElementById("langToggle").addEventListener("click",()=>applyLang(lang==="en"?"ko":"en"));
 
-/* ===================== LIVE DATA (wire to the bot here) ===================== */
-/* TODO: replace with a fetch() to the bot's live equity endpoint.
-   Keep the shape; the page reads from LIVE_DATA only. */
+/* ===================== LIVE DATA ===================== */
+/* Populated at load from ./data.json (published by the bot every few minutes).
+   The values below are only a FALLBACK shown if data.json can't be fetched. */
 const LIVE_DATA = {
   initial: 10000,
   startDate: "2026-06-09",
-  // most recent equity; refreshed by the live feed
   currentEquity: 10843.11,
-  // sampled equity points for the curve (oldest -> newest)
-  curve: [10000,10040,9985,10080,10150,10120,10230,10300,10260,10380,10450,10410,10540,10620,10580,10700,10780,10760,10843.11]
+  curve: [10000,10040,9985,10080,10150,10120,10230,10300,10260,10380,10450,10410,10540,10620,10580,10700,10780,10760,10843.11],
+  curveTs: null,        // optional real timestamps (ms), aligned 1:1 with curve[]
+  strategy: "BALANCED"
 };
+
+// Fetch live data published by the bot; fall back to the values above on any failure.
+async function loadLiveData(){
+  try{
+    const res = await fetch("./data.json", {cache:"no-store"});
+    if(!res.ok) throw new Error("no data.json");
+    const d = await res.json();
+    if(typeof d.initial === "number")       LIVE_DATA.initial = d.initial;
+    if(d.startDate)                          LIVE_DATA.startDate = d.startDate;
+    if(typeof d.currentEquity === "number")  LIVE_DATA.currentEquity = d.currentEquity;
+    if(d.strategy)                           LIVE_DATA.strategy = d.strategy;
+    if(Array.isArray(d.curve) && d.curve.length){
+      if(typeof d.curve[0] === "object" && d.curve[0]){          // [{ts,eq}, ...]
+        LIVE_DATA.curve   = d.curve.map(p => p.eq);
+        LIVE_DATA.curveTs = d.curve.map(p => typeof p.ts === "number" ? p.ts : new Date(p.ts).getTime());
+      } else {                                                   // [num, ...]
+        LIVE_DATA.curve = d.curve; LIVE_DATA.curveTs = null;
+      }
+    }
+  }catch(e){ /* keep fallback values */ }
+  renderAll();
+}
 
 /* ===================== FORMAT HELPERS ===================== */
 const fmtUSD = (n, dp=0) => "$" + Number(n).toLocaleString("en-US",{minimumFractionDigits:dp,maximumFractionDigits:dp});
@@ -626,7 +648,7 @@ function renderTrack(){
   const eq = d.currentEquity;
   const pnl = eq - d.initial;
   const pnlPct = (pnl / d.initial) * 100;
-  const start = new Date(d.startDate + "T00:00:00");
+  const start = new Date(d.startDate.length > 10 ? d.startDate : d.startDate + "T00:00:00");
   const now = new Date();
   const days = Math.max(1, Math.round((now - start) / 86400000));
   const monthly = (Math.pow(eq / d.initial, 30 / days) - 1) * 100;
@@ -638,13 +660,18 @@ function renderTrack(){
   document.getElementById("tDays").textContent = days;
   document.getElementById("tMonthly").textContent = fmtPct(monthly);
 
-  // build a timestamp for each curve point, evenly spaced start -> now
+  // timestamps per curve point: use real ones if provided, else even spacing
   const n = d.curve.length;
-  CHART.dates = d.curve.map((_,i)=> new Date(start.getTime() + (now-start)*(i/(n-1))));
+  if (d.curveTs && d.curveTs.length === n) {
+    CHART.dates = d.curveTs.map(t => new Date(t));
+  } else {
+    CHART.dates = d.curve.map((_,i)=> new Date(start.getTime() + (now-start)*(i/(n-1))));
+  }
+  const lastDate = (d.curveTs && d.curveTs.length) ? new Date(d.curveTs[d.curveTs.length-1]) : now;
   document.getElementById("chartStart").textContent =
     (lang==="ko"?"시작 ":"Since ") + fmtDate(start);
   document.getElementById("chartNow").textContent =
-    (lang==="ko"?"현재 ":"Now ") + fmtDate(now);
+    (lang==="ko"?"현재 ":"Now ") + fmtDate(lastDate);
   drawEquityChart(d.curve);
 }
 
@@ -817,6 +844,7 @@ window.addEventListener("resize",()=>drawEquityChart(LIVE_DATA.curve));
 
 /* ===================== INIT ===================== */
 applyLang("en");
+loadLiveData();
 </script>
 </body>
 </html>
