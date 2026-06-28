@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CashPipeBot — Automated Trading for Stablecoins</title>
+<meta name="description" content="CashPipeBot — an automated, leveraged algorithmic trading bot for stablecoins on a perpetual-futures DEX. Returns are not guaranteed; risk of loss applies.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ RESET / BASE ============ */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0805;
+  --ink:#f4ecd9;
+  --muted:#b3a482;
+  --teal:#d4b572;      /* champagne gold — primary accent */
+  --purple:#9a7732;    /* antique bronze — secondary */
+  --gold:#f1d692;      /* bright champagne — highlight */
+  --green:#7cc6a0;     /* refined emerald — profit / live */
+  --red:#e08a82;
+  --card:rgba(30,24,13,0.55);
+  --border:rgba(199,170,110,0.22);
+  --glow-teal:rgba(212,181,114,0.35);
+  --glow-purple:rgba(154,119,50,0.35);
+}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{
+  font-family:'Outfit','Noto Sans KR',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
+.font-digit{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums}
+
+/* ============ COSMIC BACKGROUND ============ */
+#starfield{position:fixed;inset:0;z-index:-3}
+.nebula{position:fixed;border-radius:50%;filter:blur(120px);opacity:.45;z-index:-2;pointer-events:none;animation:drift 26s ease-in-out infinite}
+.nebula.n1{width:55vw;height:55vw;top:-12vw;left:-8vw;background:radial-gradient(circle,#6e551d,transparent 70%)}
+.nebula.n2{width:50vw;height:50vw;bottom:-15vw;right:-10vw;background:radial-gradient(circle,#4c3912,transparent 70%);animation-delay:-8s}
+.nebula.n3{width:40vw;height:40vw;top:40%;left:50%;background:radial-gradient(circle,#7c5f22,transparent 70%);opacity:.28;animation-delay:-14s}
+.vignette{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,transparent 35%,rgba(7,5,2,.55) 100%)}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(4vw,3vw) scale(1.08)}}
+
+/* ============ HEADER / NAV ============ */
+.header{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(14px);background:rgba(12,9,4,.55);border-bottom:1px solid var(--border)}
+.header-inner{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:24px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.25rem;letter-spacing:.5px;text-decoration:none;color:var(--ink);flex-shrink:0}
+.brand .pipe{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--teal),var(--purple));display:grid;place-items:center;font-size:1rem;box-shadow:0 0 18px var(--glow-teal)}
+.brand .grad{background:linear-gradient(90deg,var(--teal),var(--purple));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.nav{display:flex;gap:6px;margin:0 auto}
+.nav a{color:var(--muted);text-decoration:none;font-weight:500;font-size:.92rem;padding:8px 14px;border-radius:10px;transition:.2s;white-space:nowrap}
+.nav a:hover{color:var(--ink);background:rgba(196,176,128,.1)}
+.actions{display:flex;gap:10px;flex-shrink:0}
+.icon-btn{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:rgba(196,176,128,.1);border:1px solid var(--border);color:var(--ink);cursor:pointer;text-decoration:none;transition:.2s;font-weight:700;font-size:.82rem}
+.icon-btn:hover{background:rgba(212,181,114,.18);border-color:var(--teal);transform:translateY(-2px)}
+.icon-btn svg{width:20px;height:20px}
+
+/* ============ LAYOUT ============ */
+.section{max-width:1180px;margin:0 auto;padding:110px 24px 40px}
+.section-head{text-align:center;max-width:760px;margin:0 auto 48px}
+.eyebrow{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:14px;padding:5px 14px;border:1px solid var(--border);border-radius:999px;background:rgba(212,181,114,.07)}
+.section-title{font-size:2.3rem;font-weight:800;line-height:1.2;margin-bottom:14px}
+.section-desc{color:var(--muted);font-size:1.05rem}
+.grad-text{background:linear-gradient(90deg,var(--teal),var(--purple) 60%,var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+
+.glass{background:var(--card);border:1px solid var(--border);border-radius:20px;backdrop-filter:blur(12px);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+
+/* ============ HERO ============ */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 60px;max-width:1100px;margin:0 auto}
+.hero .eyebrow{margin-bottom:22px}
+.hero h1{font-size:clamp(2.6rem,6vw,4.6rem);font-weight:900;line-height:1.05;letter-spacing:-1px}
+.hero p.lead{font-size:clamp(1.05rem,2vw,1.35rem);color:var(--muted);max-width:680px;margin:24px auto 0}
+.hero-cta{display:flex;gap:14px;margin-top:38px;flex-wrap:wrap;justify-content:center}
+.hero-badges{display:flex;gap:30px;margin-top:54px;flex-wrap:wrap;justify-content:center}
+.hbadge{text-align:center}
+.hbadge .v{font-size:1.9rem;font-weight:800;background:linear-gradient(90deg,var(--teal),var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hbadge .l{font-size:.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.scroll-hint{margin-top:60px;color:var(--muted);font-size:.8rem;letter-spacing:2px;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* ============ BUTTONS ============ */
+.btn{display:inline-flex;align-items:center;gap:9px;padding:14px 28px;border-radius:13px;font-weight:700;font-size:1rem;text-decoration:none;cursor:pointer;border:none;transition:.22s;font-family:inherit}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--teal));color:#1a1408;box-shadow:0 10px 30px var(--glow-teal)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 16px 40px var(--glow-purple)}
+.btn-ghost{background:rgba(196,176,128,.08);color:var(--ink);border:1px solid var(--border)}
+.btn-ghost:hover{background:rgba(196,176,128,.16);transform:translateY(-3px)}
+.btn-lg{padding:18px 40px;font-size:1.1rem}
+
+/* ============ CONCEPT ============ */
+.concept-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.concept-card{padding:30px}
+.concept-card .ico{width:54px;height:54px;border-radius:14px;display:grid;place-items:center;font-size:1.6rem;margin-bottom:18px;background:rgba(212,181,114,.12);border:1px solid var(--border)}
+.concept-card h3{font-size:1.2rem;margin-bottom:10px}
+.concept-card p{color:var(--muted);font-size:.96rem}
+.concept-note{margin-top:30px;text-align:center;color:var(--muted);font-size:.92rem;padding:18px;border:1px dashed var(--border);border-radius:14px}
+.concept-risk{margin-top:12px;text-align:center;font-size:.9rem;font-weight:600;color:var(--muted)}
+
+/* ============ TRACK RECORD ============ */
+.track-wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:24px}
+.track-hero{padding:34px}
+.track-live{display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-weight:700;color:var(--green);margin-bottom:18px}
+.live-dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(52,211,153,.7);animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.6)}70%{box-shadow:0 0 0 12px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+.track-equity{font-size:3.1rem;font-weight:800;line-height:1.1}
+.track-pnl{font-size:1.3rem;font-weight:700;color:var(--green);margin-top:6px}
+.track-meta{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}
+.track-meta .cell{background:rgba(196,176,128,.07);border:1px solid var(--border);border-radius:13px;padding:16px}
+.track-meta .cell .l{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.track-meta .cell .v{font-size:1.35rem;font-weight:700;margin-top:4px}
+.track-chart-card{padding:26px;display:flex;flex-direction:column}
+.track-chart-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.track-chart-head h3{font-size:1.05rem}
+.strat-pill{font-size:.78rem;font-weight:700;color:var(--teal);padding:4px 12px;border-radius:999px;border:1px solid var(--border);background:rgba(212,181,114,.08)}
+.chart-box{height:260px;position:relative;padding-bottom:22px}
+.chart-box canvas{display:block;width:100%;height:238px;cursor:crosshair}
+.chart-tip{position:absolute;transform:translateX(-50%);pointer-events:none;opacity:0;transition:opacity .12s;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:700;padding:4px 9px;border-radius:8px;z-index:3}
+.chart-tip.show{opacity:1}
+.chart-tip-top{top:0;color:#100c06;background:var(--gold);box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.chart-tip-bot{bottom:22px;color:var(--ink);background:rgba(154,119,50,.85);box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.chart-start{position:absolute;left:8px;bottom:0;font-size:.74rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.chart-now{position:absolute;right:8px;bottom:0;font-size:.74rem;color:var(--teal);font-family:'JetBrains Mono',monospace}
+.track-foot{margin-top:30px;text-align:center;font-size:.82rem;color:var(--muted)}
+
+/* ============ INTERFACE (bot mockup) ============ */
+.iface-wrap{display:grid;grid-template-columns:340px 1fr;gap:48px;align-items:center}
+.phone{width:340px;justify-self:center;background:#0a0a0d;border:1px solid var(--border);border-radius:42px;padding:14px;box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)}
+.phone-screen{position:relative;border-radius:30px;overflow:hidden;background:linear-gradient(165deg,var(--card),rgba(0,0,0,.45));padding:20px 14px 16px}
+.tg-bubble{position:relative;background:#f6f3ec;color:#16130c;border-radius:6px 16px 16px 16px;padding:15px 16px;box-shadow:0 8px 22px rgba(0,0,0,.35)}
+.tg-title{font-weight:800;font-size:1.05rem;margin-bottom:12px}
+.tg-sec{font-weight:700;margin-bottom:6px}
+.tg-list{list-style:none;padding:0;margin:0 0 12px;display:flex;flex-direction:column;gap:3px;font-size:.94rem}
+.tg-list .on{color:#1a9d4e;font-weight:700}
+.tg-bal{font-size:1.05rem;border-top:1px solid rgba(0,0,0,.08);padding-top:10px}
+.tg-bal .bal{font-weight:800}
+.tg-time{text-align:right;font-size:.72rem;color:#9a958a;margin-top:8px}
+.tg-menu{margin-top:16px;display:flex;flex-direction:column;gap:10px}
+.tg-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px 12px;border-radius:13px;border:1px solid var(--border);background:var(--card);color:var(--ink);font-family:inherit;font-weight:600;font-size:.95rem;cursor:pointer;transition:.2s}
+.tg-btn:hover{border-color:var(--teal);background:var(--glow-teal);transform:translateY(-2px)}
+.iface-features{display:flex;flex-direction:column;gap:20px}
+.feat-item{display:flex;gap:16px;align-items:flex-start}
+.feat-ico{flex-shrink:0;width:48px;height:48px;border-radius:13px;display:grid;place-items:center;font-size:1.4rem;background:rgba(0,0,0,.22);border:1px solid var(--border)}
+.feat-item h4{font-size:1.05rem;margin-bottom:3px}
+.feat-item p{color:var(--muted);font-size:.94rem}
+@media(max-width:900px){.iface-wrap{grid-template-columns:1fr;gap:36px}}
+
+/* ============ SUBSCRIPTION ============ */
+.sub-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.sub-card{padding:34px}
+.sub-fee-big{font-size:3.2rem;font-weight:900;background:linear-gradient(90deg,var(--gold),var(--teal));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sub-fee-sub{color:var(--muted);margin-top:4px;margin-bottom:24px}
+.sub-list{list-style:none;display:flex;flex-direction:column;gap:14px}
+.sub-list li{display:flex;gap:12px;align-items:flex-start;font-size:.98rem}
+.sub-list li .chk{color:var(--teal);font-weight:800;flex-shrink:0}
+.sub-range{display:flex;justify-content:space-between;margin-top:10px;font-weight:700}
+.sub-range .min{color:var(--teal)}.sub-range .max{color:var(--gold)}
+.range-bar{height:8px;border-radius:999px;background:linear-gradient(90deg,var(--teal),var(--gold));margin-top:8px;opacity:.8}
+.sub-note{margin-top:18px;font-size:.86rem;color:var(--muted);padding:14px;border-radius:12px;background:rgba(255,209,102,.06);border:1px solid rgba(255,209,102,.2)}
+.sub-note a{color:var(--gold);font-weight:700;text-decoration:none}
+/* fee preview mini calc */
+.fee-mini{margin-top:24px;padding-top:22px;border-top:1px solid var(--border)}
+.fee-mini label{font-size:.82rem;color:var(--muted);display:block;margin-bottom:8px}
+.field{display:flex;align-items:center;background:rgba(12,9,4,.5);border:1px solid var(--border);border-radius:12px;padding:0 14px}
+.field span{color:var(--muted);font-weight:700}
+.field input{flex:1;background:none;border:none;color:var(--ink);font-size:1.15rem;font-weight:700;padding:14px 8px;font-family:'JetBrains Mono',monospace;outline:none}
+.fee-out{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.fee-out .box{background:rgba(196,176,128,.07);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+.fee-out .box .l{font-size:.74rem;color:var(--muted);text-transform:uppercase}
+.fee-out .box .v{font-size:1.4rem;font-weight:800;color:var(--gold);margin-top:4px}
+.trial-badge{margin-top:16px;text-align:center;font-weight:700;font-size:.95rem;color:var(--gold);padding:11px 14px;border-radius:12px;background:linear-gradient(135deg,rgba(241,214,146,.16),rgba(212,181,114,.07));border:1px solid rgba(241,214,146,.42);box-shadow:0 0 22px rgba(241,214,146,.16)}
+.trial-dm{margin-top:10px;text-align:center;font-size:.84rem;color:var(--muted)}
+.trial-dm a{color:var(--gold);font-weight:700;text-decoration:none}
+
+/* ============ APPLY ============ */
+.apply{text-align:center;background:linear-gradient(135deg,rgba(212,181,114,.1),rgba(154,119,50,.1));border:1px solid var(--border);border-radius:28px;padding:64px 32px}
+.apply h2{font-size:2.4rem;font-weight:800;margin-bottom:14px}
+.apply p{color:var(--muted);font-size:1.1rem;max-width:560px;margin:0 auto 32px}
+
+/* ============ CALCULATOR ============ */
+.calc-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:24px}
+.calc-inputs{padding:34px}
+.calc-inputs h3{font-size:1.15rem;margin-bottom:22px}
+.input-group{margin-bottom:22px}
+.input-group label{display:flex;justify-content:space-between;font-size:.88rem;color:var(--muted);margin-bottom:9px}
+.input-group label .cur{font-weight:700;color:var(--teal)}
+.slider{-webkit-appearance:none;width:100%;height:6px;border-radius:999px;background:rgba(196,176,128,.2);outline:none;margin-top:6px}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--purple));cursor:pointer;box-shadow:0 0 12px var(--glow-teal)}
+.slider::-moz-range-thumb{width:22px;height:22px;border-radius:50%;border:none;background:var(--teal);cursor:pointer}
+.calc-results{padding:34px;display:flex;flex-direction:column;gap:18px}
+.res-row{background:rgba(196,176,128,.06);border:1px solid var(--border);border-radius:16px;padding:22px 24px;display:flex;justify-content:space-between;align-items:center}
+.res-row.feature{background:linear-gradient(135deg,rgba(212,181,114,.14),rgba(154,119,50,.12));border-color:var(--teal)}
+.res-row .rl{font-size:.92rem;color:var(--muted)}
+.res-row .rl b{display:block;color:var(--ink);font-size:1.05rem;font-weight:700;margin-bottom:2px}
+.res-row .rv{text-align:right}
+.res-row .rv .big{font-size:1.9rem;font-weight:800}
+.res-row .rv .gain{font-size:.92rem;color:var(--green);font-weight:600}
+.calc-disclaimer{font-size:.8rem;color:var(--muted);margin-top:6px;text-align:center}
+
+/* ============ FOOTER ============ */
+.footer{border-top:1px solid var(--border);margin-top:60px;padding:40px 24px;text-align:center;color:var(--muted)}
+.footer .flinks{display:flex;gap:18px;justify-content:center;margin-bottom:14px}
+.footer .flinks a{color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:.2s}
+.footer .flinks a:hover{color:var(--teal)}
+.footer .flinks svg{width:18px;height:18px}
+.footer small{font-size:.8rem;opacity:.7}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:900px){
+  .nav{display:none}
+  .concept-grid{grid-template-columns:1fr}
+  .track-wrap,.sub-grid,.calc-grid{grid-template-columns:1fr}
+  .section-title{font-size:1.9rem}
+}
+.hide{display:none!important}
+</style>
+</head>
+<body data-lang="en">
+
+<!-- COSMIC BG -->
+<canvas id="starfield"></canvas>
+<div class="nebula n1"></div>
+<div class="nebula n2"></div>
+<div class="nebula n3"></div>
+<div class="vignette"></div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="#hero" class="brand">
+      <span class="pipe">💸</span>
+      <span>Cash<span class="grad">Pipe</span>Bot</span>
+    </a>
+    <nav class="nav">
+      <a href="#concept" data-i18n="nav.concept">Concept</a>
+      <a href="#track" data-i18n="nav.track">Track Record</a>
+      <a href="#interface" data-i18n="nav.iface">Interface</a>
+      <a href="#subscription" data-i18n="nav.sub">Subscription</a>
+      <a href="#apply" data-i18n="nav.apply">Apply</a>
+      <a href="#calculator" data-i18n="nav.calc">Calculator</a>
+    </nav>
+    <div class="actions">
+      <button class="icon-btn" id="langToggle" title="Language">EN</button>
+      <a class="icon-btn" href="https://t.me/cashpipebot_aleart" target="_blank" rel="noopener" title="Telegram Channel" data-i18n-title="ico.channel">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+      </a>
+      <a class="icon-btn" href="https://t.me/CashPipe_Bot" target="_blank" rel="noopener" title="DM Admin" data-i18n-title="ico.dm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </a>
+      <a class="icon-btn" href="mailto:admin@cashpipebot.com" title="Propose a collaboration" data-i18n-title="ico.email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero" class="hero">
+  <span class="eyebrow" data-i18n="hero.eyebrow">Automated Algorithmic Trading Bot</span>
+  <h1 data-i18n="hero.title">Put your stablecoins<br>to <span class="grad-text">work</span>.</h1>
+  <p class="lead" data-i18n="hero.lead">CashPipeBot is an automated trading bot on a perpetual-futures DEX, aiming to grow your stablecoin balance.</p>
+  <div class="hero-cta">
+    <a href="#apply" class="btn btn-primary" data-i18n="hero.cta1">Get started</a>
+    <a href="#track" class="btn btn-ghost" data-i18n="hero.cta2">See live track record</a>
+  </div>
+  <div class="hero-badges">
+    <div class="hbadge"><div class="v">N%+</div><div class="l" data-i18n="hero.b2">Monthly goal · not guaranteed</div></div>
+    <div class="hbadge"><div class="v">Non-custodial</div><div class="l" data-i18n="hero.b1">Your keys, your coins</div></div>
+    <div class="hbadge"><div class="v">24/7</div><div class="l" data-i18n="hero.b3">Automated</div></div>
+  </div>
+  <div class="scroll-hint" data-i18n="hero.scroll">SCROLL ↓</div>
+</section>
+
+<!-- CONCEPT -->
+<section id="concept" class="section">
+  <div class="section-head">
+    <span class="eyebrow" data-i18n="concept.eyebrow">The Concept</span>
+    <h2 class="section-title" data-i18n="concept.title">How CashPipeBot works</h2>
+    <p class="section-desc" data-i18n="concept.desc">CashPipeBot puts your stablecoins to work in an automated, market-neutral-style strategy on a perpetual-futures DEX, aiming for a sustainable N%+ per month. (This is a target, not a guarantee.)</p>
+    <p class="concept-risk" data-i18n="concept.risk">※ Risk of loss of principal applies; returns are not guaranteed.</p>
+  </div>
+  <div class="concept-grid">
+    <div class="glass concept-card">
+      <div class="ico">🪙</div>
+      <h3 data-i18n="concept.c1.t">Stablecoin in, trading results out</h3>
+      <p data-i18n="concept.c1.d">Your funds stay in your own wallet and your own exchange account — non-custodial. The bot only trades via API and never holds your money. The gains and the losses are yours.</p>
+    </div>
+    <div class="glass concept-card">
+      <div class="ico">⚖️</div>
+      <h3 data-i18n="concept.c2.t">Market-neutral by design</h3>
+      <p data-i18n="concept.c2.d">A BTC lead leg paired with an ETH/SOL counter leg trades spread mean-reversion — earning whether the market rises or falls, not betting on direction.</p>
+    </div>
+    <div class="glass concept-card">
+      <div class="ico">🎯</div>
+      <h3 data-i18n="concept.c3.t">Systematic risk controls</h3>
+      <p data-i18n="concept.c3.d">Drawdown brakes, stop-losses and pause guards manage risk systematically — though they can't remove the possibility of loss entirely.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TRACK RECORD -->
+<section id="track" class="section">
+  <div class="section-head">
+    <span class="eyebrow" data-i18n="track.eyebrow">Live Track Record</span>
+    <h2 class="section-title" data-i18n="track.title">Trading strategy, running live</h2>
+    <p class="section-desc" data-i18n="track.desc">This is the real operating-balance history of the 'Balanced Strategy', one of the strategies currently running. The history is reflected in real time.</p>
+  </div>
+  <div class="track-wrap">
+    <div class="glass track-hero">
+      <div class="track-live"><span class="live-dot"></span><span data-i18n="track.livelabel">LIVE · Balanced Strategy</span></div>
+      <div class="track-equity font-digit" id="tEquity">$10,000.00</div>
+      <div class="track-pnl font-digit" id="tPnl">+$0.00 (+0.00%)</div>
+      <div class="track-meta">
+        <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m2">Days running</div><div class="v font-digit" id="tDays">19</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m3">Avg monthly</div><div class="v font-digit" id="tMonthly">+0.0%</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m4">Strategy</div><div class="v">Balanced</div></div>
+      </div>
+    </div>
+    <div class="glass track-chart-card">
+      <div class="track-chart-head">
+        <h3 data-i18n="track.chart">Equity curve</h3>
+        <span class="strat-pill" data-i18n="track.since">since 2026.06.09</span>
+      </div>
+      <div class="chart-box">
+        <canvas id="equityChart"></canvas>
+        <div class="chart-tip chart-tip-top" id="tipBal"></div>
+        <div class="chart-tip chart-tip-bot" id="tipDate"></div>
+        <div class="chart-start" id="chartStart"></div>
+        <div class="chart-now" id="chartNow"></div>
+      </div>
+    </div>
+  </div>
+  <p class="track-foot" data-i18n="track.foot">Figures are wired to the live account and refresh automatically. Past results do not guarantee future performance.</p>
+</section>
+
+<!-- INTERFACE -->
+<section id="interface" class="section">
+  <div class="section-head">
+    <span class="eyebrow" data-i18n="iface.eyebrow">The Interface</span>
+    <h2 class="section-title" data-i18n="iface.title">Your bot lives in Telegram</h2>
+    <p class="section-desc" data-i18n="iface.desc">No app to install, no dashboard to learn. Check your balance, flip auto-betting on or off, switch strategy and view your profit graph — all from one chat.</p>
+  </div>
+  <div class="iface-wrap">
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="tg-bubble">
+          <div class="tg-title">&lt;&lt; CashPipeBot &gt;&gt;</div>
+          <div class="tg-sec">✅ System OverView</div>
+          <ul class="tg-list">
+            <li>- Auto-Betting: <span class="on">ON ✅</span></li>
+            <li>- Strategy: Balanced Strategy</li>
+            <li>- Open Position: 0 Rounds</li>
+          </ul>
+          <div class="tg-bal">💰 Your Balances: <span class="bal">$10,000.00</span></div>
+          <div class="tg-time">5:45 PM</div>
+        </div>
+        <div class="tg-menu">
+          <button class="tg-btn" type="button">🔄 Auto-Betting "ON"</button>
+          <button class="tg-btn" type="button">🌐 English/한국어</button>
+          <button class="tg-btn" type="button">💡 Strategy Settings</button>
+          <button class="tg-btn" type="button">📊 My Profit Graph</button>
+          <button class="tg-btn" type="button">🔍 My Position Info</button>
+        </div>
+      </div>
+    </div>
+    <div class="iface-features">
+      <div class="feat-item"><div class="feat-ico">🔄</div><div><h4 data-i18n="iface.f1t">Auto-Betting on/off</h4><p data-i18n="iface.f1d">Start or pause the engine whenever you want — one tap.</p></div></div>
+      <div class="feat-item"><div class="feat-ico">🌐</div><div><h4 data-i18n="iface.f2t">English / 한국어</h4><p data-i18n="iface.f2d">Use the bot in your language; switch instantly.</p></div></div>
+      <div class="feat-item"><div class="feat-ico">💡</div><div><h4 data-i18n="iface.f3t">Strategy settings</h4><p data-i18n="iface.f3d">Pick Balanced or Frontier to match your risk appetite.</p></div></div>
+      <div class="feat-item"><div class="feat-ico">📊</div><div><h4 data-i18n="iface.f4t">My profit graph</h4><p data-i18n="iface.f4d">See your performance curve in real time — up or down.</p></div></div>
+      <div class="feat-item"><div class="feat-ico">🔍</div><div><h4 data-i18n="iface.f5t">My position info</h4><p data-i18n="iface.f5d">Inspect open rounds and live positions any time.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SUBSCRIPTION -->
+<section id="subscription" class="section">
+  <div class="section-head">
+    <span class="eyebrow" data-i18n="sub.eyebrow">Subscription</span>
+    <h2 class="section-title" data-i18n="sub.title">Simple, flat pricing</h2>
+    <p class="section-desc" data-i18n="sub.desc">One transparent fee. No profit-sharing surprises, no hidden cuts.</p>
+  </div>
+  <div class="sub-grid">
+    <div class="glass sub-card">
+      <div class="sub-fee-big">1%</div>
+      <div class="sub-fee-sub" data-i18n="sub.feesub">of your operating balance, every 10 days — billed in advance.</div>
+      <ul class="sub-list">
+        <li><span class="chk">✓</span><span data-i18n="sub.l1">Charged as a flat 1% of your operating balance.</span></li>
+        <li><span class="chk">✓</span><span data-i18n="sub.l2">Billed every 10 days, prepaid (in advance).</span></li>
+        <li><span class="chk">✓</span><span data-i18n="sub.l3">No performance fee — all trading results, gains and losses, are yours.</span></li>
+      </ul>
+      <div class="sub-range">
+        <span class="min" data-i18n="sub.min">Min $1,000</span>
+        <span class="max" data-i18n="sub.max">Max $500,000</span>
+      </div>
+      <div class="range-bar"></div>
+      <div class="sub-note" data-i18n="sub.note">💬 Want to run more than $500,000, or need the fee-payment wallet address? DM <a href="https://t.me/CashPipe_Bot" target="_blank" rel="noopener">@CashPipe_Bot</a> on Telegram.</div>
+    </div>
+    <div class="glass sub-card">
+      <div class="fee-mini" style="margin-top:0;padding-top:0;border-top:none">
+        <h3 style="font-size:1.15rem;margin-bottom:18px" data-i18n="sub.estimate">Estimate your fee</h3>
+        <label data-i18n="sub.feelabel">Operating balance (USD)</label>
+        <div class="field">
+          <span>$</span>
+          <input type="number" id="feeBalance" value="10000" min="1000" max="500000" step="100">
+        </div>
+        <div class="fee-out">
+          <div class="box"><div class="l" data-i18n="sub.fee10">Every 10 days</div><div class="v font-digit" id="fee10">$100</div></div>
+          <div class="box"><div class="l" data-i18n="sub.feemo">~ Per month</div><div class="v font-digit" id="feeMo">$300</div></div>
+        </div>
+        <p class="calc-disclaimer" style="margin-top:14px" data-i18n="sub.feenote">Monthly figure assumes three 10-day billing cycles (≈ 3% / month).</p>
+        <div class="trial-badge" data-i18n="sub.trial">✨ For a limited time, we're offering a free first 10 days.</div>
+        <div class="trial-dm" data-i18n="sub.trialdm">💬 Want to start a free trial? DM <a href="https://t.me/CashPipe_Bot" target="_blank" rel="noopener">@CashPipe_Bot</a> on Telegram.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLY -->
+<section id="apply" class="section">
+  <div class="apply">
+    <span class="eyebrow" data-i18n="apply.eyebrow">Join</span>
+    <h2 data-i18n="apply.title">Ready to get started?</h2>
+    <p data-i18n="apply.desc">Register in a couple of minutes. We'll help you onboard your own account onto the strategy you choose.</p>
+    <a href="https://forms.gle/CMmH63ctA4Su7MAK8" target="_blank" rel="noopener" class="btn btn-primary btn-lg" data-i18n="apply.btn">Apply now →</a>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section id="calculator" class="section">
+  <div class="section-head">
+    <span class="eyebrow" data-i18n="calc.eyebrow">Scenario Simulator</span>
+    <h2 class="section-title" data-i18n="calc.title">Explore hypothetical scenarios</h2>
+    <p class="section-desc" data-i18n="calc.desc">Enter your starting balance and an assumed monthly return to see your projected balance after one month and one year.</p>
+  </div>
+  <div class="calc-grid">
+    <div class="glass calc-inputs">
+      <h3 data-i18n="calc.inputs">Your inputs</h3>
+      <div class="input-group">
+        <label><span data-i18n="calc.initial">Initial balance</span><span class="cur font-digit" id="lblBalance">$10,000</span></label>
+        <input type="range" class="slider" id="calcBalance" min="1000" max="500000" step="1000" value="10000">
+      </div>
+      <div class="input-group">
+        <label><span data-i18n="calc.return">Hypothetical monthly return</span><span class="cur font-digit" id="lblReturn">+5.0%</span></label>
+        <input type="range" class="slider" id="calcReturn" min="-10" max="20" step="0.5" value="5">
+      </div>
+      <p class="calc-disclaimer" style="text-align:left;margin-top:10px" data-i18n="calc.hint">Drag the sliders — try negative returns too. The 1-year figure assumes monthly results compound. This is a hypothetical, not a promise.</p>
+    </div>
+    <div class="glass calc-results">
+      <div class="res-row">
+        <div class="rl"><b data-i18n="calc.r0">Initial balance</b><span data-i18n="calc.r0s">your principal today</span></div>
+        <div class="rv"><div class="big font-digit" id="resInitial">$10,000</div></div>
+      </div>
+      <div class="res-row">
+        <div class="rl"><b data-i18n="calc.r1">After 1 month</b><span data-i18n="calc.r1s">balance after 1 hypothetical month</span></div>
+        <div class="rv"><div class="big font-digit" id="resMonth">$10,500</div><div class="gain font-digit" id="gainMonth">+$500</div></div>
+      </div>
+      <div class="res-row feature">
+        <div class="rl"><b data-i18n="calc.r2">After 1 year</b><span data-i18n="calc.r2s">balance after 1 hypothetical year (compounded)</span></div>
+        <div class="rv"><div class="big font-digit grad-text" id="resYear">$17,959</div><div class="gain font-digit" id="gainYear">+$7,959</div></div>
+      </div>
+      <p class="calc-disclaimer" data-i18n="calc.disc">Real results can be positive or negative, and this figure excludes the subscription fee.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="flinks">
+    <a href="https://t.me/cashpipebot_aleart" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+      <span data-i18n="foot.channel">Telegram Channel</span>
+    </a>
+    <a href="https://t.me/CashPipe_Bot" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span data-i18n="foot.dm">DM Admin</span>
+    </a>
+  </div>
+  <small data-i18n="foot.copy">Automated, leveraged perpetual-futures trading — not interest or a dividend. Crypto trading carries risk: targets are goals not guarantees, past performance does not guarantee future results, and your principal may not be guaranteed.</small>
+</footer>
+
+<script>
+/* ===================== i18n ===================== */
+const I18N = {
+  en: {
+    "nav.concept":"Concept","nav.track":"Track Record","nav.sub":"Subscription","nav.apply":"Apply","nav.calc":"Simulator",
+    "ico.channel":"Telegram Channel","ico.dm":"DM Admin","ico.email":"Propose a collaboration (email)",
+    "hero.eyebrow":"Automated Algorithmic Trading Bot",
+    "hero.title":"Put your stablecoins<br>to <span class='grad-text'>work</span>.",
+    "hero.lead":"CashPipeBot is an automated trading bot on a perpetual-futures DEX, aiming to grow your stablecoin balance.",
+    "hero.cta1":"Get started","hero.cta2":"See live track record",
+    "hero.b1":"Your keys, your coins","hero.b2":"Monthly goal · not guaranteed","hero.b3":"Automated","hero.scroll":"SCROLL ↓",
+    "concept.eyebrow":"The Concept","concept.title":"How CashPipeBot works",
+    "concept.desc":"CashPipeBot puts your stablecoins to work in an automated, market-neutral-style strategy on a perpetual-futures DEX, aiming for a sustainable N%+ per month. (This is a target, not a guarantee.)",
+    "concept.risk":"※ Risk of loss of principal applies; returns are not guaranteed.",
+    "concept.c1.t":"Stablecoin in, trading results out","concept.c1.d":"Your funds stay in your own wallet and your own exchange account — non-custodial. The bot only trades via API and never holds your money. The gains and the losses are yours.",
+    "concept.c2.t":"Market-neutral by design","concept.c2.d":"A BTC lead leg paired with an ETH/SOL counter leg trades spread mean-reversion, aiming to profit from convergence rather than market direction. It can still lose in adverse conditions.",
+    "concept.c3.t":"Systematic risk controls","concept.c3.d":"Drawdown brakes, stop-losses and pause guards manage risk systematically — though they can't remove the possibility of loss entirely.",
+    "concept.note":"🚨 This is automated, leveraged perpetual-futures trading — not 'interest' or a 'dividend'. Returns are not guaranteed and you can lose some or all of your principal. Any target shown is a goal, not a commitment, and past performance does not guarantee future results.",
+    "track.eyebrow":"Live Track Record","track.title":"Trading strategy, running live",
+    "track.desc":"This is the real operating-balance history of the 'Balanced Strategy', one of the strategies currently running. The history is reflected in real time.",
+    "track.livelabel":"LIVE · Balanced Strategy","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Avg monthly","track.m4":"Strategy",
+    "track.chart":"Equity curve","track.since":"since 2026.06.09",
+    "track.foot":"Figures are wired to the live account and refresh automatically. Past results do not guarantee future performance.",
+    "nav.iface":"Interface",
+    "iface.eyebrow":"The Interface","iface.title":"Your bot lives in Telegram",
+    "iface.desc":"No app to install, no dashboard to learn. Check your balance, flip auto-betting on or off, switch strategy and view your profit graph — all from one chat.",
+    "iface.f1t":"Auto-Betting on/off","iface.f1d":"Start or pause the engine whenever you want — one tap.",
+    "iface.f2t":"English / 한국어","iface.f2d":"Use the bot in your language; switch instantly.",
+    "iface.f3t":"Strategy settings","iface.f3d":"Pick Balanced or Frontier to match your risk appetite.",
+    "iface.f4t":"My profit graph","iface.f4d":"See your performance curve in real time — up or down.",
+    "iface.f5t":"My position info","iface.f5d":"Inspect open rounds and live positions any time.",
+    "sub.eyebrow":"Subscription","sub.title":"Simple, flat pricing","sub.desc":"One transparent fee. No profit-sharing surprises, no hidden cuts.",
+    "sub.feesub":"of your operating balance is billed as a usage fee every 10 days. The fee is prepaid — simply send it to our team's crypto wallet.",
+    "sub.l1":"Charged as a flat 1% of your operating balance.","sub.l2":"Billed every 10 days, prepaid (in advance).","sub.l3":"No performance fee — all trading results, gains and losses, are yours.",
+    "sub.min":"Min $1,000","sub.max":"Max $500,000",
+    "sub.note":"💬 Want to run more than $500,000, or need the fee-payment wallet address? DM <a href='https://t.me/CashPipe_Bot' target='_blank' rel='noopener'>@CashPipe_Bot</a> on Telegram.",
+    "sub.estimate":"Estimate your fee","sub.feelabel":"Operating balance (USD)","sub.fee10":"Every 10 days","sub.feemo":"~ Per month",
+    "sub.feenote":"Monthly figure assumes three 10-day billing cycles (≈ 3% / month).",
+    "sub.trial":"✨ For a limited time, we're offering a free first 10 days.",
+    "sub.trialdm":"💬 Want to start a free trial? DM <a href='https://t.me/CashPipe_Bot' target='_blank' rel='noopener'>@CashPipe_Bot</a> on Telegram.",
+    "apply.eyebrow":"Join","apply.title":"Ready to get started?","apply.desc":"Register in a couple of minutes. We'll help you onboard your own account onto the strategy you choose.","apply.btn":"Apply now →",
+    "calc.eyebrow":"Scenario Simulator","calc.title":"Explore hypothetical scenarios",
+    "calc.desc":"Enter a balance and a hypothetical monthly return to see how compounding would look. This is an illustration, not a forecast — real results can be negative.",
+    "calc.inputs":"Your inputs","calc.initial":"Initial balance","calc.return":"Hypothetical monthly return",
+    "calc.hint":"Drag the sliders — try negative returns too. The 1-year figure assumes monthly results compound. This is a hypothetical, not a promise.",
+    "calc.r0":"Initial balance","calc.r0s":"your principal today",
+    "calc.r1":"After 1 month","calc.r1s":"balance after 1 hypothetical month",
+    "calc.r2":"After 1 year","calc.r2s":"balance after 1 hypothetical year (compounded)",
+    "calc.disc":"Real results can be positive or negative, and this figure excludes the subscription fee.",
+    "foot.channel":"Telegram Channel","foot.dm":"DM Admin",
+    "foot.copy":"Automated, leveraged perpetual-futures trading — not interest or a dividend. Crypto trading carries risk: targets are goals not guarantees, past performance does not guarantee future results, and your principal may not be guaranteed."
+  },
+  ko: {
+    "nav.concept":"컨셉","nav.track":"운용 현황","nav.sub":"구독료","nav.apply":"신청","nav.calc":"시뮬레이터",
+    "ico.channel":"텔레그램 채널","ico.dm":"관리자 DM","ico.email":"협업 제안 (이메일)",
+    "hero.eyebrow":"자동 알고리즘 트레이딩 봇",
+    "hero.title":"잠자는 스테이블코인을<br><span class='grad-text'>일하게</span> 하세요.",
+    "hero.lead":"캐시파이프봇은 무기한 선물 DEX에서 자동 매매하는 봇으로, 스테이블코인 잔고를 키우는 것을 목표로 하고 있습니다.",
+    "hero.cta1":"시작하기","hero.cta2":"실시간 트랙레코드 보기",
+    "hero.b1":"키와 코인은 본인 소유","hero.b2":"월 목표 · 보장 아님","hero.b3":"24시간 자동","hero.scroll":"스크롤 ↓",
+    "concept.eyebrow":"컨셉","concept.title":"캐시파이프봇 작동 방식",
+    "concept.desc":"캐시파이프봇은 스테이블코인을 무기한 선물 DEX의 자동·시장 중립 지향 전략에 투입해, 지속 가능한 월 N% 이상을 목표로 합니다. (목표치이며 보장되지 않습니다.)",
+    "concept.risk":"※ 원금 손실 위험이 있으며, 수익은 보장되지 않습니다.",
+    "concept.c1.t":"넣으면 매매 결과로 돌려받아요","concept.c1.d":"자금은 본인 지갑과 본인 거래소 계좌에 그대로 있습니다 — 비수탁(non-custodial). 봇은 API로 매매만 할 뿐, 당신의 돈을 절대 보관하지 않습니다. 수익도 손실도 본인 몫입니다.",
+    "concept.c2.t":"애초에 시장 중립 지향","concept.c2.d":"BTC 주 포지션에 ETH/SOL 반대 포지션을 짝지어 스프레드 평균회귀를 거래합니다. 시장 방향이 아니라 수렴에서 수익을 노리지만, 불리한 상황에선 손실도 날 수 있습니다.",
+    "concept.c3.t":"체계적인 리스크 관리","concept.c3.d":"드로다운 브레이크, 손절(SL), 일시정지 가드로 리스크를 체계적으로 관리합니다. 다만 손실 가능성을 완전히 없애지는 못합니다.",
+    "concept.note":"🚨 이 서비스는 레버리지를 사용하는 무기한 선물 자동매매이며, '이자'나 '배당'이 아닙니다. 수익은 보장되지 않고 원금의 일부 또는 전부를 잃을 수 있습니다. 제시되는 목표치는 약속이 아닌 목표이며, 과거 성과는 미래 수익을 보장하지 않습니다.",
+    "track.eyebrow":"실시간 트랙레코드","track.title":"실시간 가동 중인 트레이딩 전략",
+    "track.desc":"현재 가동 중인 전략 중 하나인 'Balanced 전략'의 실제 운용 잔고 추이이며, 이 추이는 실시간으로 반영됩니다.",
+    "track.livelabel":"LIVE · Balanced 전략","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 평균","track.m4":"전략",
+    "track.chart":"잔고 곡선","track.since":"2026.06.09 부터",
+    "track.foot":"수치는 실제 계좌와 연동되어 자동 갱신됩니다. 과거 성과가 미래 수익을 보장하지는 않습니다.",
+    "nav.iface":"인터페이스",
+    "iface.eyebrow":"인터페이스","iface.title":"봇은 텔레그램 안에서 돌아갑니다",
+    "iface.desc":"설치할 앱도, 익혀야 할 대시보드도 없습니다. 잔고 확인, 자동 매매 on/off, 전략 전환, 수익 그래프 보기까지 — 채팅 하나로 끝납니다.",
+    "iface.f1t":"자동 매매 on/off","iface.f1d":"원할 때 언제든 엔진을 켜고 끄세요 — 한 번의 탭으로.",
+    "iface.f2t":"English / 한국어","iface.f2d":"원하는 언어로 봇을 쓰고, 즉시 전환하세요.",
+    "iface.f3t":"전략 설정","iface.f3d":"위험 성향에 맞춰 Balanced 또는 Frontier를 선택하세요.",
+    "iface.f4t":"내 수익 그래프","iface.f4d":"성과 곡선을 실시간으로 확인하세요 — 오르든 내리든.",
+    "iface.f5t":"내 포지션 정보","iface.f5d":"열린 라운드와 실시간 포지션을 언제든 확인하세요.",
+    "sub.eyebrow":"구독료","sub.title":"단순하고 정액인 요금","sub.desc":"투명한 단일 요금. 수익 배분의 숨은 비용이나 떼어가는 몫이 없습니다.",
+    "sub.feesub":"운용 잔고의 1%를, 10일마다 사용 구독료로 청구합니다. 해당 구독료는 선불이며, 저희 운영진의 코인 지갑으로 송금하시면 됩니다.",
+    "sub.l1":"운용 잔고의 정액 1%로 부과됩니다.","sub.l2":"10일마다, 선불(미리)로 청구됩니다.","sub.l3":"성과 보수 없음 — 수익도 손실도 모두 본인 몫입니다.",
+    "sub.min":"최저 $1,000","sub.max":"최고 $500,000",
+    "sub.note":"💬 50만 달러를 초과해 운용하고 싶으신가요? 또는 구독료 송금 주소를 알고 싶나요? 텔레그램 <a href='https://t.me/CashPipe_Bot' target='_blank' rel='noopener'>@CashPipe_Bot</a>로 DM 주세요.",
+    "sub.estimate":"내 구독료 계산","sub.feelabel":"운용 잔고 (USD)","sub.fee10":"10일마다","sub.feemo":"월 환산",
+    "sub.feenote":"월 환산치는 10일 청구 주기 3회 기준입니다 (≈ 월 3%).",
+    "sub.trial":"✨ 현재 일시적으로 '최초 10일은 무료 체험'을 제공합니다.",
+    "sub.trialdm":"💬 무료 체험을 하고 싶으신가요? 텔레그램 <a href='https://t.me/CashPipe_Bot' target='_blank' rel='noopener'>@CashPipe_Bot</a>로 DM 주세요.",
+    "apply.eyebrow":"신청","apply.title":"시작할 준비가 되셨나요?","apply.desc":"몇 분이면 등록 완료. 본인 계좌를 선택하신 전략으로 온보딩하도록 도와드립니다.","apply.btn":"지금 신청하기 →",
+    "calc.eyebrow":"시나리오 시뮬레이터","calc.title":"가정 시나리오 살펴보기",
+    "calc.desc":"잔고와 가정 월 수익률을 넣어 복리 효과가 어떻게 보일지 살펴보세요. 이는 예측이 아닌 예시이며, 실제 결과는 마이너스가 될 수 있습니다.",
+    "calc.inputs":"입력값","calc.initial":"초기 잔고","calc.return":"가정 월 수익률",
+    "calc.hint":"슬라이더를 움직여 보세요 — 마이너스 수익률도 넣어보세요. 1년 후 수치는 월 결과가 복리로 누적된다고 가정합니다. 약속이 아닌 가정입니다.",
+    "calc.r0":"초기 잔고","calc.r0s":"오늘의 원금",
+    "calc.r1":"한 달 후","calc.r1s":"가정 1개월 후 잔고",
+    "calc.r2":"1년 후","calc.r2s":"가정 1년 후 잔고 (복리)",
+    "calc.disc":"실제 결과는 플러스 또는 마이너스가 될 수 있으며, 구독료는 제외된 수치입니다.",
+    "foot.channel":"텔레그램 채널","foot.dm":"관리자 DM",
+    "foot.copy":"레버리지를 사용하는 무기한 선물 자동매매이며, 이자·배당이 아닙니다. 암호화폐 거래에는 위험이 따르고, 제시되는 목표치는 확정이 아니며, 과거 성과는 미래를 보장하지 않고, 원금이 보장되지 않을 수 있습니다."
+  }
+};
+
+let lang = "en";
+function applyLang(l){
+  lang = l;
+  document.body.setAttribute("data-lang", l);
+  document.documentElement.lang = l;
+  document.getElementById("langToggle").textContent = (l === "en") ? "KO" : "EN";
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const k = el.getAttribute("data-i18n");
+    if(I18N[l][k] !== undefined) el.innerHTML = I18N[l][k];
+  });
+  document.querySelectorAll("[data-i18n-title]").forEach(el=>{
+    const k = el.getAttribute("data-i18n-title");
+    if(I18N[l][k] !== undefined) el.title = I18N[l][k];
+  });
+  renderAll();
+}
+document.getElementById("langToggle").addEventListener("click",()=>applyLang(lang==="en"?"ko":"en"));
+
+/* ===================== LIVE DATA (wire to the bot here) ===================== */
+/* TODO: replace with a fetch() to the bot's live equity endpoint.
+   Keep the shape; the page reads from LIVE_DATA only. */
+const LIVE_DATA = {
+  initial: 10000,
+  startDate: "2026-06-09",
+  // most recent equity; refreshed by the live feed
+  currentEquity: 10843.11,
+  // sampled equity points for the curve (oldest -> newest)
+  curve: [10000,10040,9985,10080,10150,10120,10230,10300,10260,10380,10450,10410,10540,10620,10580,10700,10780,10760,10843.11]
+};
+
+/* ===================== FORMAT HELPERS ===================== */
+const fmtUSD = (n, dp=0) => "$" + Number(n).toLocaleString("en-US",{minimumFractionDigits:dp,maximumFractionDigits:dp});
+const fmtPct = (n) => (n>=0?"+":"") + n.toFixed(2) + "%";
+
+/* ===================== TRACK RECORD ===================== */
+function renderTrack(){
+  const d = LIVE_DATA;
+  const eq = d.currentEquity;
+  const pnl = eq - d.initial;
+  const pnlPct = (pnl / d.initial) * 100;
+  const start = new Date(d.startDate + "T00:00:00");
+  const now = new Date();
+  const days = Math.max(1, Math.round((now - start) / 86400000));
+  const monthly = (Math.pow(eq / d.initial, 30 / days) - 1) * 100;
+
+  document.getElementById("tEquity").textContent = fmtUSD(eq, 2);
+  const pnlEl = document.getElementById("tPnl");
+  pnlEl.textContent = (pnl>=0?"+":"") + fmtUSD(Math.abs(pnl),2) + " (" + fmtPct(pnlPct) + ")";
+  pnlEl.style.color = pnl>=0 ? "var(--green)" : "var(--red)";
+  document.getElementById("tDays").textContent = days;
+  document.getElementById("tMonthly").textContent = fmtPct(monthly);
+
+  // build a timestamp for each curve point, evenly spaced start -> now
+  const n = d.curve.length;
+  CHART.dates = d.curve.map((_,i)=> new Date(start.getTime() + (now-start)*(i/(n-1))));
+  document.getElementById("chartStart").textContent =
+    (lang==="ko"?"시작 ":"Since ") + fmtDate(start);
+  document.getElementById("chartNow").textContent =
+    (lang==="ko"?"현재 ":"Now ") + fmtDate(now);
+  drawEquityChart(d.curve);
+}
+
+function pad2(x){return String(x).padStart(2,"0")}
+function fmtDate(dt){
+  return dt.getFullYear()+"-"+pad2(dt.getMonth()+1)+"-"+pad2(dt.getDate());
+}
+function fmtDateTime(dt){
+  return pad2(dt.getMonth()+1)+"/"+pad2(dt.getDate())+" "+pad2(dt.getHours())+":"+pad2(dt.getMinutes());
+}
+
+const CHART = {dates:[]};
+// (re)size canvas + compute geometry, then draw. Called on init & resize only.
+function drawEquityChart(data){
+  const cv = document.getElementById("equityChart");
+  const dpr = window.devicePixelRatio || 1;
+  const w = cv.clientWidth, h = cv.clientHeight;
+  cv.width = w*dpr; cv.height = h*dpr;
+  const ctx = cv.getContext("2d");
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  const pad = {l:8,r:8,t:14,b:10};
+  const min = Math.min(...data)*0.999, max = Math.max(...data)*1.001;
+  const X = i => pad.l + (i/(data.length-1))*(w-pad.l-pad.r);
+  const Y = v => pad.t + (1-(v-min)/(max-min))*(h-pad.t-pad.b);
+  Object.assign(CHART,{cv,ctx,data,X,Y,pad,w,h});
+  drawBase();
+}
+
+// redraw the curve using stored geometry — does NOT touch canvas size
+function drawBase(){
+  const {ctx,data,X,Y,pad,w,h} = CHART;
+  ctx.clearRect(0,0,w,h);
+  const grad = ctx.createLinearGradient(0,pad.t,0,h);
+  grad.addColorStop(0,"rgba(212,181,114,.35)");
+  grad.addColorStop(1,"rgba(212,181,114,0)");
+  ctx.beginPath();
+  ctx.moveTo(X(0),Y(data[0]));
+  data.forEach((v,i)=>ctx.lineTo(X(i),Y(v)));
+  ctx.lineTo(X(data.length-1),h-pad.b);
+  ctx.lineTo(X(0),h-pad.b);
+  ctx.closePath();
+  ctx.fillStyle = grad; ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(X(0),Y(data[0]));
+  data.forEach((v,i)=>ctx.lineTo(X(i),Y(v)));
+  ctx.lineWidth = 2.5;
+  ctx.strokeStyle = "#d4b572";
+  ctx.lineJoin="round";
+  ctx.stroke();
+  const lx=X(data.length-1), ly=Y(data[data.length-1]);
+  ctx.beginPath(); ctx.arc(lx,ly,4,0,Math.PI*2);
+  ctx.fillStyle="#f1d692"; ctx.fill();
+}
+
+function drawCrosshair(idx){
+  drawBase();                                // redraw clean base (no resize)
+  const {ctx,X,Y,pad,h,data} = CHART;
+  const x = X(idx), y = Y(data[idx]);
+  // vertical dashed line, full plot height
+  ctx.save();
+  ctx.setLineDash([4,4]);
+  ctx.strokeStyle = "rgba(255,255,255,.55)";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(x, pad.t);
+  ctx.lineTo(x, h - pad.b);
+  ctx.stroke();
+  ctx.restore();
+  // highlighted point
+  ctx.beginPath(); ctx.arc(x,y,5,0,Math.PI*2);
+  ctx.fillStyle="#f1d692"; ctx.fill();
+  ctx.lineWidth=2; ctx.strokeStyle="#100c06"; ctx.stroke();
+}
+
+(function setupHover(){
+  const cv = document.getElementById("equityChart");
+  const tipBal = document.getElementById("tipBal");
+  const tipDate = document.getElementById("tipDate");
+  function show(e){
+    if(!CHART.data) return;
+    const rect = cv.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const n = CHART.data.length;
+    let idx = Math.round((mx - CHART.pad.l)/(CHART.w - CHART.pad.l - CHART.pad.r)*(n-1));
+    idx = Math.max(0, Math.min(n-1, idx));
+    drawCrosshair(idx);
+    const px = CHART.X(idx);
+    tipBal.textContent = fmtUSD(CHART.data[idx], 2);
+    tipDate.textContent = CHART.dates[idx] ? fmtDateTime(CHART.dates[idx]) : "";
+    tipBal.style.left = px+"px";
+    tipDate.style.left = px+"px";
+    tipBal.classList.add("show");
+    tipDate.classList.add("show");
+  }
+  function hide(){
+    tipBal.classList.remove("show");
+    tipDate.classList.remove("show");
+    if(CHART.data) drawBase();
+  }
+  cv.addEventListener("mousemove", show);
+  cv.addEventListener("mouseleave", hide);
+})();
+
+/* ===================== SUBSCRIPTION FEE MINI ===================== */
+function renderFee(){
+  let bal = parseFloat(document.getElementById("feeBalance").value)||0;
+  bal = Math.min(500000, Math.max(0, bal));
+  const fee10 = bal*0.01;
+  document.getElementById("fee10").textContent = fmtUSD(fee10,0);
+  document.getElementById("feeMo").textContent = fmtUSD(fee10*3,0);
+}
+document.getElementById("feeBalance").addEventListener("input",renderFee);
+
+/* ===================== CALCULATOR ===================== */
+function renderCalc(){
+  const bal = +document.getElementById("calcBalance").value;
+  const r = +document.getElementById("calcReturn").value/100;
+  document.getElementById("lblBalance").textContent = fmtUSD(bal);
+  document.getElementById("lblReturn").textContent = (r>=0?"+":"")+(r*100).toFixed(1)+"%";
+  const month = bal*(1+r);
+  const year = bal*Math.pow(1+r,12);
+  const gm = month-bal, gy = year-bal;
+  document.getElementById("resInitial").textContent = fmtUSD(bal);
+  document.getElementById("resMonth").textContent = fmtUSD(month);
+  document.getElementById("resYear").textContent = fmtUSD(year);
+  const gME = document.getElementById("gainMonth"), gYE = document.getElementById("gainYear");
+  gME.textContent = (gm>=0?"+":"−")+fmtUSD(Math.abs(gm));
+  gYE.textContent = (gy>=0?"+":"−")+fmtUSD(Math.abs(gy));
+  gME.style.color = gm>=0 ? "var(--green)" : "var(--red)";
+  gYE.style.color = gy>=0 ? "var(--green)" : "var(--red)";
+}
+document.getElementById("calcBalance").addEventListener("input",renderCalc);
+document.getElementById("calcReturn").addEventListener("input",renderCalc);
+
+function renderAll(){ renderTrack(); renderFee(); renderCalc(); }
+
+/* ===================== STARFIELD ===================== */
+(function(){
+  const cv = document.getElementById("starfield");
+  const ctx = cv.getContext("2d");
+  let stars=[], w,h, dpr=window.devicePixelRatio||1;
+  function resize(){
+    w=cv.width=innerWidth*dpr; h=cv.height=innerHeight*dpr;
+    cv.style.width=innerWidth+"px"; cv.style.height=innerHeight+"px";
+    const count=Math.floor((innerWidth*innerHeight)/4500);
+    stars=Array.from({length:count},()=>({
+      x:Math.random()*w, y:Math.random()*h,
+      r:(Math.random()*1.3+0.2)*dpr,
+      a:Math.random(), tw:Math.random()*0.02+0.004,
+      dir:Math.random()<.5?1:-1
+    }));
+  }
+  function tick(){
+    ctx.clearRect(0,0,w,h);
+    for(const s of stars){
+      s.a += s.tw*s.dir;
+      if(s.a>1){s.a=1;s.dir=-1} if(s.a<0.1){s.a=0.1;s.dir=1}
+      ctx.globalAlpha=s.a;
+      ctx.fillStyle = Math.random()<0.0008 ? "#f1d692" : "#ffffff";
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha=1;
+    requestAnimationFrame(tick);
+  }
+  addEventListener("resize",()=>{resize();});
+  resize(); tick();
+})();
+
+window.addEventListener("resize",()=>drawEquityChart(LIVE_DATA.curve));
+
+/* ===================== INIT ===================== */
+applyLang("en");
+</script>
+</body>
+</html>
