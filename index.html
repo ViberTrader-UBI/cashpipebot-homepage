@@ -51,6 +51,7 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
 .header-inner{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:24px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.25rem;letter-spacing:.5px;text-decoration:none;color:var(--ink);flex-shrink:0}
 .brand .pipe{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--teal),var(--purple));display:grid;place-items:center;font-size:1rem;box-shadow:0 0 18px var(--glow-teal)}
+.brand .logo-mark{width:36px;height:36px;display:block;flex-shrink:0;filter:drop-shadow(0 0 9px var(--glow-teal))}
 .brand .grad{background:linear-gradient(90deg,var(--teal),var(--purple));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .nav{display:flex;gap:6px;margin:0 auto}
 .nav a{color:var(--muted);text-decoration:none;font-weight:500;font-size:.92rem;padding:8px 14px;border-radius:10px;transition:.2s;white-space:nowrap}
@@ -231,7 +232,18 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
 <header class="header">
   <div class="header-inner">
     <a href="#hero" class="brand">
-      <span class="pipe">💸</span>
+      <svg class="logo-mark" viewBox="0 0 64 64" aria-label="CashPipeBot logo">
+        <defs><linearGradient id="logoGold" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#f1d692"/><stop offset=".5" stop-color="#d4b572"/><stop offset="1" stop-color="#9a7732"/>
+        </linearGradient></defs>
+        <g fill="none" stroke="url(#logoGold)" stroke-linecap="round">
+          <ellipse cx="32" cy="55" rx="25" ry="5.2" stroke-width="1.8" opacity=".3"/>
+          <ellipse cx="32" cy="47.5" rx="18.5" ry="4.2" stroke-width="2" opacity=".55"/>
+          <ellipse cx="32" cy="40" rx="12.5" ry="3.4" stroke-width="2.2" opacity=".85"/>
+          <circle cx="32" cy="22" r="13" stroke-width="2.6"/>
+        </g>
+        <text x="32" y="27.8" text-anchor="middle" font-size="17" font-weight="800" font-family="'Outfit',sans-serif" fill="url(#logoGold)">$</text>
+      </svg>
       <span>Cash<span class="grad">Pipe</span>Bot</span>
     </a>
     <nav class="nav">
