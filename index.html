@@ -328,7 +328,7 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
       <div class="track-meta">
         <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
         <div class="cell"><div class="l" data-i18n="track.m2">Days running</div><div class="v font-digit" id="tDays">19</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m3">Monthly return (last 30d)</div><div class="v font-digit" id="tMonthly">+0.0%</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit" id="tMonthly">+0.0%</div></div>
         <div class="cell"><div class="l" data-i18n="track.m4">Strategy</div><div class="v">Balanced</div></div>
       </div>
     </div>
@@ -519,7 +519,7 @@ const I18N = {
     "concept.note":"🚨 This is automated, leveraged perpetual-futures trading — not 'interest' or a 'dividend'. Returns are not guaranteed and you can lose some or all of your principal. Any target shown is a goal, not a commitment, and past performance does not guarantee future results.",
     "track.eyebrow":"Live Track Record","track.title":"Trading strategy, running live",
     "track.desc":"This is the real operating-balance history of the 'Balanced Strategy', one of the strategies currently running. The history is reflected in real time.",
-    "track.livelabel":"LIVE · Balanced Strategy","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly return (last 30d)","track.m4":"Strategy",
+    "track.livelabel":"LIVE · Balanced Strategy","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly return (equiv.)","track.m4":"Strategy",
     "track.chart":"Equity curve","track.since":"since 2026.06.09",
     "track.foot":"Figures are wired to the live account and refresh automatically. Past results do not guarantee future performance.",
     "nav.iface":"Interface",
@@ -568,7 +568,7 @@ const I18N = {
     "concept.note":"🚨 이 서비스는 레버리지를 사용하는 무기한 선물 자동매매이며, '이자'나 '배당'이 아닙니다. 수익은 보장되지 않고 원금의 일부 또는 전부를 잃을 수 있습니다. 제시되는 목표치는 약속이 아닌 목표이며, 과거 성과는 미래 수익을 보장하지 않습니다.",
     "track.eyebrow":"실시간 트랙레코드","track.title":"실시간 가동 중인 트레이딩 전략",
     "track.desc":"현재 가동 중인 전략 중 하나인 'Balanced 전략'의 실제 운용 잔고 추이이며, 이 추이는 실시간으로 반영됩니다.",
-    "track.livelabel":"LIVE · Balanced 전략","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익율(지난 30일)","track.m4":"전략",
+    "track.livelabel":"LIVE · Balanced 전략","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률(환산)","track.m4":"전략",
     "track.chart":"잔고 곡선","track.since":"2026.06.09 부터",
     "track.foot":"수치는 실제 계좌와 연동되어 자동 갱신됩니다. 과거 성과가 미래 수익을 보장하지는 않습니다.",
     "nav.iface":"인터페이스",
@@ -629,7 +629,8 @@ const LIVE_DATA = {
   currentEquity: 10843.11,
   curve: [10000,10040,9985,10080,10150,10120,10230,10300,10260,10380,10450,10410,10540,10620,10580,10700,10780,10760,10843.11],
   curveTs: null,        // optional real timestamps (ms), aligned 1:1 with curve[]
-  strategy: "BALANCED"
+  strategy: "BALANCED",
+  monthlyReturnPct: null  // published by the bot (data.json); null → fallback estimate
 };
 
 // Fetch live data published by the bot; fall back to the values above on any failure.
@@ -641,6 +642,7 @@ async function loadLiveData(){
     if(typeof d.initial === "number")       LIVE_DATA.initial = d.initial;
     if(d.startDate)                          LIVE_DATA.startDate = d.startDate;
     if(typeof d.currentEquity === "number")  LIVE_DATA.currentEquity = d.currentEquity;
+    if(typeof d.monthlyReturnPct === "number") LIVE_DATA.monthlyReturnPct = d.monthlyReturnPct;
     if(d.strategy)                           LIVE_DATA.strategy = d.strategy;
     if(Array.isArray(d.curve) && d.curve.length){
       if(typeof d.curve[0] === "object" && d.curve[0]){          // [{ts,eq}, ...]
@@ -667,19 +669,14 @@ function renderTrack(){
   const start = new Date(d.startDate.length > 10 ? d.startDate : d.startDate + "T00:00:00");
   const now = new Date();
   const days = Math.max(1, Math.round((now - start) / 86400000));
-  // monthly return over the last 30 days; if the account is younger than 30
-  // days, pro-rate (일할 계산) the return-to-date up to a 30-day figure.
-  const totalRet = eq / d.initial - 1;
+  // monthly return: use the value published by the bot (single source of truth);
+  // fall back to a compound-conversion estimate only if data.json is unavailable.
   let monthly;
-  if (days < 30) {
-    monthly = totalRet * (30 / days) * 100;
+  if (typeof d.monthlyReturnPct === "number") {
+    monthly = d.monthlyReturnPct;
   } else {
-    const cutoff = now.getTime() - 30 * 86400000;
-    let past = null;
-    if (d.curveTs && d.curveTs.length === d.curve.length) {
-      for (let i = 0; i < d.curveTs.length; i++) { if (d.curveTs[i] <= cutoff) past = d.curve[i]; else break; }
-    }
-    monthly = past ? (eq / past - 1) * 100 : totalRet * (30 / days) * 100;
+    const elapsedDays = Math.max(1, (now - start) / 86400000);
+    monthly = ((eq / d.initial) ** (30 / elapsedDays) - 1) * 100;
   }
 
   document.getElementById("tEquity").textContent = fmtUSD(eq, 2);
