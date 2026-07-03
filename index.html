@@ -333,12 +333,14 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
     <div class="glass track-hero">
       <div class="track-live"><span class="live-dot"></span><span data-i18n="track.livelabelB">LIVE · Balanced Strategy by Joseph</span></div>
       <div class="track-equity font-digit" id="tEquityB">$10,000.00</div>
-      <div class="track-pnl font-digit" id="tPnlB">+$0.00 (+0.00%)</div>
+      <div class="track-pnl font-digit" id="tPnlB">+$0.00</div>
       <div class="track-meta">
         <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
         <div class="cell"><div class="l" data-i18n="track.m2">Days running</div><div class="v font-digit" id="tDaysB">19</div></div>
         <div class="cell"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit" id="tMonthlyB">+0.0%</div></div>
         <div class="cell"><div class="l" data-i18n="track.m4">Strategy</div><div class="v">Balanced</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m5">Take-profits / Stop-losses</div><div class="v font-digit" id="tTradesB">0 / 0</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m6">Avg profit / take-profit</div><div class="v font-digit" id="tAvgTpB">$0.00</div></div>
       </div>
     </div>
     <div class="glass track-chart-card">
@@ -361,12 +363,14 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
     <div class="glass track-hero">
       <div class="track-live"><span class="live-dot"></span><span data-i18n="track.livelabelF">LIVE · Frontier Strategy by vibetaku</span></div>
       <div class="track-equity font-digit" id="tEquityF">$10,000.00</div>
-      <div class="track-pnl font-digit" id="tPnlF">+$0.00 (+0.00%)</div>
+      <div class="track-pnl font-digit" id="tPnlF">+$0.00</div>
       <div class="track-meta">
         <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
         <div class="cell"><div class="l" data-i18n="track.m2">Days running</div><div class="v font-digit" id="tDaysF">19</div></div>
         <div class="cell"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit" id="tMonthlyF">+0.0%</div></div>
         <div class="cell"><div class="l" data-i18n="track.m4">Strategy</div><div class="v">Frontier</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m5">Take-profits / Stop-losses</div><div class="v font-digit" id="tTradesF">0 / 0</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m6">Avg profit / take-profit</div><div class="v font-digit" id="tAvgTpF">$0.00</div></div>
       </div>
     </div>
     <div class="glass track-chart-card">
@@ -560,7 +564,7 @@ const I18N = {
     "concept.note":"🚨 This is automated, leveraged perpetual-futures trading — not 'interest' or a 'dividend'. Returns are not guaranteed and you can lose some or all of your principal. Any target shown is a goal, not a commitment, and past performance does not guarantee future results.",
     "track.eyebrow":"Live Track Record","track.title":"Our strategies, running live",
     "track.desc":"These are the real operating-balance histories of the two strategies running right now — Balanced and Frontier — both live since the same day. Updated in real time.",
-    "track.livelabelB":"LIVE · Balanced Strategy by Joseph","track.livelabelF":"LIVE · Frontier Strategy by vibetaku","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly return (equiv.)","track.m4":"Strategy",
+    "track.livelabelB":"LIVE · Balanced Strategy by Joseph","track.livelabelF":"LIVE · Frontier Strategy by vibetaku","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly return (equiv.)","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit / take-profit",
     "track.chart":"Equity curve","track.since":"since 2026.06.09",
     "track.foot":"Figures are wired to the live account and refresh automatically. Past results do not guarantee future performance.",
     "nav.iface":"Interface",
@@ -610,7 +614,7 @@ const I18N = {
     "concept.note":"🚨 이 서비스는 레버리지를 사용하는 무기한 선물 자동매매이며, '이자'나 '배당'이 아닙니다. 수익은 보장되지 않고 원금의 일부 또는 전부를 잃을 수 있습니다. 제시되는 목표치는 약속이 아닌 목표이며, 과거 성과는 미래 수익을 보장하지 않습니다.",
     "track.eyebrow":"실시간 트랙레코드","track.title":"실시간 가동 중인 전략들",
     "track.desc":"현재 가동 중인 두 전략 — Balanced와 Frontier — 의 실제 운용 잔고 추이입니다. 둘 다 같은 날 시작했고, 실시간으로 반영됩니다.",
-    "track.livelabelB":"LIVE · Balanced 전략 by Joseph","track.livelabelF":"LIVE · Frontier 전략 by vibetaku","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률(환산)","track.m4":"전략",
+    "track.livelabelB":"LIVE · Balanced 전략 by Joseph","track.livelabelF":"LIVE · Frontier 전략 by vibetaku","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률(환산)","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익",
     "track.chart":"잔고 곡선","track.since":"2026.06.09 부터",
     "track.foot":"수치는 실제 계좌와 연동되어 자동 갱신됩니다. 과거 성과가 미래 수익을 보장하지는 않습니다.",
     "nav.iface":"인터페이스",
@@ -668,8 +672,8 @@ document.getElementById("langToggle").addEventListener("click",()=>applyLang(lan
    The values below are only a FALLBACK shown if data.json can't be fetched. */
 function fbCurve(end){ const a=[]; for(let i=0;i<19;i++) a.push(+(10000+(end-10000)*(i/18)).toFixed(2)); return a; }
 const LIVE = {
-  BALANCED: { initial:10000, startDate:"2026-06-09", currentEquity:10930.85, monthlyReturnPct:null, curve:fbCurve(10930.85), curveTs:null },
-  FRONTIER: { initial:10000, startDate:"2026-06-09", currentEquity:11038.08, monthlyReturnPct:null, curve:fbCurve(11038.08), curveTs:null }
+  BALANCED: { initial:10000, startDate:"2026-06-09", currentEquity:10930.85, monthlyReturnPct:null, tpCount:0, slCount:0, avgTp:0, curve:fbCurve(10930.85), curveTs:null },
+  FRONTIER: { initial:10000, startDate:"2026-06-09", currentEquity:11038.08, monthlyReturnPct:null, tpCount:0, slCount:0, avgTp:0, curve:fbCurve(11038.08), curveTs:null }
 };
 
 function ingest(dst, d){
@@ -678,6 +682,9 @@ function ingest(dst, d){
   if(d.startDate)                            dst.startDate = d.startDate;
   if(typeof d.currentEquity === "number")    dst.currentEquity = d.currentEquity;
   if(typeof d.monthlyReturnPct === "number") dst.monthlyReturnPct = d.monthlyReturnPct;
+  if(typeof d.tpCount === "number")          dst.tpCount = d.tpCount;
+  if(typeof d.slCount === "number")          dst.slCount = d.slCount;
+  if(typeof d.avgTp === "number")            dst.avgTp = d.avgTp;
   if(Array.isArray(d.curve) && d.curve.length){
     if(typeof d.curve[0] === "object" && d.curve[0]){            // [{ts,eq}, ...]
       dst.curve   = d.curve.map(p => p.eq);
@@ -712,8 +719,8 @@ const fmtPct = (n) => (n>=0?"+":"") + n.toFixed(2) + "%";
 
 /* ===================== TRACK RECORD ===================== */
 const CARD_IDS = {
-  BALANCED: {equity:"tEquityB",pnl:"tPnlB",days:"tDaysB",monthly:"tMonthlyB",canvas:"chartB",tipBal:"tipBalB",tipDate:"tipDateB",start:"chartStartB",now:"chartNowB"},
-  FRONTIER: {equity:"tEquityF",pnl:"tPnlF",days:"tDaysF",monthly:"tMonthlyF",canvas:"chartF",tipBal:"tipBalF",tipDate:"tipDateF",start:"chartStartF",now:"chartNowF"}
+  BALANCED: {equity:"tEquityB",pnl:"tPnlB",days:"tDaysB",monthly:"tMonthlyB",trades:"tTradesB",avgtp:"tAvgTpB",canvas:"chartB",tipBal:"tipBalB",tipDate:"tipDateB",start:"chartStartB",now:"chartNowB"},
+  FRONTIER: {equity:"tEquityF",pnl:"tPnlF",days:"tDaysF",monthly:"tMonthlyF",trades:"tTradesF",avgtp:"tAvgTpF",canvas:"chartF",tipBal:"tipBalF",tipDate:"tipDateF",start:"chartStartF",now:"chartNowF"}
 };
 
 function renderCard(key){
@@ -736,10 +743,12 @@ function renderCard(key){
 
   document.getElementById(ids.equity).textContent = fmtUSD(eq, 2);
   const pnlEl = document.getElementById(ids.pnl);
-  pnlEl.textContent = (pnl>=0?"+":"") + fmtUSD(Math.abs(pnl),2) + " (" + fmtPct(pnlPct) + ")";
+  pnlEl.textContent = (pnl>=0?"+":"") + fmtUSD(Math.abs(pnl),2);
   pnlEl.style.color = pnl>=0 ? "var(--green)" : "var(--red)";
   document.getElementById(ids.days).textContent = days;
   document.getElementById(ids.monthly).textContent = fmtPct(monthly);
+  document.getElementById(ids.trades).textContent = (d.tpCount||0).toLocaleString("en-US") + " / " + (d.slCount||0).toLocaleString("en-US");
+  document.getElementById(ids.avgtp).textContent = fmtUSD(d.avgTp||0, 2);
 
   // timestamps per curve point: use real ones if provided, else even spacing
   const n = d.curve.length;
