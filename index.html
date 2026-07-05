@@ -224,6 +224,10 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
   .section-title{font-size:1.9rem}
 }
 .hide{display:none!important}
+.track-disabled{margin:34px auto 0;max-width:560px;text-align:center;padding:22px 20px;border-radius:16px;background:rgba(176,120,120,.07);border:1px solid rgba(200,120,120,.28)}
+.disabled-eyebrow{display:inline-block;font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:#d98a8a}
+.disabled-name{font-size:1.4rem;font-weight:800;color:#b9b1c2;margin-top:10px;text-decoration:line-through;text-decoration-color:rgba(217,138,138,.6);text-decoration-thickness:2px}
+.disabled-detail{font-size:.95rem;color:var(--muted);margin-top:8px;font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body data-lang="en">
@@ -386,7 +390,11 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
     </div>
   </div>
 
-  <div style="margin-top:24px;text-align:center;font-size:.82rem;color:var(--muted);opacity:.85;padding:12px;border:1px dashed var(--border);border-radius:12px;line-height:1.6;max-width:640px;margin-left:auto;margin-right:auto" data-i18n="track.retired">⏹ Balanced Strategy — discontinued (2026-06-09 → 2026-07-06). Started at $10,000; peak recorded balance $10,930.85 (+9.3%). Replaced by the improved, lower-drawdown CRUISE strategy.</div>
+  <div class="track-disabled">
+    <span class="disabled-eyebrow" data-i18n="track.disTitle">⏹ Disabled Strategy</span>
+    <div class="disabled-name" data-i18n="track.disName">Balanced Strategy</div>
+    <div class="disabled-detail" data-i18n="track.disDetail">2026-06-09 → 2026-07-06 · Started at $10,000 · Peak recorded balance $10,930.85 (+9.3%)</div>
+  </div>
   <p class="track-foot" data-i18n="track.foot">Figures are wired to the live accounts and refresh automatically. Past results do not guarantee future performance.</p>
 </section>
 
@@ -566,7 +574,7 @@ const I18N = {
     "track.livelabelB":"LIVE · CRUISE Strategy by Toriyama","track.livelabelF":"LIVE · FRONTIER Strategy by vibetaku","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly return (equiv.)","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit / take-profit",
     "track.chart":"Equity curve","track.since":"since 2026.06.09",
     "track.foot":"Figures are wired to the live account and refresh automatically. Past results do not guarantee future performance.",
-    "track.retired":"⏹ Balanced Strategy — discontinued (2026-06-09 → 2026-07-06). Started at $10,000; peak recorded balance $10,930.85 (+9.3%). Replaced by the improved, lower-drawdown CRUISE strategy.",
+    "track.disTitle":"⏹ Disabled Strategy","track.disName":"Balanced Strategy","track.disDetail":"2026-06-09 → 2026-07-06 · Started at $10,000 · Peak recorded balance $10,930.85 (+9.3%)",
     "nav.iface":"Interface",
     "iface.eyebrow":"The Interface","iface.title":"Your bot lives in Telegram",
     "iface.desc":"No app to install, no dashboard to learn. Check your balance, flip auto-betting on or off, switch strategy and view your profit graph — all from one chat.",
@@ -617,7 +625,7 @@ const I18N = {
     "track.livelabelB":"LIVE · 순항형 전략 by Toriyama","track.livelabelF":"LIVE · FRONTIER 전략 by vibetaku","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률(환산)","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익",
     "track.chart":"잔고 곡선","track.since":"2026.06.09 부터",
     "track.foot":"수치는 실제 계좌와 연동되어 자동 갱신됩니다. 과거 성과가 미래 수익을 보장하지는 않습니다.",
-    "track.retired":"⏹ Balanced(균형적) 전략 — 종료 (2026-06-09 → 2026-07-06). 초기 $10,000, 최고 기록 잔고 $10,930.85 (+9.3%). 낙폭을 낮춘 개선 전략 순항형(CRUISE)으로 대체되었습니다.",
+    "track.disTitle":"⏹ 종료된 전략","track.disName":"Balanced(균형적) 전략","track.disDetail":"2026-06-09 → 2026-07-06 · 초기 $10,000 · 최고 기록 잔고 $10,930.85 (+9.3%)",
     "nav.iface":"인터페이스",
     "iface.eyebrow":"인터페이스","iface.title":"봇은 텔레그램 안에서 돌아갑니다",
     "iface.desc":"설치할 앱도, 익혀야 할 대시보드도 없습니다. 잔고 확인, 자동 매매 on/off, 전략 전환, 수익 그래프 보기까지 — 채팅 하나로 끝납니다.",
