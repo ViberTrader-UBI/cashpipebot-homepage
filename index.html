@@ -325,11 +325,40 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
   <div class="section-head">
     <span class="eyebrow" data-i18n="track.eyebrow">Live Track Record</span>
     <h2 class="section-title" data-i18n="track.title">Our strategies, running live</h2>
-    <p class="section-desc" data-i18n="track.desc">Real operating-balance histories of our live strategies — CRUISE and Frontier — reflected in real time.</p>
+    <p class="section-desc" data-i18n="track.desc">Real operating-balance histories of our live strategies — FRONTIER and CRUISE — reflected in real time.</p>
+  </div>
+
+  <!-- FRONTIER (개척형) -->
+  <div class="track-wrap">
+    <div class="glass track-hero">
+      <div class="track-live"><span class="live-dot"></span><span data-i18n="track.livelabelF">LIVE · FRONTIER Strategy by vibetaku</span></div>
+      <div class="track-equity font-digit" id="tEquityF">$10,000.00</div>
+      <div class="track-pnl font-digit" id="tPnlF">+$0.00</div>
+      <div class="track-meta">
+        <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m2">Days running</div><div class="v font-digit" id="tDaysF">19</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit" id="tMonthlyF">+0.0%</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m4">Strategy</div><div class="v">FRONTIER</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m5">Take-profits / Stop-losses</div><div class="v font-digit" id="tTradesF">0 / 0</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m6">Avg profit / take-profit</div><div class="v font-digit" id="tAvgTpF">$0.00</div></div>
+      </div>
+    </div>
+    <div class="glass track-chart-card">
+      <div class="track-chart-head">
+        <h3 data-i18n="track.chart">Equity curve</h3>
+      </div>
+      <div class="chart-box">
+        <canvas id="chartF"></canvas>
+        <div class="chart-tip chart-tip-top" id="tipBalF"></div>
+        <div class="chart-tip chart-tip-bot" id="tipDateF"></div>
+        <div class="chart-start" id="chartStartF"></div>
+        <div class="chart-now" id="chartNowF"></div>
+      </div>
+    </div>
   </div>
 
   <!-- CRUISE (순항형, v25 — 구 Balanced 슬롯 데이터=매니저봇, $10k 클린 리스타트) -->
-  <div class="track-wrap">
+  <div class="track-wrap" style="margin-top:22px">
     <div class="glass track-hero">
       <div class="track-live"><span class="live-dot"></span><span data-i18n="track.livelabelB">LIVE · CRUISE Strategy by Toriyama</span></div>
       <div class="track-equity font-digit" id="tEquityB">$10,000.00</div>
@@ -353,35 +382,6 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
         <div class="chart-tip chart-tip-bot" id="tipDateB"></div>
         <div class="chart-start" id="chartStartB"></div>
         <div class="chart-now" id="chartNowB"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FRONTIER -->
-  <div class="track-wrap" style="margin-top:22px">
-    <div class="glass track-hero">
-      <div class="track-live"><span class="live-dot"></span><span data-i18n="track.livelabelF">LIVE · Frontier Strategy by vibetaku</span></div>
-      <div class="track-equity font-digit" id="tEquityF">$10,000.00</div>
-      <div class="track-pnl font-digit" id="tPnlF">+$0.00</div>
-      <div class="track-meta">
-        <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m2">Days running</div><div class="v font-digit" id="tDaysF">19</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit" id="tMonthlyF">+0.0%</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m4">Strategy</div><div class="v">Frontier</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m5">Take-profits / Stop-losses</div><div class="v font-digit" id="tTradesF">0 / 0</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m6">Avg profit / take-profit</div><div class="v font-digit" id="tAvgTpF">$0.00</div></div>
-      </div>
-    </div>
-    <div class="glass track-chart-card">
-      <div class="track-chart-head">
-        <h3 data-i18n="track.chart">Equity curve</h3>
-      </div>
-      <div class="chart-box">
-        <canvas id="chartF"></canvas>
-        <div class="chart-tip chart-tip-top" id="tipBalF"></div>
-        <div class="chart-tip chart-tip-bot" id="tipDateF"></div>
-        <div class="chart-start" id="chartStartF"></div>
-        <div class="chart-now" id="chartNowF"></div>
       </div>
     </div>
   </div>
@@ -562,8 +562,8 @@ const I18N = {
     "concept.c3.t":"Systematic risk controls","concept.c3.d":"Drawdown brakes, stop-losses and pause guards manage risk systematically — though they can't remove the possibility of loss entirely.",
     "concept.note":"🚨 This is automated, leveraged perpetual-futures trading — not 'interest' or a 'dividend'. Returns are not guaranteed and you can lose some or all of your principal. Any target shown is a goal, not a commitment, and past performance does not guarantee future results.",
     "track.eyebrow":"Live Track Record","track.title":"Our strategies, running live",
-    "track.desc":"Real operating-balance histories of our live strategies — CRUISE and Frontier — reflected in real time.",
-    "track.livelabelB":"LIVE · CRUISE Strategy by Toriyama","track.livelabelF":"LIVE · Frontier Strategy by vibetaku","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly return (equiv.)","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit / take-profit",
+    "track.desc":"Real operating-balance histories of our live strategies — FRONTIER and CRUISE — reflected in real time.",
+    "track.livelabelB":"LIVE · CRUISE Strategy by Toriyama","track.livelabelF":"LIVE · FRONTIER Strategy by vibetaku","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly return (equiv.)","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit / take-profit",
     "track.chart":"Equity curve","track.since":"since 2026.06.09",
     "track.foot":"Figures are wired to the live account and refresh automatically. Past results do not guarantee future performance.",
     "track.retired":"⏹ Balanced Strategy — discontinued (2026-06-09 → 2026-07-06). Started at $10,000; peak recorded balance $10,930.85 (+9.3%). Replaced by the improved, lower-drawdown CRUISE strategy.",
@@ -613,8 +613,8 @@ const I18N = {
     "concept.c3.t":"체계적인 리스크 관리","concept.c3.d":"드로다운 브레이크, 손절(SL), 일시정지 가드로 리스크를 체계적으로 관리합니다. 다만 손실 가능성을 완전히 없애지는 못합니다.",
     "concept.note":"🚨 이 서비스는 레버리지를 사용하는 무기한 선물 자동매매이며, '이자'나 '배당'이 아닙니다. 수익은 보장되지 않고 원금의 일부 또는 전부를 잃을 수 있습니다. 제시되는 목표치는 약속이 아닌 목표이며, 과거 성과는 미래 수익을 보장하지 않습니다.",
     "track.eyebrow":"실시간 트랙레코드","track.title":"실시간 가동 중인 전략들",
-    "track.desc":"라이브 가동 중인 두 전략 — 순항형(CRUISE)과 개척형(Frontier) — 의 실제 운용 잔고 추이이며, 실시간으로 반영됩니다.",
-    "track.livelabelB":"LIVE · 순항형 전략 by Toriyama","track.livelabelF":"LIVE · Frontier 전략 by vibetaku","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률(환산)","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익",
+    "track.desc":"라이브 가동 중인 두 전략 — 개척형(FRONTIER)과 순항형(CRUISE) — 의 실제 운용 잔고 추이이며, 실시간으로 반영됩니다.",
+    "track.livelabelB":"LIVE · 순항형 전략 by Toriyama","track.livelabelF":"LIVE · FRONTIER 전략 by vibetaku","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률(환산)","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익",
     "track.chart":"잔고 곡선","track.since":"2026.06.09 부터",
     "track.foot":"수치는 실제 계좌와 연동되어 자동 갱신됩니다. 과거 성과가 미래 수익을 보장하지는 않습니다.",
     "track.retired":"⏹ Balanced(균형적) 전략 — 종료 (2026-06-09 → 2026-07-06). 초기 $10,000, 최고 기록 잔고 $10,930.85 (+9.3%). 낙폭을 낮춘 개선 전략 순항형(CRUISE)으로 대체되었습니다.",
