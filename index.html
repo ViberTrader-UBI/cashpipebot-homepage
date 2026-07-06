@@ -108,7 +108,8 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
 .live-dot{width:11px;height:11px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(52,211,153,.7);animation:pulse 1.8s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.6)}70%{box-shadow:0 0 0 12px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
 .track-equity{font-size:3.1rem;font-weight:800;line-height:1.1}
-.track-pnl{font-size:1.3rem;font-weight:700;color:var(--green);margin-top:6px}
+.track-headline{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-top:2px}
+.track-pnl{font-size:1.3rem;font-weight:700;color:var(--green)}
 .track-meta{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}
 .track-meta .cell{background:rgba(196,176,128,.07);border:1px solid var(--border);border-radius:13px;padding:16px}
 .track-meta .cell .l{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
@@ -117,7 +118,7 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
 .track-chart-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
 .track-chart-head h3{font-size:1.05rem}
 .strat-pill{font-size:.78rem;font-weight:700;color:var(--teal);padding:4px 12px;border-radius:999px;border:1px solid var(--border);background:rgba(212,181,114,.08)}
-.chart-box{height:330px;position:relative;padding-bottom:22px}
+.chart-box{flex:1;min-height:260px;position:relative;padding-bottom:22px}
 .chart-box canvas{display:block;width:100%;height:238px;cursor:crosshair}
 .chart-tip{position:absolute;transform:translateX(-50%);pointer-events:none;opacity:0;transition:opacity .12s;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:700;padding:4px 9px;border-radius:8px;z-index:3}
 .chart-tip.show{opacity:1}
@@ -225,7 +226,7 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
 }
 .hide{display:none!important}
 .track-retired{opacity:.72;filter:grayscale(.35)}
-.track-retired .chart-box{height:190px}
+.track-retired .chart-box{flex:none;height:190px;min-height:0}
 .track-retired .track-equity{color:#b9b1c2}
 .track-live.retired{color:#a49db4}
 .stop-sq{width:10px;height:10px;border-radius:2px;background:#a49db4;display:inline-block}
@@ -338,20 +339,20 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
   <div class="track-wrap">
     <div class="glass track-hero">
       <div class="track-live"><span class="live-dot"></span><span data-i18n="track.livelabelF">LIVE · FRONTIER Strategy by vibetaku</span></div>
-      <div class="track-equity font-digit" id="tEquityF">$10,000.00</div>
-      <div class="track-pnl font-digit" id="tPnlF">+$0.00</div>
+      <div class="track-headline">
+        <div class="track-equity font-digit" id="tEquityF">$10,000.00</div>
+        <div class="track-pnl font-digit" id="tPnlF">+$0.00</div>
+      </div>
       <div class="track-meta">
         <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m2">Days running</div><div class="v font-digit" id="tDaysF">19</div></div>
         <div class="cell"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit" id="tMonthlyF">+0.0%</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m4">Strategy</div><div class="v">FRONTIER</div></div>
         <div class="cell"><div class="l" data-i18n="track.m5">Take-profits / Stop-losses</div><div class="v font-digit" id="tTradesF">0 / 0</div></div>
         <div class="cell"><div class="l" data-i18n="track.m6">Avg profit / take-profit</div><div class="v font-digit" id="tAvgTpF">$0.00</div></div>
       </div>
     </div>
     <div class="glass track-chart-card">
       <div class="track-chart-head">
-        <h3 data-i18n="track.chart">Equity curve</h3>
+        <h3 id="chartTitleF">Equity curve</h3>
       </div>
       <div class="chart-box">
         <canvas id="chartF"></canvas>
@@ -367,20 +368,20 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
   <div class="track-wrap" style="margin-top:22px">
     <div class="glass track-hero">
       <div class="track-live"><span class="live-dot"></span><span data-i18n="track.livelabelB">LIVE · CRUISE Strategy by Toriyama</span></div>
-      <div class="track-equity font-digit" id="tEquityB">$10,000.00</div>
-      <div class="track-pnl font-digit" id="tPnlB">+$0.00</div>
+      <div class="track-headline">
+        <div class="track-equity font-digit" id="tEquityB">$10,000.00</div>
+        <div class="track-pnl font-digit" id="tPnlB">+$0.00</div>
+      </div>
       <div class="track-meta">
         <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m2">Days running</div><div class="v font-digit" id="tDaysB">19</div></div>
         <div class="cell"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit" id="tMonthlyB">+0.0%</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m4">Strategy</div><div class="v">CRUISE</div></div>
         <div class="cell"><div class="l" data-i18n="track.m5">Take-profits / Stop-losses</div><div class="v font-digit" id="tTradesB">0 / 0</div></div>
         <div class="cell"><div class="l" data-i18n="track.m6">Avg profit / take-profit</div><div class="v font-digit" id="tAvgTpB">$0.00</div></div>
       </div>
     </div>
     <div class="glass track-chart-card">
       <div class="track-chart-head">
-        <h3 data-i18n="track.chart">Equity curve</h3>
+        <h3 id="chartTitleB">Equity curve</h3>
       </div>
       <div class="chart-box">
         <canvas id="chartB"></canvas>
@@ -396,8 +397,10 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
   <div class="track-wrap track-retired" style="margin-top:22px">
     <div class="glass track-hero">
       <div class="track-live retired"><span class="stop-sq"></span><span data-i18n="track.disLabel">⏹ DISCONTINUED · Balanced Strategy</span></div>
-      <div class="track-equity font-digit">$10,930.85</div>
-      <div class="track-pnl font-digit" style="color:var(--muted)">+$930.85</div>
+      <div class="track-headline">
+        <div class="track-equity font-digit">$10,930.85</div>
+        <div class="track-pnl font-digit" style="color:var(--muted)">+$930.85</div>
+      </div>
       <div class="track-meta">
         <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
         <div class="cell"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit">+13.4%</div></div>
@@ -751,8 +754,8 @@ const fmtPct = (n) => (n>=0?"+":"") + n.toFixed(2) + "%";
 
 /* ===================== TRACK RECORD ===================== */
 const CARD_IDS = {
-  BALANCED: {equity:"tEquityB",pnl:"tPnlB",days:"tDaysB",monthly:"tMonthlyB",trades:"tTradesB",avgtp:"tAvgTpB",canvas:"chartB",tipBal:"tipBalB",tipDate:"tipDateB",start:"chartStartB",now:"chartNowB"},
-  FRONTIER: {equity:"tEquityF",pnl:"tPnlF",days:"tDaysF",monthly:"tMonthlyF",trades:"tTradesF",avgtp:"tAvgTpF",canvas:"chartF",tipBal:"tipBalF",tipDate:"tipDateF",start:"chartStartF",now:"chartNowF"}
+  BALANCED: {name:"CRUISE",  equity:"tEquityB",pnl:"tPnlB",monthly:"tMonthlyB",trades:"tTradesB",avgtp:"tAvgTpB",title:"chartTitleB",canvas:"chartB",tipBal:"tipBalB",tipDate:"tipDateB",start:"chartStartB",now:"chartNowB"},
+  FRONTIER: {name:"FRONTIER",equity:"tEquityF",pnl:"tPnlF",monthly:"tMonthlyF",trades:"tTradesF",avgtp:"tAvgTpF",title:"chartTitleF",canvas:"chartF",tipBal:"tipBalF",tipDate:"tipDateF",start:"chartStartF",now:"chartNowF"}
 };
 
 function renderCard(key){
@@ -778,8 +781,10 @@ function renderCard(key){
   const pnlEl = document.getElementById(ids.pnl);
   pnlEl.textContent = (pnl>=0?"+":"") + fmtUSD(Math.abs(pnl),2);
   pnlEl.style.color = pnl>=0 ? "var(--green)" : "var(--red)";
-  document.getElementById(ids.days).textContent = days;
   document.getElementById(ids.monthly).textContent = fmtPct(monthly);
+  document.getElementById(ids.title).textContent = (lang === "ko")
+    ? `${ids.name} 전략 ${days}일 잔고 곡선`
+    : `Equity curve of ${ids.name} strategy for ${days} day${days === 1 ? "" : "s"}`;
   document.getElementById(ids.trades).textContent = (d.tpCount||0).toLocaleString("en-US") + " / " + (d.slCount||0).toLocaleString("en-US");
   document.getElementById(ids.avgtp).textContent = fmtUSD(d.avgTp||0, 2);
 
