@@ -225,6 +225,7 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
 }
 .hide{display:none!important}
 .track-retired{opacity:.72;filter:grayscale(.35)}
+.track-retired .chart-box{height:190px}
 .track-retired .track-equity{color:#b9b1c2}
 .track-live.retired{color:#a49db4}
 .stop-sq{width:10px;height:10px;border-radius:2px;background:#a49db4;display:inline-block}
@@ -391,17 +392,15 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
     </div>
   </div>
 
-  <!-- DISCONTINUED: Balanced (마지막 익절 시점 스냅샷으로 고정) -->
+  <!-- DISCONTINUED: Balanced (마지막 MP 발화 시점 스냅샷으로 고정) -->
   <div class="track-wrap track-retired" style="margin-top:22px">
     <div class="glass track-hero">
       <div class="track-live retired"><span class="stop-sq"></span><span data-i18n="track.disLabel">⏹ DISCONTINUED · Balanced Strategy</span></div>
-      <div class="track-equity font-digit">$10,315.74</div>
-      <div class="track-pnl font-digit" style="color:var(--muted)">+$315.74</div>
+      <div class="track-equity font-digit">$10,930.85</div>
+      <div class="track-pnl font-digit" style="color:var(--muted)">+$930.85</div>
       <div class="track-meta">
         <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
-        <div class="cell"><div class="l" data-i18n="track.disMetaTP">Last take-profit</div><div class="v font-digit">2026-07-05</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit">+3.69%</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m4">Strategy</div><div class="v">Balanced</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit">+13.4%</div></div>
       </div>
     </div>
     <div class="glass track-chart-card">
@@ -597,7 +596,7 @@ const I18N = {
     "track.livelabelB":"LIVE · CRUISE Strategy by Toriyama","track.livelabelF":"LIVE · FRONTIER Strategy by vibetaku","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly return (equiv.)","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit / take-profit",
     "track.chart":"Equity curve","track.since":"since 2026.06.09",
     "track.foot":"Figures are wired to the live account and refresh automatically. Past results do not guarantee future performance.",
-    "track.disLabel":"⏹ DISCONTINUED · Balanced Strategy","track.disMetaTP":"Last take-profit","track.disBadge":"ENDED",
+    "track.disLabel":"⏹ DISCONTINUED · Balanced Strategy","track.disBadge":"ENDED",
     "nav.iface":"Interface",
     "iface.eyebrow":"The Interface","iface.title":"Your bot lives in Telegram",
     "iface.desc":"No app to install, no dashboard to learn. Check your balance, flip auto-betting on or off, switch strategy and view your profit graph — all from one chat.",
@@ -648,7 +647,7 @@ const I18N = {
     "track.livelabelB":"LIVE · 순항형 전략 by Toriyama","track.livelabelF":"LIVE · FRONTIER 전략 by vibetaku","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률(환산)","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익",
     "track.chart":"잔고 곡선","track.since":"2026.06.09 부터",
     "track.foot":"수치는 실제 계좌와 연동되어 자동 갱신됩니다. 과거 성과가 미래 수익을 보장하지는 않습니다.",
-    "track.disLabel":"⏹ 종료 · Balanced(균형적) 전략","track.disMetaTP":"마지막 익절","track.disBadge":"종료",
+    "track.disLabel":"⏹ 종료 · Balanced(균형적) 전략","track.disBadge":"종료",
     "nav.iface":"인터페이스",
     "iface.eyebrow":"인터페이스","iface.title":"봇은 텔레그램 안에서 돌아갑니다",
     "iface.desc":"설치할 앱도, 익혀야 할 대시보드도 없습니다. 잔고 확인, 자동 매매 on/off, 전략 전환, 수익 그래프 보기까지 — 채팅 하나로 끝납니다.",
@@ -898,19 +897,19 @@ function makeChart(ids){
 
 const CHARTS = { BALANCED: makeChart(CARD_IDS.BALANCED), FRONTIER: makeChart(CARD_IDS.FRONTIER) };
 
-/* ── 종료된 Balanced — 마지막 익절(2026-07-05) 시점에 고정된 정적 스냅샷 ── */
-const RETIRED_CURVE = [10000,10048.64,10069.56,10123.2,10213.93,10227.67,10240.35,10234.73,10192.54,10269.3,9560.94,9737.32,9836.08,9915.64,9902.91,10045.36,10072.37,9969.5,9894.58,9946.2,9938.91,10113.47,10417.61,10469.5,10554.53,10561.02,10637.76,10835.16,10840.44,10855.21,10886.74,10742.02,10897.29,10863.96,10776.24,10682.84,10421.4,10361.74,10207.34,10315.74];
+/* ── 종료된 Balanced — 마지막 MP 발화(2026-06-30, $10,930.85) 시점에 고정된 정적 스냅샷 ── */
+const RETIRED_CURVE = [10000,10044.84,10069.74,10110.88,10165.34,10213.41,10232.72,10253.31,10242.43,10230.92,10269.3,9687.38,9745.74,9835.69,9919.62,9872.65,9910.16,10065.27,9902.73,9834.3,9911.08,9811.29,9968.56,10313.5,10391.17,10469.5,10549.34,10557.8,10671.14,10837.6,10828.5,10841.61,10862.73,10882.7,10838.06,10930.85];
 let retiredChart = null;
 function renderRetired(){
   if(!document.getElementById("chartR")) return;
   if(!retiredChart){
     retiredChart = makeChart({canvas:"chartR",tipBal:"tipBalR",tipDate:"tipDateR",line:"#8f8aa0",fill:"143,138,160",dot:"#b9b1c2"});
-    const start=new Date("2026-06-09T00:00:00"), end=new Date("2026-07-05T00:00:00"), n=RETIRED_CURVE.length;
+    const start=new Date("2026-06-09T00:00:00"), end=new Date("2026-06-30T00:00:00"), n=RETIRED_CURVE.length;
     const dates=RETIRED_CURVE.map((_,i)=> new Date(start.getTime()+(end-start)*(i/(n-1))));
     retiredChart.render(RETIRED_CURVE, dates);
   }
   const cs=document.getElementById("chartStartR"); if(cs) cs.textContent=(lang==="ko"?"시작 ":"Since ")+"2026-06-09";
-  const cn=document.getElementById("chartNowR"); if(cn) cn.textContent=(lang==="ko"?"마지막 익절 ":"Last TP ")+"2026-07-05";
+  const cn=document.getElementById("chartNowR"); if(cn) cn.textContent=(lang==="ko"?"마지막 MP ":"Last MP ")+"2026-06-30";
 }
 
 /* ===================== SUBSCRIPTION FEE MINI ===================== */
