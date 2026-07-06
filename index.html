@@ -224,10 +224,11 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
   .section-title{font-size:1.9rem}
 }
 .hide{display:none!important}
-.track-disabled{margin:34px auto 0;max-width:560px;text-align:center;padding:22px 20px;border-radius:16px;background:rgba(176,120,120,.07);border:1px solid rgba(200,120,120,.28)}
-.disabled-eyebrow{display:inline-block;font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:#d98a8a}
-.disabled-name{font-size:1.4rem;font-weight:800;color:#b9b1c2;margin-top:10px;text-decoration:line-through;text-decoration-color:rgba(217,138,138,.6);text-decoration-thickness:2px}
-.disabled-detail{font-size:.95rem;color:var(--muted);margin-top:8px;font-variant-numeric:tabular-nums}
+.track-retired{opacity:.72;filter:grayscale(.35)}
+.track-retired .track-equity{color:#b9b1c2}
+.track-live.retired{color:#a49db4}
+.stop-sq{width:10px;height:10px;border-radius:2px;background:#a49db4;display:inline-block}
+.ended-badge{font-size:.7rem;font-weight:800;letter-spacing:.14em;color:#d98a8a;border:1px solid rgba(217,138,138,.4);border-radius:999px;padding:3px 10px}
 </style>
 </head>
 <body data-lang="en">
@@ -390,10 +391,32 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
     </div>
   </div>
 
-  <div class="track-disabled">
-    <span class="disabled-eyebrow" data-i18n="track.disTitle">⏹ Disabled Strategy</span>
-    <div class="disabled-name" data-i18n="track.disName">Balanced Strategy</div>
-    <div class="disabled-detail" data-i18n="track.disDetail">2026-06-09 → 2026-07-06 · Started at $10,000 · Peak recorded balance $10,930.85 (+9.3%)</div>
+  <!-- DISCONTINUED: Balanced (마지막 익절 시점 스냅샷으로 고정) -->
+  <div class="track-wrap track-retired" style="margin-top:22px">
+    <div class="glass track-hero">
+      <div class="track-live retired"><span class="stop-sq"></span><span data-i18n="track.disLabel">⏹ DISCONTINUED · Balanced Strategy</span></div>
+      <div class="track-equity font-digit">$10,315.74</div>
+      <div class="track-pnl font-digit" style="color:var(--muted)">+$315.74</div>
+      <div class="track-meta">
+        <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
+        <div class="cell"><div class="l" data-i18n="track.disMetaTP">Last take-profit</div><div class="v font-digit">2026-07-05</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit">+3.69%</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m4">Strategy</div><div class="v">Balanced</div></div>
+      </div>
+    </div>
+    <div class="glass track-chart-card">
+      <div class="track-chart-head">
+        <h3 data-i18n="track.chart">Equity curve</h3>
+        <span class="ended-badge" data-i18n="track.disBadge">ENDED</span>
+      </div>
+      <div class="chart-box">
+        <canvas id="chartR"></canvas>
+        <div class="chart-tip chart-tip-top" id="tipBalR"></div>
+        <div class="chart-tip chart-tip-bot" id="tipDateR"></div>
+        <div class="chart-start" id="chartStartR"></div>
+        <div class="chart-now" id="chartNowR"></div>
+      </div>
+    </div>
   </div>
   <p class="track-foot" data-i18n="track.foot">Figures are wired to the live accounts and refresh automatically. Past results do not guarantee future performance.</p>
 </section>
@@ -574,7 +597,7 @@ const I18N = {
     "track.livelabelB":"LIVE · CRUISE Strategy by Toriyama","track.livelabelF":"LIVE · FRONTIER Strategy by vibetaku","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly return (equiv.)","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit / take-profit",
     "track.chart":"Equity curve","track.since":"since 2026.06.09",
     "track.foot":"Figures are wired to the live account and refresh automatically. Past results do not guarantee future performance.",
-    "track.disTitle":"⏹ Disabled Strategy","track.disName":"Balanced Strategy","track.disDetail":"2026-06-09 → 2026-07-06 · Started at $10,000 · Peak recorded balance $10,930.85 (+9.3%)",
+    "track.disLabel":"⏹ DISCONTINUED · Balanced Strategy","track.disMetaTP":"Last take-profit","track.disBadge":"ENDED",
     "nav.iface":"Interface",
     "iface.eyebrow":"The Interface","iface.title":"Your bot lives in Telegram",
     "iface.desc":"No app to install, no dashboard to learn. Check your balance, flip auto-betting on or off, switch strategy and view your profit graph — all from one chat.",
@@ -625,7 +648,7 @@ const I18N = {
     "track.livelabelB":"LIVE · 순항형 전략 by Toriyama","track.livelabelF":"LIVE · FRONTIER 전략 by vibetaku","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률(환산)","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익",
     "track.chart":"잔고 곡선","track.since":"2026.06.09 부터",
     "track.foot":"수치는 실제 계좌와 연동되어 자동 갱신됩니다. 과거 성과가 미래 수익을 보장하지는 않습니다.",
-    "track.disTitle":"⏹ 종료된 전략","track.disName":"Balanced(균형적) 전략","track.disDetail":"2026-06-09 → 2026-07-06 · 초기 $10,000 · 최고 기록 잔고 $10,930.85 (+9.3%)",
+    "track.disLabel":"⏹ 종료 · Balanced(균형적) 전략","track.disMetaTP":"마지막 익절","track.disBadge":"종료",
     "nav.iface":"인터페이스",
     "iface.eyebrow":"인터페이스","iface.title":"봇은 텔레그램 안에서 돌아갑니다",
     "iface.desc":"설치할 앱도, 익혀야 할 대시보드도 없습니다. 잔고 확인, 자동 매매 on/off, 전략 전환, 수익 그래프 보기까지 — 채팅 하나로 끝납니다.",
@@ -792,6 +815,9 @@ function makeChart(ids){
   const cv = document.getElementById(ids.canvas);
   const tipBal = document.getElementById(ids.tipBal);
   const tipDate = document.getElementById(ids.tipDate);
+  const LINE = ids.line || "#d4b572";           // 곡선 색(기본 골드; 비활성 카드는 회색)
+  const FILL = ids.fill || "212,181,114";       // 그라디언트 rgb
+  const DOT  = ids.dot  || "#f1d692";
   const S = {dates:[], data:null};
 
   function layout(){                          // (re)size canvas + compute geometry
@@ -810,8 +836,8 @@ function makeChart(ids){
     const {ctx,data,X,Y,pad,w,h} = S;
     ctx.clearRect(0,0,w,h);
     const grad = ctx.createLinearGradient(0,pad.t,0,h);
-    grad.addColorStop(0,"rgba(212,181,114,.35)");
-    grad.addColorStop(1,"rgba(212,181,114,0)");
+    grad.addColorStop(0,`rgba(${FILL},.35)`);
+    grad.addColorStop(1,`rgba(${FILL},0)`);
     ctx.beginPath();
     ctx.moveTo(X(0),Y(data[0]));
     data.forEach((v,i)=>ctx.lineTo(X(i),Y(v)));
@@ -823,12 +849,12 @@ function makeChart(ids){
     ctx.moveTo(X(0),Y(data[0]));
     data.forEach((v,i)=>ctx.lineTo(X(i),Y(v)));
     ctx.lineWidth = 2.5;
-    ctx.strokeStyle = "#d4b572";
+    ctx.strokeStyle = LINE;
     ctx.lineJoin="round";
     ctx.stroke();
     const lx=X(data.length-1), ly=Y(data[data.length-1]);
     ctx.beginPath(); ctx.arc(lx,ly,4,0,Math.PI*2);
-    ctx.fillStyle="#f1d692"; ctx.fill();
+    ctx.fillStyle=DOT; ctx.fill();
   }
   function crosshair(idx){
     base();
@@ -871,6 +897,21 @@ function makeChart(ids){
 }
 
 const CHARTS = { BALANCED: makeChart(CARD_IDS.BALANCED), FRONTIER: makeChart(CARD_IDS.FRONTIER) };
+
+/* ── 종료된 Balanced — 마지막 익절(2026-07-05) 시점에 고정된 정적 스냅샷 ── */
+const RETIRED_CURVE = [10000,10048.64,10069.56,10123.2,10213.93,10227.67,10240.35,10234.73,10192.54,10269.3,9560.94,9737.32,9836.08,9915.64,9902.91,10045.36,10072.37,9969.5,9894.58,9946.2,9938.91,10113.47,10417.61,10469.5,10554.53,10561.02,10637.76,10835.16,10840.44,10855.21,10886.74,10742.02,10897.29,10863.96,10776.24,10682.84,10421.4,10361.74,10207.34,10315.74];
+let retiredChart = null;
+function renderRetired(){
+  if(!document.getElementById("chartR")) return;
+  if(!retiredChart){
+    retiredChart = makeChart({canvas:"chartR",tipBal:"tipBalR",tipDate:"tipDateR",line:"#8f8aa0",fill:"143,138,160",dot:"#b9b1c2"});
+    const start=new Date("2026-06-09T00:00:00"), end=new Date("2026-07-05T00:00:00"), n=RETIRED_CURVE.length;
+    const dates=RETIRED_CURVE.map((_,i)=> new Date(start.getTime()+(end-start)*(i/(n-1))));
+    retiredChart.render(RETIRED_CURVE, dates);
+  }
+  const cs=document.getElementById("chartStartR"); if(cs) cs.textContent=(lang==="ko"?"시작 ":"Since ")+"2026-06-09";
+  const cn=document.getElementById("chartNowR"); if(cn) cn.textContent=(lang==="ko"?"마지막 익절 ":"Last TP ")+"2026-07-05";
+}
 
 /* ===================== SUBSCRIPTION FEE MINI ===================== */
 // Fixed fee per balance tier = 1% of each tier's upper limit.
@@ -918,7 +959,7 @@ function renderCalc(){
 document.getElementById("calcBalance").addEventListener("input",renderCalc);
 document.getElementById("calcReturn").addEventListener("input",renderCalc);
 
-function renderAll(){ renderTrack(); renderFee(); renderCalc(); }
+function renderAll(){ renderTrack(); renderRetired(); renderFee(); renderCalc(); }
 
 /* ===================== STARFIELD ===================== */
 (function(){
@@ -952,7 +993,7 @@ function renderAll(){ renderTrack(); renderFee(); renderCalc(); }
   resize(); tick();
 })();
 
-window.addEventListener("resize",()=>{ CHARTS.BALANCED.redraw(); CHARTS.FRONTIER.redraw(); });
+window.addEventListener("resize",()=>{ CHARTS.BALANCED.redraw(); CHARTS.FRONTIER.redraw(); retiredChart && retiredChart.redraw(); });
 
 /* ===================== INIT ===================== */
 applyLang("en");
