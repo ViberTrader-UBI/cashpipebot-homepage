@@ -783,8 +783,8 @@ function renderCard(key){
   pnlEl.style.color = pnl>=0 ? "var(--green)" : "var(--red)";
   document.getElementById(ids.monthly).textContent = fmtPct(monthly);
   document.getElementById(ids.title).textContent = (lang === "ko")
-    ? `${ids.name} 전략 ${days}일 잔고 곡선`
-    : `Equity curve of ${ids.name} strategy for ${days} day${days === 1 ? "" : "s"}`;
+    ? `${ids.name} 전략 잔고 (가동 ${days}일)`
+    : `${ids.name} strategy's Balance (Running for ${days} day${days === 1 ? "" : "s"})`;
   document.getElementById(ids.trades).textContent = (d.tpCount||0).toLocaleString("en-US") + " / " + (d.slCount||0).toLocaleString("en-US");
   document.getElementById(ids.avgtp).textContent = fmtUSD(d.avgTp||0, 2);
 
