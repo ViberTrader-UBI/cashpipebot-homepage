@@ -681,14 +681,15 @@ document.getElementById("langToggle").addEventListener("click",()=>applyLang(lan
    The values below are only a FALLBACK shown if data.json can't be fetched. */
 function fbCurve(end){ const a=[]; for(let i=0;i<19;i++) a.push(+(10000+(end-10000)*(i/18)).toFixed(2)); return a; }
 const LIVE = {
-  BALANCED: { initial:10000, startDate:"2026-06-09", currentEquity:10930.85, monthlyReturnPct:null, tpCount:0, slCount:0, avgTp:0, curve:fbCurve(10930.85), curveTs:null },
-  FRONTIER: { initial:10000, startDate:"2026-06-09", currentEquity:11038.08, monthlyReturnPct:null, tpCount:0, slCount:0, avgTp:0, curve:fbCurve(11038.08), curveTs:null }
+  BALANCED: { initial:10000, startDate:"2026-07-06", daysRunning:1, currentEquity:10000, monthlyReturnPct:null, tpCount:0, slCount:0, avgTp:0, curve:fbCurve(10000), curveTs:null },
+  FRONTIER: { initial:10000, startDate:"2026-06-09", daysRunning:27, currentEquity:11038.08, monthlyReturnPct:null, tpCount:0, slCount:0, avgTp:0, curve:fbCurve(11038.08), curveTs:null }
 };
 
 function ingest(dst, d){
   if(!d) return;
   if(typeof d.initial === "number")          dst.initial = d.initial;
   if(d.startDate)                            dst.startDate = d.startDate;
+  if(typeof d.daysRunning === "number")      dst.daysRunning = d.daysRunning;
   if(typeof d.currentEquity === "number")    dst.currentEquity = d.currentEquity;
   if(typeof d.monthlyReturnPct === "number") dst.monthlyReturnPct = d.monthlyReturnPct;
   if(typeof d.tpCount === "number")          dst.tpCount = d.tpCount;
@@ -739,7 +740,8 @@ function renderCard(key){
   const pnlPct = (pnl / d.initial) * 100;
   const start = new Date(d.startDate.length > 10 ? d.startDate : d.startDate + "T00:00:00");
   const now = new Date();
-  const days = Math.max(1, Math.round((now - start) / 86400000));
+  // 봇이 KST 달력 기준으로 계산한 daysRunning을 우선 사용(반올림/시간대 오차 방지), 없으면 floor 폴백
+  const days = (typeof d.daysRunning === "number") ? d.daysRunning : Math.max(1, Math.floor((now - start) / 86400000));
   // monthly return: use the value published by the bot (single source of truth);
   // fall back to a compound-conversion estimate only if data.json is unavailable.
   let monthly;
