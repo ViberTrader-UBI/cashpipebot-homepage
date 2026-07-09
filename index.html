@@ -114,6 +114,8 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
 .track-meta .cell{background:rgba(196,176,128,.07);border:1px solid var(--border);border-radius:13px;padding:16px}
 .track-meta .cell .l{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
 .track-meta .cell .v{font-size:1.35rem;font-weight:700;margin-top:4px}
+.track-meta .cell.mret .l{font-weight:700;color:var(--ink)}
+.track-meta .cell.mret .v{font-weight:800}
 .track-chart-card{padding:26px;display:flex;flex-direction:column}
 .track-chart-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
 .track-chart-head h3{font-size:1.05rem}
@@ -345,7 +347,7 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
       </div>
       <div class="track-meta">
         <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit" id="tMonthlyF">+0.0%</div></div>
+        <div class="cell mret"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit" id="tMonthlyF">+0.0%</div></div>
         <div class="cell"><div class="l" data-i18n="track.m5">Take-profits / Stop-losses</div><div class="v font-digit" id="tTradesF">0 / 0</div></div>
         <div class="cell"><div class="l" data-i18n="track.m6">Avg profit / take-profit</div><div class="v font-digit" id="tAvgTpF">$0.00</div></div>
       </div>
@@ -374,7 +376,7 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
       </div>
       <div class="track-meta">
         <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit" id="tMonthlyB">+0.0%</div></div>
+        <div class="cell mret"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit" id="tMonthlyB">+0.0%</div></div>
         <div class="cell"><div class="l" data-i18n="track.m5">Take-profits / Stop-losses</div><div class="v font-digit" id="tTradesB">0 / 0</div></div>
         <div class="cell"><div class="l" data-i18n="track.m6">Avg profit / take-profit</div><div class="v font-digit" id="tAvgTpB">$0.00</div></div>
       </div>
