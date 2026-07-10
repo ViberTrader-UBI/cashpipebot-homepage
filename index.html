@@ -347,7 +347,7 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
       </div>
       <div class="track-meta">
         <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
-        <div class="cell mret"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit" id="tMonthlyF">+0.0%</div></div>
+        <div class="cell mret"><div class="l" data-i18n="track.m3" id="tMonthlyLabF">Monthly Return</div><div class="v font-digit" id="tMonthlyF">+0.0%</div></div>
         <div class="cell"><div class="l" data-i18n="track.m5">Take-profits / Stop-losses</div><div class="v font-digit" id="tTradesF">0 / 0</div></div>
         <div class="cell"><div class="l" data-i18n="track.m6">Avg profit / take-profit</div><div class="v font-digit" id="tAvgTpF">$0.00</div></div>
       </div>
@@ -376,7 +376,7 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
       </div>
       <div class="track-meta">
         <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
-        <div class="cell mret"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit" id="tMonthlyB">+0.0%</div></div>
+        <div class="cell mret"><div class="l" data-i18n="track.m3" id="tMonthlyLabB">Monthly Return</div><div class="v font-digit" id="tMonthlyB">+0.0%</div></div>
         <div class="cell"><div class="l" data-i18n="track.m5">Take-profits / Stop-losses</div><div class="v font-digit" id="tTradesB">0 / 0</div></div>
         <div class="cell"><div class="l" data-i18n="track.m6">Avg profit / take-profit</div><div class="v font-digit" id="tAvgTpB">$0.00</div></div>
       </div>
@@ -405,7 +405,7 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
       </div>
       <div class="track-meta">
         <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m3">Monthly return (equiv.)</div><div class="v font-digit">+13.4%</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m3" id="tMonthlyLabR">Monthly Return</div><div class="v font-digit">+13.4%</div></div>
       </div>
     </div>
     <div class="glass track-chart-card">
@@ -598,7 +598,7 @@ const I18N = {
     "concept.note":"🚨 This is automated, leveraged perpetual-futures trading — not 'interest' or a 'dividend'. Returns are not guaranteed and you can lose some or all of your principal. Any target shown is a goal, not a commitment, and past performance does not guarantee future results.",
     "track.eyebrow":"Live Track Record","track.title":"Our strategies, running live",
     "track.desc":"Real operating-balance histories of our live strategies — FRONTIER and CRUISE — reflected in real time.",
-    "track.livelabelB":"LIVE · CRUISE Strategy by Toriyama","track.livelabelF":"LIVE · FRONTIER Strategy by vibetaku","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly return (equiv.)","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit / take-profit",
+    "track.livelabelB":"LIVE · CRUISE Strategy by Toriyama","track.livelabelF":"LIVE · FRONTIER Strategy by vibetaku","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly Return","track.m3conv":" (conv.)","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit / take-profit",
     "track.chart":"Equity curve","track.since":"since 2026.06.09",
     "track.foot":"Figures are wired to the live account and refresh automatically. Past results do not guarantee future performance.",
     "track.disLabel":"⏹ DISCONTINUED · Balanced Strategy","track.disBadge":"ENDED",
@@ -649,7 +649,7 @@ const I18N = {
     "concept.note":"🚨 이 서비스는 레버리지를 사용하는 무기한 선물 자동매매이며, '이자'나 '배당'이 아닙니다. 수익은 보장되지 않고 원금의 일부 또는 전부를 잃을 수 있습니다. 제시되는 목표치는 약속이 아닌 목표이며, 과거 성과는 미래 수익을 보장하지 않습니다.",
     "track.eyebrow":"실시간 트랙레코드","track.title":"실시간 가동 중인 전략들",
     "track.desc":"라이브 가동 중인 두 전략 — 개척형(FRONTIER)과 순항형(CRUISE) — 의 실제 운용 잔고 추이이며, 실시간으로 반영됩니다.",
-    "track.livelabelB":"LIVE · 순항형 전략 by Toriyama","track.livelabelF":"LIVE · FRONTIER 전략 by vibetaku","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률(환산)","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익",
+    "track.livelabelB":"LIVE · 순항형 전략 by Toriyama","track.livelabelF":"LIVE · FRONTIER 전략 by vibetaku","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률","track.m3conv":"(환산)","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익",
     "track.chart":"잔고 곡선","track.since":"2026.06.09 부터",
     "track.foot":"수치는 실제 계좌와 연동되어 자동 갱신됩니다. 과거 성과가 미래 수익을 보장하지는 않습니다.",
     "track.disLabel":"⏹ 종료 · Balanced(균형적) 전략","track.disBadge":"종료",
@@ -756,8 +756,8 @@ const fmtPct = (n) => (n>=0?"+":"") + n.toFixed(2) + "%";
 
 /* ===================== TRACK RECORD ===================== */
 const CARD_IDS = {
-  BALANCED: {name:"CRUISE",  equity:"tEquityB",pnl:"tPnlB",monthly:"tMonthlyB",trades:"tTradesB",avgtp:"tAvgTpB",title:"chartTitleB",canvas:"chartB",tipBal:"tipBalB",tipDate:"tipDateB",start:"chartStartB",now:"chartNowB"},
-  FRONTIER: {name:"FRONTIER",equity:"tEquityF",pnl:"tPnlF",monthly:"tMonthlyF",trades:"tTradesF",avgtp:"tAvgTpF",title:"chartTitleF",canvas:"chartF",tipBal:"tipBalF",tipDate:"tipDateF",start:"chartStartF",now:"chartNowF"}
+  BALANCED: {name:"CRUISE",  equity:"tEquityB",pnl:"tPnlB",monthly:"tMonthlyB",monthlyLab:"tMonthlyLabB",trades:"tTradesB",avgtp:"tAvgTpB",title:"chartTitleB",canvas:"chartB",tipBal:"tipBalB",tipDate:"tipDateB",start:"chartStartB",now:"chartNowB"},
+  FRONTIER: {name:"FRONTIER",equity:"tEquityF",pnl:"tPnlF",monthly:"tMonthlyF",monthlyLab:"tMonthlyLabF",trades:"tTradesF",avgtp:"tAvgTpF",title:"chartTitleF",canvas:"chartF",tipBal:"tipBalF",tipDate:"tipDateF",start:"chartStartF",now:"chartNowF"}
 };
 
 function renderCard(key){
@@ -784,6 +784,9 @@ function renderCard(key){
   pnlEl.textContent = (pnl>=0?"+":"") + fmtUSD(Math.abs(pnl),2);
   pnlEl.style.color = pnl>=0 ? "var(--green)" : "var(--red)";
   document.getElementById(ids.monthly).textContent = fmtPct(monthly);
+  // 운용 <30일이면 월수익률은 복리환산 추정 → "(conv.)" 접미어, ≥30일이면 실측(접미어 없음)
+  const mLab = document.getElementById(ids.monthlyLab);
+  if (mLab) mLab.textContent = I18N[lang]["track.m3"] + (days < 30 ? I18N[lang]["track.m3conv"] : "");
   document.getElementById(ids.title).textContent = (lang === "ko")
     ? `${ids.name} 전략 잔고 (가동 ${days}일)`
     : `${ids.name} strategy's Balance (Running for ${days} day${days === 1 ? "" : "s"})`;
@@ -917,6 +920,8 @@ function renderRetired(){
   }
   const cs=document.getElementById("chartStartR"); if(cs) cs.textContent=(lang==="ko"?"시작 ":"Since ")+"2026-06-09";
   const cn=document.getElementById("chartNowR"); if(cn) cn.textContent=(lang==="ko"?"마지막 MP ":"Last MP ")+"2026-06-30";
+  // 비활성 Balanced는 21일(≈06-09~06-30) 운용 <30일 → 월수익률 라벨에 "(conv.)"
+  const mLabR=document.getElementById("tMonthlyLabR"); if(mLabR) mLabR.textContent=I18N[lang]["track.m3"]+I18N[lang]["track.m3conv"];
 }
 
 /* ===================== SUBSCRIPTION FEE MINI ===================== */
