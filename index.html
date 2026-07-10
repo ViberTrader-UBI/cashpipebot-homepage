@@ -114,6 +114,7 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
 .track-meta .cell{background:rgba(196,176,128,.07);border:1px solid var(--border);border-radius:13px;padding:16px}
 .track-meta .cell .l{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
 .track-meta .cell .v{font-size:1.35rem;font-weight:700;margin-top:4px}
+.track-meta .cell .v-sub{font-size:.92rem;font-weight:500;color:var(--muted);white-space:nowrap}
 .track-meta .cell.mret .l{font-weight:700;color:var(--ink)}
 .track-meta .cell.mret .v{font-weight:800}
 .track-chart-card{padding:26px;display:flex;flex-direction:column}
@@ -348,8 +349,8 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
       <div class="track-meta">
         <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
         <div class="cell mret"><div class="l" data-i18n="track.m3" id="tMonthlyLabF">Monthly Return</div><div class="v font-digit" id="tMonthlyF">+0.0%</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m5">Take-profits / Stop-losses</div><div class="v font-digit" id="tTradesF">0 / 0</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m6">Avg profit / take-profit</div><div class="v font-digit" id="tAvgTpF">$0.00</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m6">Avg profit per take-profit</div><div class="v font-digit"><span id="tAvgTpF">$0.00</span> <span class="v-sub" id="tAvgDetF"></span></div></div>
+        <div class="cell"><div class="l" data-i18n="track.mdd">Max drawdown</div><div class="v font-digit" id="tMddF">0.00%</div></div>
       </div>
     </div>
     <div class="glass track-chart-card">
@@ -377,8 +378,8 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
       <div class="track-meta">
         <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
         <div class="cell mret"><div class="l" data-i18n="track.m3" id="tMonthlyLabB">Monthly Return</div><div class="v font-digit" id="tMonthlyB">+0.0%</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m5">Take-profits / Stop-losses</div><div class="v font-digit" id="tTradesB">0 / 0</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m6">Avg profit / take-profit</div><div class="v font-digit" id="tAvgTpB">$0.00</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m6">Avg profit per take-profit</div><div class="v font-digit"><span id="tAvgTpB">$0.00</span> <span class="v-sub" id="tAvgDetB"></span></div></div>
+        <div class="cell"><div class="l" data-i18n="track.mdd">Max drawdown</div><div class="v font-digit" id="tMddB">0.00%</div></div>
       </div>
     </div>
     <div class="glass track-chart-card">
@@ -598,7 +599,7 @@ const I18N = {
     "concept.note":"🚨 This is automated, leveraged perpetual-futures trading — not 'interest' or a 'dividend'. Returns are not guaranteed and you can lose some or all of your principal. Any target shown is a goal, not a commitment, and past performance does not guarantee future results.",
     "track.eyebrow":"Live Track Record","track.title":"Our strategies, running live",
     "track.desc":"Real operating-balance histories of our live strategies — FRONTIER and CRUISE — reflected in real time.",
-    "track.livelabelB":"LIVE · CRUISE Strategy by Toriyama","track.livelabelF":"LIVE · FRONTIER Strategy by vibetaku","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly Return","track.m3conv":" (conv.)","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit / take-profit",
+    "track.livelabelB":"LIVE · CRUISE Strategy by Toriyama","track.livelabelF":"LIVE · FRONTIER Strategy by vibetaku","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly Return","track.m3conv":" (conv.)","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit per take-profit","track.mdd":"Max drawdown",
     "track.chart":"Equity curve","track.since":"since 2026.06.09",
     "track.foot":"Figures are wired to the live account and refresh automatically. Past results do not guarantee future performance.",
     "track.disLabel":"⏹ DISCONTINUED · Balanced Strategy","track.disBadge":"ENDED",
@@ -649,7 +650,7 @@ const I18N = {
     "concept.note":"🚨 이 서비스는 레버리지를 사용하는 무기한 선물 자동매매이며, '이자'나 '배당'이 아닙니다. 수익은 보장되지 않고 원금의 일부 또는 전부를 잃을 수 있습니다. 제시되는 목표치는 약속이 아닌 목표이며, 과거 성과는 미래 수익을 보장하지 않습니다.",
     "track.eyebrow":"실시간 트랙레코드","track.title":"실시간 가동 중인 전략들",
     "track.desc":"라이브 가동 중인 두 전략 — 개척형(FRONTIER)과 순항형(CRUISE) — 의 실제 운용 잔고 추이이며, 실시간으로 반영됩니다.",
-    "track.livelabelB":"LIVE · 순항형 전략 by Toriyama","track.livelabelF":"LIVE · FRONTIER 전략 by vibetaku","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률","track.m3conv":"(환산)","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익",
+    "track.livelabelB":"LIVE · 순항형 전략 by Toriyama","track.livelabelF":"LIVE · FRONTIER 전략 by vibetaku","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률","track.m3conv":"(환산)","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익","track.mdd":"최대 낙폭",
     "track.chart":"잔고 곡선","track.since":"2026.06.09 부터",
     "track.foot":"수치는 실제 계좌와 연동되어 자동 갱신됩니다. 과거 성과가 미래 수익을 보장하지는 않습니다.",
     "track.disLabel":"⏹ 종료 · Balanced(균형적) 전략","track.disBadge":"종료",
@@ -708,8 +709,8 @@ document.getElementById("langToggle").addEventListener("click",()=>applyLang(lan
    The values below are only a FALLBACK shown if data.json can't be fetched. */
 function fbCurve(end){ const a=[]; for(let i=0;i<19;i++) a.push(+(10000+(end-10000)*(i/18)).toFixed(2)); return a; }
 const LIVE = {
-  BALANCED: { initial:10000, startDate:"2026-07-06", daysRunning:1, currentEquity:10000, monthlyReturnPct:null, tpCount:0, slCount:0, avgTp:0, curve:fbCurve(10000), curveTs:null },
-  FRONTIER: { initial:10000, startDate:"2026-06-09", daysRunning:27, currentEquity:11038.08, monthlyReturnPct:null, tpCount:0, slCount:0, avgTp:0, curve:fbCurve(11038.08), curveTs:null }
+  BALANCED: { initial:10000, startDate:"2026-07-06", daysRunning:1, currentEquity:10000, monthlyReturnPct:null, tpCount:0, slCount:0, avgTp:0, maxDrawdownPct:0, curve:fbCurve(10000), curveTs:null },
+  FRONTIER: { initial:10000, startDate:"2026-06-09", daysRunning:27, currentEquity:11038.08, monthlyReturnPct:null, tpCount:0, slCount:0, avgTp:0, maxDrawdownPct:0, curve:fbCurve(11038.08), curveTs:null }
 };
 
 function ingest(dst, d){
@@ -722,6 +723,7 @@ function ingest(dst, d){
   if(typeof d.tpCount === "number")          dst.tpCount = d.tpCount;
   if(typeof d.slCount === "number")          dst.slCount = d.slCount;
   if(typeof d.avgTp === "number")            dst.avgTp = d.avgTp;
+  if(typeof d.maxDrawdownPct === "number")   dst.maxDrawdownPct = d.maxDrawdownPct;
   if(Array.isArray(d.curve) && d.curve.length){
     if(typeof d.curve[0] === "object" && d.curve[0]){            // [{ts,eq}, ...]
       dst.curve   = d.curve.map(p => p.eq);
@@ -756,8 +758,8 @@ const fmtPct = (n) => (n>=0?"+":"") + n.toFixed(2) + "%";
 
 /* ===================== TRACK RECORD ===================== */
 const CARD_IDS = {
-  BALANCED: {name:"CRUISE",  equity:"tEquityB",pnl:"tPnlB",monthly:"tMonthlyB",monthlyLab:"tMonthlyLabB",trades:"tTradesB",avgtp:"tAvgTpB",title:"chartTitleB",canvas:"chartB",tipBal:"tipBalB",tipDate:"tipDateB",start:"chartStartB",now:"chartNowB"},
-  FRONTIER: {name:"FRONTIER",equity:"tEquityF",pnl:"tPnlF",monthly:"tMonthlyF",monthlyLab:"tMonthlyLabF",trades:"tTradesF",avgtp:"tAvgTpF",title:"chartTitleF",canvas:"chartF",tipBal:"tipBalF",tipDate:"tipDateF",start:"chartStartF",now:"chartNowF"}
+  BALANCED: {name:"CRUISE",  equity:"tEquityB",pnl:"tPnlB",monthly:"tMonthlyB",monthlyLab:"tMonthlyLabB",avgtp:"tAvgTpB",avgtpDet:"tAvgDetB",maxdd:"tMddB",title:"chartTitleB",canvas:"chartB",tipBal:"tipBalB",tipDate:"tipDateB",start:"chartStartB",now:"chartNowB"},
+  FRONTIER: {name:"FRONTIER",equity:"tEquityF",pnl:"tPnlF",monthly:"tMonthlyF",monthlyLab:"tMonthlyLabF",avgtp:"tAvgTpF",avgtpDet:"tAvgDetF",maxdd:"tMddF",title:"chartTitleF",canvas:"chartF",tipBal:"tipBalF",tipDate:"tipDateF",start:"chartStartF",now:"chartNowF"}
 };
 
 function renderCard(key){
@@ -790,8 +792,15 @@ function renderCard(key){
   document.getElementById(ids.title).textContent = (lang === "ko")
     ? `${ids.name} 전략 잔고 (가동 ${days}일)`
     : `${ids.name} strategy's Balance (Running for ${days} day${days === 1 ? "" : "s"})`;
-  document.getElementById(ids.trades).textContent = (d.tpCount||0).toLocaleString("en-US") + " / " + (d.slCount||0).toLocaleString("en-US");
-  document.getElementById(ids.avgtp).textContent = fmtUSD(d.avgTp||0, 2);
+  // 익절당 평균 수익 + (누적 익절금액 / 익절 횟수)
+  const tp = d.tpCount || 0;
+  document.getElementById(ids.avgtp).textContent = fmtUSD(d.avgTp || 0, 2);
+  const detEl = document.getElementById(ids.avgtpDet);
+  if (detEl) detEl.textContent = tp > 0 ? `(${fmtUSD(pnl, 2)}/${tp.toLocaleString("en-US")})` : "";
+  // 최대 낙폭(MaxDD): 데이터 값은 양수 % → 음수로 표기
+  const mdd = d.maxDrawdownPct || 0;
+  const mddEl = document.getElementById(ids.maxdd);
+  if (mddEl) mddEl.textContent = (mdd > 0 ? "-" : "") + mdd.toFixed(2) + "%";
 
   // timestamps per curve point: use real ones if provided, else even spacing
   const n = d.curve.length;
