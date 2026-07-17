@@ -793,17 +793,18 @@ function renderCard(key){
   // ≥30일: 메인=Last 30D 롤링 + 금색 companion(전체기간 Avg Monthly). <30일: 복리환산 단독.
   const monEl = document.getElementById(ids.monthly);
   if (has30) {
+    // 값 옆에 (LAST 30D) 기간 + 다음 줄에 전체기간 평균(금색)
     monEl.innerHTML = fmtPct(mainMonthly) +
-      ' <span class="v-sub au">(' + fmtPct(avgMonthly) + ', ' + I18N[lang]["track.m3avg"] + ')</span>';
+      ' <span class="v-sub">' + I18N[lang]["track.m3win"].trim().toUpperCase() + '</span>' +
+      '<br><span class="v-sub au">(' + fmtPct(avgMonthly) + ', ' + I18N[lang]["track.m3avg"] + ')</span>';
   } else {
-    monEl.textContent = fmtPct(mainMonthly);
+    // <30일: 복리환산 단독 (기간 라벨만 값 옆에)
+    monEl.innerHTML = fmtPct(mainMonthly) +
+      ' <span class="v-sub">' + I18N[lang]["track.m3conv"].trim().toUpperCase() + '</span>';
   }
-  // 라벨: "MONTHLY RETURN"(볼드) + 비볼드 접미어. ≥30일 "(Last 30D)", <30일 "(conv.)"
+  // 라벨은 헤더만 — "(Last 30D)"는 값 옆으로 이동
   const mLab = document.getElementById(ids.monthlyLab);
-  if (mLab) {
-    const suffix = has30 ? I18N[lang]["track.m3win"] : I18N[lang]["track.m3conv"];
-    mLab.textContent = I18N[lang]["track.m3"] + suffix;
-  }
+  if (mLab) mLab.textContent = I18N[lang]["track.m3"];
   document.getElementById(ids.title).textContent = (lang === "ko")
     ? `${ids.name} 전략 잔고 (가동 ${days}일)`
     : `${ids.name} strategy's Balance (Running for ${days} day${days === 1 ? "" : "s"})`;
