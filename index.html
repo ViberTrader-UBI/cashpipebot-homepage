@@ -368,46 +368,18 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
     </div>
   </div>
 
-  <!-- CRUISE (순항형, v25 — 구 Balanced 슬롯 데이터=매니저봇, $10k 클린 리스타트) -->
-  <div class="track-wrap" style="margin-top:22px">
-    <div class="glass track-hero">
-      <div class="track-live"><span class="live-dot"></span><span data-i18n="track.livelabelB">LIVE · CRUISE Strategy by Toriyama</span></div>
-      <div class="track-headline">
-        <div class="track-equity font-digit" id="tEquityB">$10,000.00</div>
-        <div class="track-pnl font-digit" id="tPnlB">+$0.00</div>
-      </div>
-      <div class="track-meta">
-        <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
-        <div class="cell mret"><div class="l" data-i18n="track.m3" id="tMonthlyLabB">Monthly Return</div><div class="v font-digit" id="tMonthlyB">+0.0%</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m6">Avg profit per take-profit</div><div class="v font-digit"><span id="tAvgTpB">$0.00</span> <span class="v-sub" id="tAvgDetB"></span></div></div>
-        <div class="cell"><div class="l" data-i18n="track.mdd">Max drawdown</div><div class="v font-digit" id="tMddB">0.00%</div></div>
-      </div>
-    </div>
-    <div class="glass track-chart-card">
-      <div class="track-chart-head">
-        <h3 id="chartTitleB">Equity curve</h3>
-      </div>
-      <div class="chart-box">
-        <canvas id="chartB"></canvas>
-        <div class="chart-tip chart-tip-top" id="tipBalB"></div>
-        <div class="chart-tip chart-tip-bot" id="tipDateB"></div>
-        <div class="chart-start" id="chartStartB"></div>
-        <div class="chart-now" id="chartNowB"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- DISCONTINUED: Balanced (마지막 MP 발화 시점 스냅샷으로 고정) -->
+  <!-- DISCONNECTED: CRUISE (매니저봇 CRUISE 최종 스냅샷으로 고정 — AVENGERS 전환 전 은퇴 기록) -->
   <div class="track-wrap track-retired" style="margin-top:22px">
     <div class="glass track-hero">
-      <div class="track-live retired"><span class="stop-sq"></span><span data-i18n="track.disLabel">⏹ DISCONTINUED · Balanced Strategy</span></div>
+      <div class="track-live retired"><span class="stop-sq"></span><span data-i18n="track.disLabel">⏹ DISCONNECTED · CRUISE Strategy</span></div>
       <div class="track-headline">
-        <div class="track-equity font-digit">$10,930.85</div>
-        <div class="track-pnl font-digit" style="color:var(--muted)">+$930.85</div>
+        <div class="track-equity font-digit">$10,288.28</div>
+        <div class="track-pnl font-digit" style="color:var(--muted)">+$288.28</div>
       </div>
       <div class="track-meta">
         <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m3" id="tMonthlyLabR">Monthly Return</div><div class="v font-digit">+13.4%</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m3" id="tMonthlyLabR">Monthly Return</div><div class="v font-digit">+6.4%</div></div>
+        <div class="cell"><div class="l" data-i18n="track.mdd">Max drawdown</div><div class="v font-digit">-3.56%</div></div>
       </div>
     </div>
     <div class="glass track-chart-card">
@@ -599,11 +571,11 @@ const I18N = {
     "concept.c3.t":"Systematic risk controls","concept.c3.d":"Drawdown brakes, stop-losses and pause guards manage risk systematically — though they can't remove the possibility of loss entirely.",
     "concept.note":"🚨 This is automated, leveraged perpetual-futures trading — not 'interest' or a 'dividend'. Returns are not guaranteed and you can lose some or all of your principal. Any target shown is a goal, not a commitment, and past performance does not guarantee future results.",
     "track.eyebrow":"Live Track Record","track.title":"Our strategies, running live",
-    "track.desc":"Real operating-balance histories of our live strategies — FRONTIER and CRUISE — reflected in real time.",
+    "track.desc":"Live operating-balance history of our FRONTIER strategy, reflected in real time — plus the disconnected CRUISE record.",
     "track.livelabelB":"LIVE · CRUISE Strategy by Toriyama","track.livelabelF":"LIVE · FRONTIER Strategy by vibetaku","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly Return","track.m3conv":" (conv.)","track.m3win":" (Last 30D)","track.m3avg":"All-Time","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit per take-profit","track.mdd":"Max drawdown",
-    "track.chart":"Balanced strategy's Balance (Running for 21 days)","track.since":"since 2026.06.09",
+    "track.chart":"CRUISE strategy's Balance (Running for 13 days)","track.since":"since 2026.07.06",
     "track.foot":"Figures are wired to the live account and refresh automatically. Past results do not guarantee future performance.",
-    "track.disLabel":"⏹ DISCONTINUED · Balanced Strategy","track.disBadge":"ENDED",
+    "track.disLabel":"⏹ DISCONNECTED · CRUISE Strategy","track.disBadge":"DISCONNECTED",
     "nav.iface":"Interface",
     "iface.eyebrow":"The Interface","iface.title":"Your bot lives in Telegram",
     "iface.desc":"No app to install, no dashboard to learn. Check your balance, flip auto-betting on or off, switch strategy and view your profit graph — all from one chat.",
@@ -650,11 +622,11 @@ const I18N = {
     "concept.c3.t":"체계적인 리스크 관리","concept.c3.d":"드로다운 브레이크, 손절(SL), 일시정지 가드로 리스크를 체계적으로 관리합니다. 다만 손실 가능성을 완전히 없애지는 못합니다.",
     "concept.note":"🚨 이 서비스는 레버리지를 사용하는 무기한 선물 자동매매이며, '이자'나 '배당'이 아닙니다. 수익은 보장되지 않고 원금의 일부 또는 전부를 잃을 수 있습니다. 제시되는 목표치는 약속이 아닌 목표이며, 과거 성과는 미래 수익을 보장하지 않습니다.",
     "track.eyebrow":"실시간 트랙레코드","track.title":"실시간 가동 중인 전략들",
-    "track.desc":"라이브 가동 중인 두 전략 — 개척형(FRONTIER)과 순항형(CRUISE) — 의 실제 운용 잔고 추이이며, 실시간으로 반영됩니다.",
+    "track.desc":"라이브 가동 중인 개척형(FRONTIER) 전략의 실제 운용 잔고 추이(실시간) — 연결해제된 CRUISE 기록 포함.",
     "track.livelabelB":"LIVE · 순항형 전략 by Toriyama","track.livelabelF":"LIVE · FRONTIER 전략 by vibetaku","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률","track.m3conv":" (환산)","track.m3win":" (최근 30일)","track.m3avg":"전기간","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익","track.mdd":"최대 낙폭",
-    "track.chart":"Balanced 전략 잔고 (가동 21일)","track.since":"2026.06.09 부터",
+    "track.chart":"CRUISE(순항형) 전략 잔고 (가동 13일)","track.since":"2026.07.06 부터",
     "track.foot":"수치는 실제 계좌와 연동되어 자동 갱신됩니다. 과거 성과가 미래 수익을 보장하지는 않습니다.",
-    "track.disLabel":"⏹ 종료 · Balanced(균형적) 전략","track.disBadge":"종료",
+    "track.disLabel":"⏹ DISCONNECTED · 순항형(CRUISE) 전략","track.disBadge":"연결해제",
     "nav.iface":"인터페이스",
     "iface.eyebrow":"인터페이스","iface.title":"봇은 텔레그램 안에서 돌아갑니다",
     "iface.desc":"설치할 앱도, 익혀야 할 대시보드도 없습니다. 잔고 확인, 자동 매매 on/off, 전략 전환, 수익 그래프 보기까지 — 채팅 하나로 끝납니다.",
@@ -747,7 +719,6 @@ async function loadLiveData(){
     } else {                                         // legacy flat shape = Balanced only
       byKey.BALANCED = d;
     }
-    ingest(LIVE.BALANCED, byKey.BALANCED);
     ingest(LIVE.FRONTIER, byKey.FRONTIER);
   }catch(e){ /* keep fallback values */ }
   renderAll();
@@ -834,7 +805,7 @@ function renderCard(key){
   CHARTS[key].render(d.curve, dates);
 }
 
-function renderTrack(){ renderCard("BALANCED"); renderCard("FRONTIER"); }
+function renderTrack(){ renderCard("FRONTIER"); }  /* CRUISE는 DISCONNECTED 정적카드(renderRetired) */
 
 function pad2(x){return String(x).padStart(2,"0")}
 function fmtDate(dt){
@@ -930,22 +901,22 @@ function makeChart(ids){
   };
 }
 
-const CHARTS = { BALANCED: makeChart(CARD_IDS.BALANCED), FRONTIER: makeChart(CARD_IDS.FRONTIER) };
+const CHARTS = { FRONTIER: makeChart(CARD_IDS.FRONTIER) };
 
-/* ── 종료된 Balanced — 마지막 MP 발화(2026-06-30, $10,930.85) 시점에 고정된 정적 스냅샷 ── */
-const RETIRED_CURVE = [10000,10044.84,10069.74,10110.88,10165.34,10213.41,10232.72,10253.31,10242.43,10230.92,10269.3,9687.38,9745.74,9835.69,9919.62,9872.65,9910.16,10065.27,9902.73,9834.3,9911.08,9811.29,9968.56,10313.5,10391.17,10469.5,10549.34,10557.8,10671.14,10837.6,10828.5,10841.61,10862.73,10882.7,10838.06,10930.85];
+/* ── DISCONNECTED CRUISE — 매니저봇 CRUISE 최종($10,288.28) 스냅샷으로 고정(AVENGERS 전환 전 은퇴) ── */
+const RETIRED_CURVE = [10000,10016.17,10016.17,10022.4,10022.4,10024.22,10046.07,10058.69,10058.65,10058.65,10058.65,10058.65,10064.1,10072.1,10075.35,10079.49,10099.4,10097.98,10109.09,10109.09,10109.09,10108.15,10110.78,10108.56,10081.35,10120.97,10123.15,10128.03,10140.77,10144,10141.01,10145.4,10144.94,10147.88,10130.86,10118.79,10170.42,10165.84,10179.94,10178.93,10148.16,10152.95,10142.64,10210.21,10214.95,10228.11,10227.87,10231.38,10247.45,10254.33,10260.17,10258.87,10160.9,10152.35,10175.04,10158.36,10150.81,9946.82,10013.19,9989.19,9977.57,9990.12,10104.29,10177.84,10188.32,10178.73,10204.98,10207.86,10243.9,10270.57,10238.43,10254.68,10257.23,10251.26,10235.62,10237.17,10230.75,10267.03,10274.8,10288.28];
 let retiredChart = null;
 function renderRetired(){
   if(!document.getElementById("chartR")) return;
   if(!retiredChart){
     retiredChart = makeChart({canvas:"chartR",tipBal:"tipBalR",tipDate:"tipDateR",line:"#8f8aa0",fill:"143,138,160",dot:"#b9b1c2"});
-    const start=new Date("2026-06-09T00:00:00"), end=new Date("2026-06-30T00:00:00"), n=RETIRED_CURVE.length;
+    const start=new Date("2026-07-06T00:00:00"), end=new Date("2026-07-19T00:00:00"), n=RETIRED_CURVE.length;
     const dates=RETIRED_CURVE.map((_,i)=> new Date(start.getTime()+(end-start)*(i/(n-1))));
     retiredChart.render(RETIRED_CURVE, dates);
   }
-  const cs=document.getElementById("chartStartR"); if(cs) cs.textContent=(lang==="ko"?"시작 ":"Since ")+"2026-06-09";
-  const cn=document.getElementById("chartNowR"); if(cn) cn.textContent=(lang==="ko"?"마지막 MP ":"Last MP ")+"2026-06-30";
-  // 비활성 Balanced는 21일(≈06-09~06-30) 운용 <30일 → 월수익률 라벨에 "(conv.)"
+  const cs=document.getElementById("chartStartR"); if(cs) cs.textContent=(lang==="ko"?"시작 ":"Since ")+"2026-07-06";
+  const cn=document.getElementById("chartNowR"); if(cn) cn.textContent=(lang==="ko"?"연결해제 ":"Disconnected ")+"2026-07-19";
+  // CRUISE는 13일(07-06~07-19) 운용 <30일 → 월수익률 라벨에 "(conv.)"
   const mLabR=document.getElementById("tMonthlyLabR"); if(mLabR) mLabR.textContent=I18N[lang]["track.m3"]+I18N[lang]["track.m3conv"];
 }
 
@@ -1029,7 +1000,7 @@ function renderAll(){ renderTrack(); renderRetired(); renderFee(); renderCalc();
   resize(); tick();
 })();
 
-window.addEventListener("resize",()=>{ CHARTS.BALANCED.redraw(); CHARTS.FRONTIER.redraw(); retiredChart && retiredChart.redraw(); });
+window.addEventListener("resize",()=>{ CHARTS.FRONTIER.redraw(); retiredChart && retiredChart.redraw(); });
 
 /* ===================== INIT ===================== */
 applyLang("en");
