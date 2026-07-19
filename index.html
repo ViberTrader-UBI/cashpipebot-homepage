@@ -336,7 +336,7 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
   <div class="section-head">
     <span class="eyebrow" data-i18n="track.eyebrow">Live Track Record</span>
     <h2 class="section-title" data-i18n="track.title">Our strategies, running live</h2>
-    <p class="section-desc" data-i18n="track.desc">Real operating-balance histories of our live strategies — FRONTIER and CRUISE — reflected in real time.</p>
+    <p class="section-desc" data-i18n="track.desc">Real operating-balance histories of our live strategies — FRONTIER and AVENGERS — reflected in real time.</p>
   </div>
 
   <!-- FRONTIER (개척형) -->
@@ -364,6 +364,35 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
         <div class="chart-tip chart-tip-bot" id="tipDateF"></div>
         <div class="chart-start" id="chartStartF"></div>
         <div class="chart-now" id="chartNowF"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AVENGERS (매니저봇 셀렉터 — 라이브, data.json BALANCED 키) -->
+  <div class="track-wrap" style="margin-top:22px">
+    <div class="glass track-hero">
+      <div class="track-live"><span class="live-dot"></span><span data-i18n="track.livelabelB">LIVE · AVENGERS Strategy by Toriyama</span></div>
+      <div class="track-headline">
+        <div class="track-equity font-digit" id="tEquityB">$10,000.00</div>
+        <div class="track-pnl font-digit" id="tPnlB">+$0.00</div>
+      </div>
+      <div class="track-meta">
+        <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
+        <div class="cell mret"><div class="l" data-i18n="track.m3" id="tMonthlyLabB">Monthly Return</div><div class="v font-digit" id="tMonthlyB">+0.0%</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m6">Avg profit per take-profit</div><div class="v font-digit"><span id="tAvgTpB">$0.00</span> <span class="v-sub" id="tAvgDetB"></span></div></div>
+        <div class="cell"><div class="l" data-i18n="track.mdd">Max drawdown</div><div class="v font-digit" id="tMddB">0.00%</div></div>
+      </div>
+    </div>
+    <div class="glass track-chart-card">
+      <div class="track-chart-head">
+        <h3 id="chartTitleB">Equity curve</h3>
+      </div>
+      <div class="chart-box">
+        <canvas id="chartB"></canvas>
+        <div class="chart-tip chart-tip-top" id="tipBalB"></div>
+        <div class="chart-tip chart-tip-bot" id="tipDateB"></div>
+        <div class="chart-start" id="chartStartB"></div>
+        <div class="chart-now" id="chartNowB"></div>
       </div>
     </div>
   </div>
@@ -571,8 +600,8 @@ const I18N = {
     "concept.c3.t":"Systematic risk controls","concept.c3.d":"Drawdown brakes, stop-losses and pause guards manage risk systematically — though they can't remove the possibility of loss entirely.",
     "concept.note":"🚨 This is automated, leveraged perpetual-futures trading — not 'interest' or a 'dividend'. Returns are not guaranteed and you can lose some or all of your principal. Any target shown is a goal, not a commitment, and past performance does not guarantee future results.",
     "track.eyebrow":"Live Track Record","track.title":"Our strategies, running live",
-    "track.desc":"Live operating-balance history of our FRONTIER strategy, reflected in real time — plus the disconnected CRUISE record.",
-    "track.livelabelB":"LIVE · CRUISE Strategy by Toriyama","track.livelabelF":"LIVE · FRONTIER Strategy by vibetaku","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly Return","track.m3conv":" (conv.)","track.m3win":" (Last 30D)","track.m3avg":"All-Time","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit per take-profit","track.mdd":"Max drawdown",
+    "track.desc":"Live operating-balance histories of our FRONTIER and AVENGERS strategies, reflected in real time — plus the disconnected CRUISE record.",
+    "track.livelabelB":"LIVE · AVENGERS Strategy by Toriyama","track.livelabelF":"LIVE · FRONTIER Strategy by vibetaku","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly Return","track.m3conv":" (conv.)","track.m3win":" (Last 30D)","track.m3avg":"All-Time","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit per take-profit","track.mdd":"Max drawdown",
     "track.chart":"CRUISE strategy's Balance (Running for 13 days)","track.since":"since 2026.07.06",
     "track.foot":"Figures are wired to the live account and refresh automatically. Past results do not guarantee future performance.",
     "track.disLabel":"⏹ DISCONNECTED · CRUISE Strategy","track.disBadge":"DISCONNECTED",
@@ -622,8 +651,8 @@ const I18N = {
     "concept.c3.t":"체계적인 리스크 관리","concept.c3.d":"드로다운 브레이크, 손절(SL), 일시정지 가드로 리스크를 체계적으로 관리합니다. 다만 손실 가능성을 완전히 없애지는 못합니다.",
     "concept.note":"🚨 이 서비스는 레버리지를 사용하는 무기한 선물 자동매매이며, '이자'나 '배당'이 아닙니다. 수익은 보장되지 않고 원금의 일부 또는 전부를 잃을 수 있습니다. 제시되는 목표치는 약속이 아닌 목표이며, 과거 성과는 미래 수익을 보장하지 않습니다.",
     "track.eyebrow":"실시간 트랙레코드","track.title":"실시간 가동 중인 전략들",
-    "track.desc":"라이브 가동 중인 개척형(FRONTIER) 전략의 실제 운용 잔고 추이(실시간) — 연결해제된 CRUISE 기록 포함.",
-    "track.livelabelB":"LIVE · 순항형 전략 by Toriyama","track.livelabelF":"LIVE · FRONTIER 전략 by vibetaku","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률","track.m3conv":" (환산)","track.m3win":" (최근 30일)","track.m3avg":"전기간","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익","track.mdd":"최대 낙폭",
+    "track.desc":"라이브 가동 중인 개척형(FRONTIER)·AVENGERS 전략의 실제 운용 잔고 추이(실시간) — 연결해제된 CRUISE 기록 포함.",
+    "track.livelabelB":"LIVE · AVENGERS 전략 by Toriyama","track.livelabelF":"LIVE · FRONTIER 전략 by vibetaku","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률","track.m3conv":" (환산)","track.m3win":" (최근 30일)","track.m3avg":"전기간","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익","track.mdd":"최대 낙폭",
     "track.chart":"CRUISE(순항형) 전략 잔고 (가동 13일)","track.since":"2026.07.06 부터",
     "track.foot":"수치는 실제 계좌와 연동되어 자동 갱신됩니다. 과거 성과가 미래 수익을 보장하지는 않습니다.",
     "track.disLabel":"⏹ DISCONNECTED · 순항형(CRUISE) 전략","track.disBadge":"연결해제",
@@ -682,7 +711,7 @@ document.getElementById("langToggle").addEventListener("click",()=>applyLang(lan
    The values below are only a FALLBACK shown if data.json can't be fetched. */
 function fbCurve(end){ const a=[]; for(let i=0;i<19;i++) a.push(+(10000+(end-10000)*(i/18)).toFixed(2)); return a; }
 const LIVE = {
-  BALANCED: { initial:10000, startDate:"2026-07-06", daysRunning:1, currentEquity:10000, monthlyReturnPct:null, tpCount:0, slCount:0, avgTp:0, maxDrawdownPct:0, curve:fbCurve(10000), curveTs:null },
+  BALANCED: { initial:10000, startDate:"2026-07-19", daysRunning:1, currentEquity:10000, monthlyReturnPct:null, tpCount:0, slCount:0, avgTp:0, maxDrawdownPct:0, curve:fbCurve(10000), curveTs:null },
   FRONTIER: { initial:10000, startDate:"2026-06-09", daysRunning:27, currentEquity:11038.08, monthlyReturnPct:null, tpCount:0, slCount:0, avgTp:0, maxDrawdownPct:0, curve:fbCurve(11038.08), curveTs:null }
 };
 
@@ -720,6 +749,7 @@ async function loadLiveData(){
       byKey.BALANCED = d;
     }
     ingest(LIVE.FRONTIER, byKey.FRONTIER);
+    ingest(LIVE.BALANCED, byKey.BALANCED);
   }catch(e){ /* keep fallback values */ }
   renderAll();
 }
@@ -730,7 +760,7 @@ const fmtPct = (n) => (n>=0?"+":"") + n.toFixed(2) + "%";
 
 /* ===================== TRACK RECORD ===================== */
 const CARD_IDS = {
-  BALANCED: {name:"CRUISE",  equity:"tEquityB",pnl:"tPnlB",monthly:"tMonthlyB",monthlyLab:"tMonthlyLabB",avgtp:"tAvgTpB",avgtpDet:"tAvgDetB",maxdd:"tMddB",title:"chartTitleB",canvas:"chartB",tipBal:"tipBalB",tipDate:"tipDateB",start:"chartStartB",now:"chartNowB"},
+  BALANCED: {name:"AVENGERS",equity:"tEquityB",pnl:"tPnlB",monthly:"tMonthlyB",monthlyLab:"tMonthlyLabB",avgtp:"tAvgTpB",avgtpDet:"tAvgDetB",maxdd:"tMddB",title:"chartTitleB",canvas:"chartB",tipBal:"tipBalB",tipDate:"tipDateB",start:"chartStartB",now:"chartNowB",line:"#79b4c9",fill:"121,180,201",dot:"#a6d5e6"},
   FRONTIER: {name:"FRONTIER",equity:"tEquityF",pnl:"tPnlF",monthly:"tMonthlyF",monthlyLab:"tMonthlyLabF",avgtp:"tAvgTpF",avgtpDet:"tAvgDetF",maxdd:"tMddF",title:"chartTitleF",canvas:"chartF",tipBal:"tipBalF",tipDate:"tipDateF",start:"chartStartF",now:"chartNowF"}
 };
 
@@ -805,7 +835,7 @@ function renderCard(key){
   CHARTS[key].render(d.curve, dates);
 }
 
-function renderTrack(){ renderCard("FRONTIER"); }  /* CRUISE는 DISCONNECTED 정적카드(renderRetired) */
+function renderTrack(){ renderCard("FRONTIER"); renderCard("BALANCED"); }  /* CRUISE는 DISCONNECTED 정적카드(renderRetired) */
 
 function pad2(x){return String(x).padStart(2,"0")}
 function fmtDate(dt){
@@ -901,7 +931,7 @@ function makeChart(ids){
   };
 }
 
-const CHARTS = { FRONTIER: makeChart(CARD_IDS.FRONTIER) };
+const CHARTS = { FRONTIER: makeChart(CARD_IDS.FRONTIER), BALANCED: makeChart(CARD_IDS.BALANCED) };
 
 /* ── DISCONNECTED CRUISE — 매니저봇 CRUISE 최종($10,288.28) 스냅샷으로 고정(AVENGERS 전환 전 은퇴) ── */
 const RETIRED_CURVE = [10000,10016.17,10016.17,10022.4,10022.4,10024.22,10046.07,10058.69,10058.65,10058.65,10058.65,10058.65,10064.1,10072.1,10075.35,10079.49,10099.4,10097.98,10109.09,10109.09,10109.09,10108.15,10110.78,10108.56,10081.35,10120.97,10123.15,10128.03,10140.77,10144,10141.01,10145.4,10144.94,10147.88,10130.86,10118.79,10170.42,10165.84,10179.94,10178.93,10148.16,10152.95,10142.64,10210.21,10214.95,10228.11,10227.87,10231.38,10247.45,10254.33,10260.17,10258.87,10160.9,10152.35,10175.04,10158.36,10150.81,9946.82,10013.19,9989.19,9977.57,9990.12,10104.29,10177.84,10188.32,10178.73,10204.98,10207.86,10243.9,10270.57,10238.43,10254.68,10257.23,10251.26,10235.62,10237.17,10230.75,10267.03,10274.8,10288.28];
@@ -1000,7 +1030,7 @@ function renderAll(){ renderTrack(); renderRetired(); renderFee(); renderCalc();
   resize(); tick();
 })();
 
-window.addEventListener("resize",()=>{ CHARTS.FRONTIER.redraw(); retiredChart && retiredChart.redraw(); });
+window.addEventListener("resize",()=>{ CHARTS.FRONTIER.redraw(); CHARTS.BALANCED.redraw(); retiredChart && retiredChart.redraw(); });
 
 /* ===================== INIT ===================== */
 applyLang("en");
