@@ -857,7 +857,20 @@ function makeChart(ids){
     const pad = {l:8,r:8,t:14,b:10}, data = S.data;
     const min = Math.min(...data)*0.999, max = Math.max(...data)*1.001;
     S.ctx = ctx; S.pad = pad; S.w = w; S.h = h;
-    S.X = i => pad.l + (i/(data.length-1))*(w-pad.l-pad.r);
+    // x축을 '시간' 기준으로 배치 — 각 점을 타임스탬프 비율로(index 아님). 데이터가 촘촘한
+    //   날(예: 7/22)이 x축을 넓게 차지하던 문제 해결 → 전체 기간이 달력상 균등하게 퍼짐.
+    //   dates가 없거나 길이 불일치면 기존 index 균등배치로 폴백.
+    const ds = S.dates, n = data.length;
+    let frac;
+    if (ds && ds.length === n && n > 1) {
+      const t0 = ds[0].getTime(), span = (ds[n-1].getTime() - t0) || 1;
+      frac = ds.map(d => (d.getTime() - t0) / span);
+      for (let i = 1; i < n; i++) if (frac[i] < frac[i-1]) frac[i] = frac[i-1];  // 타임스탬프 역행 방어(단조 보장)
+    } else {
+      frac = data.map((_, i) => i / (n - 1));
+    }
+    S.frac = frac;
+    S.X = i => pad.l + frac[i]*(w-pad.l-pad.r);
     S.Y = v => pad.t + (1-(v-min)/((max-min)||1))*(h-pad.t-pad.b);
   }
   function base(){                            // redraw curve using stored geometry
@@ -904,7 +917,11 @@ function makeChart(ids){
     const rect = cv.getBoundingClientRect();
     const mx = e.clientX - rect.left;
     const n = S.data.length;
-    let idx = Math.round((mx - S.pad.l)/(S.w - S.pad.l - S.pad.r)*(n-1));
+    // 시간 기준 배치이므로 index 역산이 아니라 x위치가 가장 가까운 점을 찾음(frac 단조 → 최근접 탐색)
+    const targetFrac = (mx - S.pad.l)/(S.w - S.pad.l - S.pad.r);
+    let idx = 0, best = Infinity;
+    const frac = S.frac || S.data.map((_,i)=> i/(n-1));
+    for (let i = 0; i < n; i++) { const dd = Math.abs(frac[i]-targetFrac); if (dd < best) { best = dd; idx = i; } }
     idx = Math.max(0, Math.min(n-1, idx));
     crosshair(idx);
     const px = S.X(idx);
