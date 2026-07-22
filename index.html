@@ -364,7 +364,6 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
         <div class="chart-start" id="chartStartF"></div>
         <div class="chart-now" id="chartNowF"></div>
       </div>
-      <div class="chart-estnote" id="estNoteF" data-i18n="track.estnote" style="display:none;font-size:.72rem;color:var(--muted);opacity:.82;margin-top:10px;line-height:1.45">◌ Through 07/20, gaps between recorded trades are reconstructed from market prices (bot logged trades only; continuous 5-min recording since 07/20).</div>
     </div>
   </div>
 
@@ -597,7 +596,7 @@ const I18N = {
     "concept.c3.t":"Systematic risk controls","concept.c3.d":"Drawdown brakes, stop-losses and pause guards manage risk systematically — though they can't remove the possibility of loss entirely.",
     "concept.note":"🚨 This is automated, leveraged perpetual-futures trading — not 'interest' or a 'dividend'. Returns are not guaranteed and you can lose some or all of your principal. Any target shown is a goal, not a commitment, and past performance does not guarantee future results.",
     "track.eyebrow":"Live Track Record","track.title":"Our strategies, running live",
-    "track.livelabelB":"LIVE · AVENGERS Strategy by Henry","track.livelabelF":"LIVE · FRONTIER Strategy by vibetaku","track.livelabelFA":"LIVE · FRONTIER-A Strategy by Jamiro","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly Return","track.m3conv":" (conv.)","track.m3win":" (Last 30D)","track.m3avg":"All-Time","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit per take-profit","track.mdd":"Max drawdown","track.estnote":"◌ Through 07/20, gaps between recorded trades are reconstructed from actual market prices (the bot logged on trades only back then). Continuous 5-min recording since 07/20; anchor points are real.",
+    "track.livelabelB":"LIVE · AVENGERS Strategy by Henry","track.livelabelF":"LIVE · FRONTIER Strategy by vibetaku","track.livelabelFA":"LIVE · FRONTIER-A Strategy by Jamiro","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly Return","track.m3conv":" (conv.)","track.m3win":" (Last 30D)","track.m3avg":"All-Time","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit per take-profit","track.mdd":"Max drawdown",
     "track.chart":"CRUISE strategy's Balance (Running for 13 days)","track.since":"since 2026.07.06",
     "track.foot":"Figures are wired to the live account and refresh automatically. Past results do not guarantee future performance.",
     "track.disLabel":"⏹ DISCONNECTED · CRUISE Strategy","track.disBadge":"DISCONNECTED",
@@ -645,7 +644,7 @@ const I18N = {
     "concept.c3.t":"체계적인 리스크 관리","concept.c3.d":"드로다운 브레이크, 손절(SL), 일시정지 가드로 리스크를 체계적으로 관리합니다. 다만 손실 가능성을 완전히 없애지는 못합니다.",
     "concept.note":"🚨 이 서비스는 레버리지를 사용하는 무기한 선물 자동매매이며, '이자'나 '배당'이 아닙니다. 수익은 보장되지 않고 원금의 일부 또는 전부를 잃을 수 있습니다. 제시되는 목표치는 약속이 아닌 목표이며, 과거 성과는 미래 수익을 보장하지 않습니다.",
     "track.eyebrow":"실시간 트랙레코드","track.title":"실시간 가동 중인 전략들",
-    "track.livelabelB":"LIVE · AVENGERS 전략 by Henry","track.livelabelF":"LIVE · FRONTIER 전략 by vibetaku","track.livelabelFA":"LIVE · FRONTIER-A 전략 by Jamiro","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률","track.m3conv":" (환산)","track.m3win":" (최근 30일)","track.m3avg":"전기간","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익","track.mdd":"최대 낙폭","track.estnote":"◌ 7/20 이전은 실제 거래 사이 공백을 당시 시세로 재구성한 추정 구간입니다(그땐 봇이 거래 시점에만 기록). 7/20부터는 5분 연속 기록이며, 거래 시점(앵커)은 실측입니다.",
+    "track.livelabelB":"LIVE · AVENGERS 전략 by Henry","track.livelabelF":"LIVE · FRONTIER 전략 by vibetaku","track.livelabelFA":"LIVE · FRONTIER-A 전략 by Jamiro","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률","track.m3conv":" (환산)","track.m3win":" (최근 30일)","track.m3avg":"전기간","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익","track.mdd":"최대 낙폭",
     "track.chart":"CRUISE(순항형) 전략 잔고 (가동 13일)","track.since":"2026.07.06 부터",
     "track.foot":"수치는 실제 계좌와 연동되어 자동 갱신됩니다. 과거 성과가 미래 수익을 보장하지는 않습니다.",
     "track.disLabel":"⏹ DISCONNECTED · 순항형(CRUISE) 전략","track.disBadge":"연결해제",
@@ -752,7 +751,7 @@ const fmtPct = (n) => (n>=0?"+":"") + n.toFixed(2) + "%";
 
 /* ===================== TRACK RECORD ===================== */
 const CARD_IDS = {
-  FRONTIER: {name:"FRONTIER",equity:"tEquityF",pnl:"tPnlF",monthly:"tMonthlyF",monthlyLab:"tMonthlyLabF",avgtp:"tAvgTpF",avgtpDet:"tAvgDetF",maxdd:"tMddF",title:"chartTitleF",canvas:"chartF",tipBal:"tipBalF",tipDate:"tipDateF",start:"chartStartF",now:"chartNowF",estnote:"estNoteF"},
+  FRONTIER: {name:"FRONTIER",equity:"tEquityF",pnl:"tPnlF",monthly:"tMonthlyF",monthlyLab:"tMonthlyLabF",avgtp:"tAvgTpF",avgtpDet:"tAvgDetF",maxdd:"tMddF",title:"chartTitleF",canvas:"chartF",tipBal:"tipBalF",tipDate:"tipDateF",start:"chartStartF",now:"chartNowF"},
   FRONTIER_A: {name:"FRONTIER-A",equity:"tEquityFA",pnl:"tPnlFA",monthly:"tMonthlyFA",monthlyLab:"tMonthlyLabFA",avgtp:"tAvgTpFA",avgtpDet:"tAvgDetFA",maxdd:"tMddFA",title:"chartTitleFA",canvas:"chartFA",tipBal:"tipBalFA",tipDate:"tipDateFA",start:"chartStartFA",now:"chartNowFA"}
 };
 
@@ -825,8 +824,6 @@ function renderCard(key){
   document.getElementById(ids.now).textContent =
     (lang==="ko"?"현재 ":"Now ") + fmtDate(lastDate);
   CHARTS[key].render(d.curve, dates, d.estRange);
-  const estEl = document.getElementById(ids.estnote);
-  if (estEl) estEl.style.display = d.estRange ? "" : "none";
 }
 
 function renderTrack(){ renderCard("FRONTIER"); renderCard("FRONTIER_A"); }  /* CRUISE는 DISCONNECTED 정적카드(renderRetired) */
@@ -887,13 +884,18 @@ function makeChart(ids){
     ctx.lineTo(X(0),h-pad.b);
     ctx.closePath();
     ctx.fillStyle = grad; ctx.fill();
-    ctx.beginPath();
-    ctx.moveTo(X(0),Y(data[0]));
-    data.forEach((v,i)=>ctx.lineTo(X(i),Y(v)));
-    ctx.lineWidth = 2.5;
-    ctx.strokeStyle = LINE;
-    ctx.lineJoin="round";
-    ctx.stroke();
+    // 곡선: 데이터 공백(연속 두 점 시간차 >12h)은 점선으로 표시(직선 오인 방지, 미래 봇다운 대비 안전망).
+    ctx.lineWidth = 2.5; ctx.strokeStyle = LINE; ctx.lineJoin = "round";
+    const GAP_MS = 12*3600*1000, dts = S.dates;
+    for (let i = 1; i < data.length; i++) {
+      const gap = dts && dts[i] && dts[i-1] && (dts[i].getTime() - dts[i-1].getTime()) > GAP_MS;
+      ctx.beginPath();
+      ctx.setLineDash(gap ? [5,4] : []);
+      ctx.moveTo(X(i-1), Y(data[i-1]));
+      ctx.lineTo(X(i), Y(data[i]));
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
     const lx=X(data.length-1), ly=Y(data[data.length-1]);
     ctx.beginPath(); ctx.arc(lx,ly,4,0,Math.PI*2);
     ctx.fillStyle=DOT; ctx.fill();
