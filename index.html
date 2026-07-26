@@ -406,7 +406,7 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
       </div>
       <div class="track-meta">
         <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m3" id="tMonthlyLabR">Monthly Return</div><div class="v font-digit">+6.4%</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m3" id="tMonthlyLabR">Rate of Return</div><div class="v font-digit">+6.4%<span class="v-sub" data-i18n="track.m3avgmon"> (Avg Monthly)</span><br><span class="v-sub au">(+2.88%, <span data-i18n="track.m3avg">All-Time</span>)</span></div></div>
         <div class="cell"><div class="l" data-i18n="track.mdd">Max drawdown</div><div class="v font-digit">-3.56%</div></div>
       </div>
     </div>
@@ -596,7 +596,7 @@ const I18N = {
     "concept.c3.t":"Systematic risk controls","concept.c3.d":"Drawdown brakes, stop-losses and pause guards manage risk systematically — though they can't remove the possibility of loss entirely.",
     "concept.note":"🚨 This is automated, leveraged perpetual-futures trading — not 'interest' or a 'dividend'. Returns are not guaranteed and you can lose some or all of your principal. Any target shown is a goal, not a commitment, and past performance does not guarantee future results.",
     "track.eyebrow":"Live Track Record","track.title":"Our strategies, running live",
-    "track.livelabelB":"LIVE · AVENGERS Strategy by Henry","track.livelabelF":"LIVE · FRONTIER Strategy by vibetaku","track.livelabelFA":"LIVE · FRONTIER-A Strategy by Jamiro","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Monthly Return","track.m3conv":" (conv.)","track.m3win":" (Last 30D)","track.m3avg":"All-Time","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit per take-profit","track.mdd":"Max drawdown",
+    "track.livelabelB":"LIVE · AVENGERS Strategy by Henry","track.livelabelF":"LIVE · FRONTIER Strategy by vibetaku","track.livelabelFA":"LIVE · FRONTIER-A Strategy by Jamiro","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Rate of Return","track.m3conv":" (conv.)","track.m3win":" (Last 30D)","track.m3avg":"All-Time","track.m3avgmon":" (Avg Monthly)","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit per take-profit","track.mdd":"Max drawdown",
     "track.chart":"CRUISE strategy's Balance (Running for 13 days)","track.since":"since 2026.07.06",
     "track.foot":"Figures are wired to the live account and refresh automatically. Past results do not guarantee future performance.",
     "track.disLabel":"⏹ DISCONNECTED · CRUISE Strategy","track.disBadge":"DISCONNECTED",
@@ -644,7 +644,7 @@ const I18N = {
     "concept.c3.t":"체계적인 리스크 관리","concept.c3.d":"드로다운 브레이크, 손절(SL), 일시정지 가드로 리스크를 체계적으로 관리합니다. 다만 손실 가능성을 완전히 없애지는 못합니다.",
     "concept.note":"🚨 이 서비스는 레버리지를 사용하는 무기한 선물 자동매매이며, '이자'나 '배당'이 아닙니다. 수익은 보장되지 않고 원금의 일부 또는 전부를 잃을 수 있습니다. 제시되는 목표치는 약속이 아닌 목표이며, 과거 성과는 미래 수익을 보장하지 않습니다.",
     "track.eyebrow":"실시간 트랙레코드","track.title":"실시간 가동 중인 전략들",
-    "track.livelabelB":"LIVE · AVENGERS 전략 by Henry","track.livelabelF":"LIVE · FRONTIER 전략 by vibetaku","track.livelabelFA":"LIVE · FRONTIER-A 전략 by Jamiro","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"월 수익률","track.m3conv":" (환산)","track.m3win":" (최근 30일)","track.m3avg":"전기간","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익","track.mdd":"최대 낙폭",
+    "track.livelabelB":"LIVE · AVENGERS 전략 by Henry","track.livelabelF":"LIVE · FRONTIER 전략 by vibetaku","track.livelabelFA":"LIVE · FRONTIER-A 전략 by Jamiro","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"수익률","track.m3conv":" (환산)","track.m3win":" (최근 30일)","track.m3avg":"전기간","track.m3avgmon":" (평균 월수익)","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익","track.mdd":"최대 낙폭",
     "track.chart":"CRUISE(순항형) 전략 잔고 (가동 13일)","track.since":"2026.07.06 부터",
     "track.foot":"수치는 실제 계좌와 연동되어 자동 갱신됩니다. 과거 성과가 미래 수익을 보장하지는 않습니다.",
     "track.disLabel":"⏹ DISCONNECTED · 순항형(CRUISE) 전략","track.disBadge":"연결해제",
@@ -764,36 +764,18 @@ function renderCard(key){
   const now = new Date();
   // 봇이 KST 달력 기준으로 계산한 daysRunning을 우선 사용(반올림/시간대 오차 방지), 없으면 floor 폴백
   const days = (typeof d.daysRunning === "number") ? d.daysRunning : Math.max(1, Math.floor((now - start) / 86400000));
-  const has30 = days >= 30;
-  // 메인 "Monthly Return" = 봇 published(monthlyReturnPct):
-  //   ≥30일 → trailing-30d(Last 30D 롤링), <30일 → 복리환산(conv.)  [src/util/returns.ts]
-  const elapsedDays = Math.max(1, (now - start) / 86400000);
-  let mainMonthly;
-  if (typeof d.monthlyReturnPct === "number") {
-    mainMonthly = d.monthlyReturnPct;
-  } else {
-    mainMonthly = ((eq / d.initial) ** (30 / elapsedDays) - 1) * 100;  // 폴백
-  }
-  // companion "Avg Monthly" = 전체 가동기간 평균 월수익률(기하) = 시작잔고 대비 복리환산.
-  //   ※ 롤링(Last 30D)과 다른 지표 → ≥30일에만 병기(그 전엔 main과 사실상 동일해 생략).
+  // Avg Monthly = 전체 가동기간 평균 월수익률(기하) = 시작잔고 대비 복리환산(= 지난 모든 기간의 기하평균).
   const avgMonthly = ((eq / d.initial) ** (30 / Math.max(1, days)) - 1) * 100;
 
   document.getElementById(ids.equity).textContent = fmtUSD(eq, 2);
   const pnlEl = document.getElementById(ids.pnl);
   pnlEl.textContent = (pnl>=0?"+":"") + fmtUSD(Math.abs(pnl),2);
   pnlEl.style.color = pnl>=0 ? "var(--green)" : "var(--red)";
-  // ≥30일: 메인=Last 30D 롤링 + 금색 companion(전체기간 Avg Monthly). <30일: 복리환산 단독.
+  // 첫 줄 = Avg Monthly(전체기간 기하평균 월수익), 둘째 줄(금색) = All-Time(전체기간 누적 수익률).
   const monEl = document.getElementById(ids.monthly);
-  if (has30) {
-    // 값 옆에 (LAST 30D) 기간 + 다음 줄에 전체기간 평균(금색)
-    monEl.innerHTML = fmtPct(mainMonthly) +
-      ' <span class="v-sub">' + I18N[lang]["track.m3win"].trim().toUpperCase() + '</span>' +
-      '<br><span class="v-sub au">(' + fmtPct(avgMonthly) + ', ' + I18N[lang]["track.m3avg"] + ')</span>';
-  } else {
-    // <30일: 복리환산 단독 (기간 라벨만 값 옆에)
-    monEl.innerHTML = fmtPct(mainMonthly) +
-      ' <span class="v-sub">' + I18N[lang]["track.m3conv"].trim().toUpperCase() + '</span>';
-  }
+  monEl.innerHTML = fmtPct(avgMonthly) +
+    ' <span class="v-sub">' + I18N[lang]["track.m3avgmon"].trim() + '</span>' +
+    '<br><span class="v-sub au">(' + fmtPct(pnlPct) + ', ' + I18N[lang]["track.m3avg"] + ')</span>';
   // 라벨은 헤더만 — "(Last 30D)"는 값 옆으로 이동
   const mLab = document.getElementById(ids.monthlyLab);
   if (mLab) mLab.textContent = I18N[lang]["track.m3"];
@@ -959,8 +941,8 @@ function renderRetired(){
   }
   const cs=document.getElementById("chartStartR"); if(cs) cs.textContent=(lang==="ko"?"시작 ":"Since ")+"2026-07-06";
   const cn=document.getElementById("chartNowR"); if(cn) cn.textContent=(lang==="ko"?"연결해제 ":"Disconnected ")+"2026-07-19";
-  // CRUISE는 13일(07-06~07-19) 운용 <30일 → 월수익률 라벨에 "(conv.)"
-  const mLabR=document.getElementById("tMonthlyLabR"); if(mLabR) mLabR.textContent=I18N[lang]["track.m3"]+I18N[lang]["track.m3conv"];
+  // CRUISE 라벨 = "Rate of Return"(접미사는 .v 안 Avg Monthly/All-Time로 이동)
+  const mLabR=document.getElementById("tMonthlyLabR"); if(mLabR) mLabR.textContent=I18N[lang]["track.m3"];
 }
 
 /* ===================== SUBSCRIPTION FEE MINI ===================== */
