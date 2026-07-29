@@ -715,6 +715,7 @@ function ingest(dst, d){
   if(typeof d.initial === "number")          dst.initial = d.initial;
   if(d.startDate)                            dst.startDate = d.startDate;
   if(typeof d.daysRunning === "number")      dst.daysRunning = d.daysRunning;
+  if(typeof d.startTime === "number")        dst.startTime = d.startTime;
   if(typeof d.currentEquity === "number")    dst.currentEquity = d.currentEquity;
   if(typeof d.monthlyReturnPct === "number") dst.monthlyReturnPct = d.monthlyReturnPct;
   if(typeof d.tpCount === "number")          dst.tpCount = d.tpCount;
@@ -770,7 +771,12 @@ function renderCard(key){
   // 봇이 KST 달력 기준으로 계산한 daysRunning을 우선 사용(반올림/시간대 오차 방지), 없으면 floor 폴백
   const days = (typeof d.daysRunning === "number") ? d.daysRunning : Math.max(1, Math.floor((now - start) / 86400000));
   // Avg Monthly = 전체 가동기간 평균 월수익률(기하) = 시작잔고 대비 복리환산(= 지난 모든 기간의 기하평균).
-  const avgMonthly = ((eq / d.initial) ** (30 / Math.max(1, days)) - 1) * 100;
+  // 실경과 시간 기준 + 24시간 가드 — 텔레그램 MP(returns.ts)와 동일 스펙. startTime 없으면 달력일 폴백.
+  const elapsedDays = (typeof d.startTime === "number")
+    ? (Date.now() - d.startTime) / 86400000
+    : Math.max(1, days);
+  const retReady = elapsedDays >= 1;
+  const avgMonthly = retReady ? ((eq / d.initial) ** (30 / elapsedDays) - 1) * 100 : 0;
 
   document.getElementById(ids.equity).textContent = fmtUSD(eq, 2);
   const pnlEl = document.getElementById(ids.pnl);
@@ -778,7 +784,7 @@ function renderCard(key){
   pnlEl.style.color = pnl>=0 ? "var(--green)" : "var(--red)";
   // 첫 줄 = Avg Monthly(전체기간 기하평균 월수익), 둘째 줄(금색) = All-Time(전체기간 누적 수익률).
   const monEl = document.getElementById(ids.monthly);
-  monEl.innerHTML = fmtPct(avgMonthly) +
+  monEl.innerHTML = (retReady ? fmtPct(avgMonthly) : 'N/A') +
     ' <span class="v-sub">' + I18N[lang]["track.m3avgmon"].trim() + '</span>' +
     '<br><span class="v-sub au">(' + fmtPct(pnlPct) + ', ' + I18N[lang]["track.m3avg"] + ')</span>';
   // 라벨은 헤더만 — "(Last 30D)"는 값 옆으로 이동
