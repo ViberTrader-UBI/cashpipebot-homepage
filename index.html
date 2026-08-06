@@ -890,18 +890,13 @@ function makeChart(ids){
     ctx.lineTo(X(0),h-pad.b);
     ctx.closePath();
     ctx.fillStyle = grad; ctx.fill();
-    // 곡선: 데이터 공백(연속 두 점 시간차 >12h)은 점선으로 표시(직선 오인 방지, 미래 봇다운 대비 안전망).
+    // 곡선: 전 구간 실선. (구버전: 데이터 공백 >12h 구간을 점선 표시했으나 2026-08-07 더쿠님 지시로 실선 통일 —
+    //   공백 구간도 양 끝점은 실측이라 모양 동일, 표시 방식만의 차이)
     ctx.lineWidth = 2.5; ctx.strokeStyle = LINE; ctx.lineJoin = "round";
-    const GAP_MS = 12*3600*1000, dts = S.dates;
-    for (let i = 1; i < data.length; i++) {
-      const gap = dts && dts[i] && dts[i-1] && (dts[i].getTime() - dts[i-1].getTime()) > GAP_MS;
-      ctx.beginPath();
-      ctx.setLineDash(gap ? [5,4] : []);
-      ctx.moveTo(X(i-1), Y(data[i-1]));
-      ctx.lineTo(X(i), Y(data[i]));
-      ctx.stroke();
-    }
-    ctx.setLineDash([]);
+    ctx.beginPath();
+    ctx.moveTo(X(0), Y(data[0]));
+    for (let i = 1; i < data.length; i++) ctx.lineTo(X(i), Y(data[i]));
+    ctx.stroke();
     const lx=X(data.length-1), ly=Y(data[data.length-1]);
     ctx.beginPath(); ctx.arc(lx,ly,4,0,Math.PI*2);
     ctx.fillStyle=DOT; ctx.fill();
