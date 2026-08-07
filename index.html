@@ -1055,5 +1055,78 @@ window.addEventListener("resize",()=>{ CHARTS.FRONTIER.redraw(); CHARTS.FRONTIER
 applyLang("en");
 loadLiveData();
 </script>
+
+<!-- ── Web Chat Widget (relay → Telegram) ─────────────────────────────── -->
+<style>
+#cpb-chat-btn{position:fixed;right:22px;bottom:22px;z-index:9000;width:56px;height:56px;border-radius:50%;
+  background:linear-gradient(135deg,#f1d692,#c9a961);border:none;cursor:pointer;font-size:1.45rem;
+  box-shadow:0 4px 18px rgba(0,0,0,.45);transition:transform .15s}
+#cpb-chat-btn:hover{transform:scale(1.08)}
+#cpb-chat{position:fixed;right:22px;bottom:90px;z-index:9001;width:min(340px,calc(100vw - 44px));height:440px;
+  background:#141008;border:1px solid rgba(241,214,146,.35);border-radius:16px;display:none;flex-direction:column;
+  overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.6);font-size:.92rem}
+#cpb-chat.open{display:flex}
+#cpb-chat header{padding:12px 16px;background:rgba(241,214,146,.08);border-bottom:1px solid rgba(241,214,146,.18);
+  color:#f1d692;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+#cpb-chat header button{background:none;border:none;color:#f4ecd9;cursor:pointer;font-size:1rem}
+#cpb-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.cpb-m{max-width:82%;padding:8px 12px;border-radius:12px;line-height:1.45;white-space:pre-wrap;word-break:break-word}
+.cpb-u{align-self:flex-end;background:rgba(241,214,146,.16);color:#f4ecd9;border-bottom-right-radius:4px}
+.cpb-a{align-self:flex-start;background:rgba(255,255,255,.06);color:#f4ecd9;border-bottom-left-radius:4px}
+.cpb-sys{align-self:center;color:#9a8f76;font-size:.8rem;text-align:center}
+.cpb-sys a{color:#f1d692}
+#cpb-form{display:flex;gap:8px;padding:10px;border-top:1px solid rgba(241,214,146,.18)}
+#cpb-in{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(241,214,146,.25);border-radius:10px;
+  color:#f4ecd9;padding:9px 12px;outline:none}
+#cpb-send{background:linear-gradient(135deg,#f1d692,#c9a961);border:none;border-radius:10px;padding:0 16px;
+  font-weight:700;cursor:pointer;color:#1a1408}
+</style>
+<button id="cpb-chat-btn" title="Chat with us" aria-label="Chat with us">💬</button>
+<div id="cpb-chat" role="dialog" aria-label="Support chat">
+  <header><span>💬 CashPipeBot Support</span><button id="cpb-close" aria-label="Close">✕</button></header>
+  <div id="cpb-msgs"></div>
+  <form id="cpb-form"><input id="cpb-in" maxlength="1000" placeholder="Type your question..." autocomplete="off"><button id="cpb-send" type="submit">➤</button></form>
+</div>
+<script>
+(function(){
+  var EP = "https://chat.cashpipebot.com";
+  var box=document.getElementById("cpb-chat"), btn=document.getElementById("cpb-chat-btn"),
+      msgs=document.getElementById("cpb-msgs"), form=document.getElementById("cpb-form"),
+      inp=document.getElementById("cpb-in");
+  var sid = localStorage.getItem("cpb_sid");
+  if(!sid){ sid = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, function(c){
+      return (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c/4).toString(16);});
+    localStorage.setItem("cpb_sid", sid); }
+  var seen = 0, timer = null, fellBack = false;
+  function el(cls, html){ var d=document.createElement("div"); d.className="cpb-m "+cls; d.innerHTML=html; msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight; return d; }
+  function esc(t){ return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function fallback(){ if(fellBack) return; fellBack=true;
+    el("cpb-sys",'Live chat is warming up. Meanwhile, DM us on Telegram: <a href="https://t.me/CashPipeBot_DM" target="_blank" rel="noopener">@CashPipeBot_DM</a>'); }
+  function poll(){
+    fetch(EP+"/chat/poll?session="+sid+"&after="+seen).then(function(r){return r.json();}).then(function(j){
+      (j.msgs||[]).forEach(function(m){ if(m.from==="a") el("cpb-a", esc(m.text)); });
+      seen = j.n || seen;
+    }).catch(function(){});
+  }
+  btn.addEventListener("click", function(){
+    box.classList.toggle("open");
+    if(box.classList.contains("open")){
+      if(!msgs.childElementCount) el("cpb-sys","Ask anything — our team replies here, usually within a few hours. (Non-custodial software; not investment advice.)");
+      seen = msgs.querySelectorAll(".cpb-u,.cpb-a").length ? seen : 0;
+      poll(); timer = setInterval(poll, 3500); inp.focus();
+    } else { clearInterval(timer); }
+  });
+  document.getElementById("cpb-close").addEventListener("click", function(){ box.classList.remove("open"); clearInterval(timer); });
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var t = inp.value.trim(); if(!t) return;
+    el("cpb-u", esc(t)); inp.value="";
+    fetch(EP+"/chat/send", {method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({session: sid, text: t})
+    }).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ seen = j.n || seen; })
+      .catch(function(){ fallback(); });
+  });
+})();
+</script>
 </body>
 </html>
