@@ -298,7 +298,7 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
     <a href="#track" class="btn btn-ghost" data-i18n="hero.cta2">See live track record</a>
   </div>
   <div class="hero-badges">
-    <div class="hbadge"><div class="v">N%+</div><div class="l" data-i18n="hero.b2">Monthly goal · not guaranteed</div></div>
+    <div class="hbadge"><div class="v">Rules-based</div><div class="l" data-i18n="hero.b2">Strategy rules you select</div></div>
     <div class="hbadge"><div class="v">Non-custodial</div><div class="l" data-i18n="hero.b1">Your keys, your coins</div></div>
     <div class="hbadge"><div class="v">24/7</div><div class="l" data-i18n="hero.b3">Automated</div></div>
   </div>
@@ -310,7 +310,7 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
   <div class="section-head">
     <span class="eyebrow" data-i18n="concept.eyebrow">The Concept</span>
     <h2 class="section-title" data-i18n="concept.title">How CashPipeBot works</h2>
-    <p class="section-desc" data-i18n="concept.desc">CashPipeBot is trading software that auto-executes orders on your own perpetual-futures DEX account, following the market-neutral-style strategy rules you select — aiming for a sustainable N%+ per month. (This is a target, not a guarantee.)</p>
+    <p class="section-desc" data-i18n="concept.desc">CashPipeBot is trading software that auto-executes orders on your own perpetual-futures DEX account, following the market-neutral-style strategy rules you select — it aims to capture repeating market structure rather than predict direction.</p>
     <p class="concept-risk" data-i18n="concept.risk">※ Risk of loss of principal applies; returns are not guaranteed.</p>
   </div>
   <div class="concept-grid">
@@ -408,7 +408,7 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
       </div>
       <div class="track-meta">
         <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m3" id="tMonthlyLabR">Rate of Return</div><div class="v font-digit">+6.4%<span class="v-sub" data-i18n="track.m3avgmon"> (Avg Monthly)</span><br><span class="v-sub au">(+2.88%, <span data-i18n="track.m3avg">All-Time</span>)</span></div></div>
+        <div class="cell"><div class="l" data-i18n="track.m3" id="tMonthlyLabR">Rate of Return</div><div class="v font-digit">+2.88%<span class="v-sub"> (<span data-i18n="track.m3avg">All-Time</span> · <span data-i18n="track.disDays">13 days, real trading</span>)</span></div></div>
         <div class="cell"><div class="l" data-i18n="track.mdd">Max drawdown</div><div class="v font-digit">-3.56%</div></div>
       </div>
     </div>
@@ -467,6 +467,17 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
   </div>
 </section>
 
+<!-- RISK DISCLOSURE (필수 고지 — 규칙4: 접힘·푸터 소글씨 금지, 성과 영역과 동일 위치계층) -->
+<section id="risk" class="section">
+  <div class="section-head">
+    <span class="eyebrow" data-i18n="risk.eyebrow">Important</span>
+    <h2 class="section-title" data-i18n="risk.title">Risk disclosure</h2>
+  </div>
+  <div class="glass" style="max-width:860px;margin:0 auto;padding:24px 26px;border-color:rgba(241,214,146,.4)">
+    <div data-i18n="risk.body" style="font-size:.95rem"><ul style='margin:0;padding-left:1.15em;line-height:1.75'><li>This service is <b>software that automates crypto perpetual-futures trading</b>. Perpetual futures are leveraged products — <b>total loss of principal and forced liquidation can occur</b>.</li><li>This is <b>not</b> an investment-advisory or discretionary-investment-management service provided by a licensed, registered, or filed financial-investment business.</li><li>Funds are held in <b>your own exchange account</b>; we have <b>no withdrawal or transfer authority</b>.</li><li>All trading profit and loss accrues <b>entirely to you</b>; we <b>do not guarantee any returns</b>.</li><li>Exchange outages, API errors, network latency, or sharp market moves may cause the strategy to <b>execute other than intended</b>.</li><li><b>Past performance does not guarantee future returns.</b></li></ul></div>
+  </div>
+</section>
+
 <!-- SUBSCRIPTION -->
 <section id="subscription" class="section">
   <div class="section-head">
@@ -476,10 +487,10 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
   </div>
   <div class="sub-grid">
     <div class="glass sub-card">
-      <div class="sub-fee-sub" data-i18n="sub.feesub">Each $5,000-wide tier is a fixed fee — 1% of the tier's upper limit — billed every 10 days, in arrears (postpaid). Minimum operating balance: $10,000. Pay in USDC on Arbitrum One; payments are detected automatically.</div>
+      <div class="sub-fee-sub" data-i18n="sub.feesub">Each $5,000-wide tier is a fixed fee — 1% of the tier's upper limit — billed every 10 days, in arrears (postpaid). Minimum balance: $10,000. Pay in USDC on Arbitrum One; payments are detected automatically.</div>
       <div class="tier-table">
         <div class="tier-head" style="display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:8px">
-          <span data-i18n="sub.thBal">Operating balance</span>
+          <span data-i18n="sub.thBal">Account balance</span>
           <span style="text-align:right" data-i18n="sub.thFee">Fee / 10 days</span>
           <span style="text-align:right" data-i18n="sub.thMo">≈ / month</span>
         </div>
@@ -499,7 +510,7 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
     <div class="glass sub-card">
       <div class="fee-mini" style="margin-top:0;padding-top:0;border-top:none">
         <h3 style="font-size:1.15rem;margin-bottom:18px" data-i18n="sub.estimate">Find your fee</h3>
-        <label data-i18n="sub.feelabel">Operating balance (USD)</label>
+        <label data-i18n="sub.feelabel">Account balance (USD)</label>
         <div class="field">
           <span>$</span>
           <input type="number" id="feeBalance" value="20000" min="0" max="1000000" step="100">
@@ -583,6 +594,8 @@ body[data-lang="ko"]{font-family:'Noto Sans KR','Outfit',sans-serif}
     </a>
   </div>
   <small data-i18n="foot.copy">CashPipeBot is trading software. It does not provide investment advice or discretionary asset management, does not hold or have access to customer funds, and does not guarantee any returns. Crypto derivatives trading is high-risk; you may lose your entire principal. Past performance, including backtests and live track records, does not guarantee future results. Automated, leveraged perpetual-futures trading — not interest or a dividend.</small>
+  <!-- TODO(규칙5): 아래 사업자 표시 값 확인 후 채울 것 (전자상거래법 통신판매업 표시의무 대응) -->
+  <small class="fbiz" data-i18n="foot.biz" style="display:block;margin-top:12px;opacity:.85">Business name: TODO · Representative: TODO · Address: TODO · Contact: TODO · Email: admin@cashpipebot.com · Business Reg. No.: TODO · E-commerce (통신판매업) Reg. No.: TODO</small>
 </footer>
 
 <script>
@@ -595,19 +608,20 @@ const I18N = {
     "hero.title":"Put your stablecoins<br>to <span class='grad-text'>work</span>.",
     "hero.lead":"CashPipeBot is automated trading software on a perpetual-futures DEX — it auto-executes orders according to the strategy rules you select, aiming to grow your stablecoin balance.","hero.risk":"<b>Profits and principal are not guaranteed.</b>",
     "hero.cta1":"Get started","hero.cta2":"See live track record",
-    "hero.b1":"Your keys, your coins","hero.b2":"Monthly goal · not guaranteed","hero.b3":"Automated","hero.scroll":"SCROLL ↓",
+    "hero.b1":"Your keys, your coins","hero.b2":"Strategy rules you select","hero.b3":"Automated","hero.scroll":"SCROLL ↓",
     "concept.eyebrow":"The Concept","concept.title":"How CashPipeBot works",
-    "concept.desc":"CashPipeBot is trading software that auto-executes orders on your own perpetual-futures DEX account, following the market-neutral-style strategy rules you select — aiming for a sustainable N%+ per month. (This is a target, not a guarantee.)",
+    "concept.desc":"CashPipeBot is trading software that auto-executes orders on your own perpetual-futures DEX account, following the market-neutral-style strategy rules you select — it aims to capture repeating market structure rather than predict direction.",
     "concept.risk":"※ Risk of loss of principal applies; returns are not guaranteed.",
     "concept.c1.t":"Stablecoin in, trading results out","concept.c1.d":"Your funds stay in your own wallet and your own exchange account — non-custodial. The bot only trades via API and never holds your money. The gains and the losses are yours.",
     "concept.c2.t":"Market-neutral by design","concept.c2.d":"A BTC lead leg paired with an ETH/SOL counter leg trades spread mean-reversion, aiming to profit from convergence rather than market direction. It can still lose in adverse conditions.",
     "concept.c3.t":"Systematic risk controls","concept.c3.d":"Drawdown brakes, stop-losses and pause guards manage risk systematically — though they can't remove the possibility of loss entirely.",
     "concept.note":"🚨 This is automated, leveraged perpetual-futures trading — not 'interest' or a 'dividend'. Returns are not guaranteed and you can lose some or all of your principal. Any target shown is a goal, not a commitment, and past performance does not guarantee future results.",
+    "risk.eyebrow":"Important","risk.title":"Risk disclosure","risk.body":"<ul style='margin:0;padding-left:1.15em;line-height:1.75'><li>This service is <b>software that automates crypto perpetual-futures trading</b>. Perpetual futures are leveraged products — <b>total loss of principal and forced liquidation can occur</b>.</li><li>This is <b>not</b> an investment-advisory or discretionary-investment-management service provided by a licensed, registered, or filed financial-investment business.</li><li>Funds are held in <b>your own exchange account</b>; we have <b>no withdrawal or transfer authority</b>.</li><li>All trading profit and loss accrues <b>entirely to you</b>; we <b>do not guarantee any returns</b>.</li><li>Exchange outages, API errors, network latency, or sharp market moves may cause the strategy to <b>execute other than intended</b>.</li><li><b>Past performance does not guarantee future returns.</b></li></ul>",
     "track.eyebrow":"Live Track Record","track.title":"Our strategies, running live",
     "track.livelabelB":"LIVE · AVENGERS Strategy by Henry","track.livelabelF":"LIVE · FRONTIER-A Strategy by Taku & Jamiro","track.livelabelFA":"LIVE · AVENGERS Strategy by Henry","track.m1":"Initial balance","track.m2":"Days running","track.m3":"Rate of Return","track.m3conv":" (conv.)","track.m3win":" (Last 30D)","track.m3avg":"All-Time","track.m3avgmon":" (Avg Monthly)","track.m4":"Strategy","track.m5":"Take-profits / Stop-losses","track.m6":"Avg profit per take-profit","track.mdd":"Max drawdown",
     "track.chart":"CRUISE strategy's Balance (Running for 13 days)","track.since":"since 2026.07.06",
-    "track.foot":"Live results shown are past performance over a short period, have no statistical significance, and do not guarantee future returns. Crypto derivatives trading involves a risk of losing your entire principal. Figures are wired to the live accounts and refresh automatically.",
-    "track.disLabel":"⏹ DISCONNECTED · CRUISE Strategy","track.disBadge":"DISCONNECTED",
+    "track.foot":"Each card is a single real (live) trading account, with the period running from that strategy's start date to now; figures are wired to those accounts and refresh automatically. Results shown are past performance over a short period, have no statistical significance, and do not guarantee future returns. Crypto derivatives trading involves a risk of losing your entire principal.",
+    "track.disLabel":"⏹ DISCONNECTED · CRUISE Strategy","track.disBadge":"DISCONNECTED","track.disDays":"13 days, real trading",
     "nav.iface":"Interface",
     "iface.eyebrow":"The Interface","iface.title":"Your bot lives in Telegram",
     "iface.desc":"No app to install, no dashboard to learn. Check your balance, flip auto-betting on or off, switch strategy and view your profit graph — all from one chat.",
@@ -617,12 +631,12 @@ const I18N = {
     "iface.f4t":"My profit graph","iface.f4d":"See your performance curve in real time — up or down.",
     "iface.f5t":"My position info","iface.f5d":"Inspect open rounds and live positions any time.",
     "sub.eyebrow":"Subscription","sub.title":"Simple tiered pricing","sub.desc":"A flat fee per balance tier — no profit-sharing, no hidden cuts.",
-    "sub.feesub":"Each $5,000-wide tier is a fixed fee — 1% of the tier's upper limit — billed every 10 days, in arrears (postpaid). Minimum operating balance: $10,000. The bot sends your invoice 48h before each due date — pay in USDC on Arbitrum One to our team wallet, and payment is detected automatically.","sub.notavail":"Not available",
-    "sub.thBal":"Operating balance","sub.thFee":"Fee / 10 days","sub.thMo":"≈ / month",
+    "sub.feesub":"Each $5,000-wide tier is a fixed fee — 1% of the tier's upper limit — billed every 10 days, in arrears (postpaid). Minimum balance: $10,000. The bot sends your invoice 48h before each due date — pay in USDC on Arbitrum One to our team wallet, and payment is detected automatically.","sub.notavail":"Not available",
+    "sub.thBal":"Account balance","sub.thFee":"Fee / 10 days","sub.thMo":"≈ / month",
     "sub.tiernote":"✓ Your fee is fixed within each tier — it won't creep up as your balance moves inside the range. Crossing a tier boundary moves you to the next tier (e.g. $15,000.05 → $200). No performance fee: all gains and losses are yours.",
     "sub.min":"Min $5,000","sub.max":"Max $1,000,000",
     "sub.note":"💬 Want to run more than $50,000? DM <a href='https://t.me/CashPipeBot_DM' target='_blank' rel='noopener'>@CashPipeBot_DM</a> on Telegram.",
-    "sub.estimate":"Find your fee","sub.feelabel":"Operating balance (USD)","sub.fee10":"Every 10 days","sub.feemo":"~ Per month",
+    "sub.estimate":"Find your fee","sub.feelabel":"Account balance (USD)","sub.fee10":"Every 10 days","sub.feemo":"~ Per month",
     "sub.feenote":"Fee is set by your balance tier. Monthly ≈ three 10-day cycles.",
     "apply.eyebrow":"Join","apply.title":"Ready to get started?","apply.desc":"Register in a couple of minutes. We'll help you onboard your own account onto the strategy you choose.","apply.btn":"Apply now →","apply.guide":"📘 Beginner's Guide","apply.guidenote":"New to MetaMask, Lighter, or API keys? The beginner's guide walks you through every step — in your language.",
     "calc.eyebrow":"Scenario Simulator","calc.title":"Explore hypothetical scenarios",
@@ -634,28 +648,30 @@ const I18N = {
     "calc.r2":"After 1 year","calc.r2s":"balance after 1 hypothetical year (compounded)",
     "calc.disc":"Real results can be positive or negative, and this figure excludes the subscription fee.",
     "foot.channel":"Telegram Channel","foot.dm":"DM Admin","foot.email":"Email us",
-    "foot.copy":"CashPipeBot is trading software. It does not provide investment advice or discretionary asset management, does not hold or have access to customer funds, and does not guarantee any returns. Crypto derivatives trading is high-risk; you may lose your entire principal. Past performance, including backtests and live track records, does not guarantee future results. Automated, leveraged perpetual-futures trading — not interest or a dividend."
+    "foot.copy":"CashPipeBot is trading software. It does not provide investment advice or discretionary asset management, does not hold or have access to customer funds, and does not guarantee any returns. Crypto derivatives trading is high-risk; you may lose your entire principal. Past performance, including backtests and live track records, does not guarantee future results. Automated, leveraged perpetual-futures trading — not interest or a dividend.",
+    "foot.biz":"Business name: TODO · Representative: TODO · Address: TODO · Contact: TODO · Email: admin@cashpipebot.com · Business Reg. No.: TODO · E-commerce (통신판매업) Reg. No.: TODO"
   },
   ko: {
-    "nav.concept":"컨셉","nav.track":"운용 현황","nav.sub":"구독료","nav.apply":"신청","nav.calc":"시뮬레이터",
+    "nav.concept":"컨셉","nav.track":"트랙레코드","nav.sub":"구독료","nav.apply":"신청","nav.calc":"시뮬레이터",
     "ico.channel":"텔레그램 채널","ico.dm":"관리자 DM","ico.email":"협업 제안 (이메일)",
     "hero.eyebrow":"자동 알고리즘 트레이딩 소프트웨어",
     "hero.title":"잠자는 스테이블코인을<br><span class='grad-text'>일하게</span> 하세요.",
     "hero.lead":"캐시파이프봇은 무기한 선물 DEX에서 이용자가 선택한 전략 규칙에 따라 주문을 자동 실행하는 트레이딩 소프트웨어로, 스테이블코인 잔고 성장을 목표로 합니다.","hero.risk":"<b>수익과 원금은 보장되지 않습니다.</b>",
     "hero.cta1":"시작하기","hero.cta2":"실시간 트랙레코드 보기",
-    "hero.b1":"키와 코인은 본인 소유","hero.b2":"월 목표 · 보장 아님","hero.b3":"24시간 자동","hero.scroll":"스크롤 ↓",
+    "hero.b1":"키와 코인은 본인 소유","hero.b2":"이용자가 선택한 전략 규칙","hero.b3":"24시간 자동","hero.scroll":"스크롤 ↓",
     "concept.eyebrow":"컨셉","concept.title":"캐시파이프봇 작동 방식",
-    "concept.desc":"캐시파이프봇은 이용자 본인의 무기한 선물 DEX 계정에서, 이용자가 선택한 시장 중립 지향 전략 규칙에 따라 주문을 자동 실행하는 트레이딩 소프트웨어입니다. 지속 가능한 월 N% 이상을 목표로 합니다. (목표치이며 보장되지 않습니다.)",
+    "concept.desc":"캐시파이프봇은 이용자 본인의 무기한 선물 DEX 계정에서, 이용자가 선택한 시장 중립 지향 전략 규칙에 따라 주문을 자동 실행하는 트레이딩 소프트웨어입니다. 방향을 예측하기보다 반복되는 시장 구조를 겨냥합니다.",
     "concept.risk":"※ 원금 손실 위험이 있으며, 수익은 보장되지 않습니다.",
     "concept.c1.t":"넣으면 매매 결과로 돌려받아요","concept.c1.d":"자금은 본인 지갑과 본인 거래소 계좌에 그대로 있습니다 — 비수탁(non-custodial). 봇은 API로 매매만 할 뿐, 당신의 돈을 절대 보관하지 않습니다. 수익도 손실도 본인 몫입니다.",
     "concept.c2.t":"애초에 시장 중립 지향","concept.c2.d":"BTC 주 포지션에 ETH/SOL 반대 포지션을 짝지어 스프레드 평균회귀를 거래합니다. 시장 방향이 아니라 수렴에서 수익을 노리지만, 불리한 상황에선 손실도 날 수 있습니다.",
     "concept.c3.t":"체계적인 리스크 관리","concept.c3.d":"드로다운 브레이크, 손절(SL), 일시정지 가드로 리스크를 체계적으로 관리합니다. 다만 손실 가능성을 완전히 없애지는 못합니다.",
     "concept.note":"🚨 이 서비스는 레버리지를 사용하는 무기한 선물 자동매매이며, '이자'나 '배당'이 아닙니다. 수익은 보장되지 않고 원금의 일부 또는 전부를 잃을 수 있습니다. 제시되는 목표치는 약속이 아닌 목표이며, 과거 성과는 미래 수익을 보장하지 않습니다.",
+    "risk.eyebrow":"필수 고지","risk.title":"위험 고지","risk.body":"<ul style='margin:0;padding-left:1.15em;line-height:1.75'><li>본 서비스는 <b>암호화폐 무기한 선물 거래를 자동화하는 소프트웨어</b>입니다. 무기한 선물은 레버리지 상품으로 <b>원금 전액 손실 및 강제 청산</b>이 발생할 수 있습니다.</li><li>본 서비스는 <b>금융투자업 인가·등록·신고를 받은 사업자가 제공하는 투자자문 또는 투자일임 서비스가 아닙니다.</b></li><li>자금은 <b>이용자 본인 명의의 거래소 계좌</b>에 보관되며, 당사는 <b>출금·이체 권한을 보유하지 않습니다.</b></li><li>매매 결과에 따른 손익은 <b>전적으로 이용자에게 귀속</b>되며, 당사는 <b>어떠한 수익도 보장하지 않습니다.</b></li><li>거래소 장애, API 오류, 네트워크 지연, 시장 급변동으로 인해 <b>전략이 의도대로 실행되지 않을 수 있습니다.</b></li><li><b>과거 성과는 미래 수익을 보장하지 않습니다.</b></li></ul>",
     "track.eyebrow":"실시간 트랙레코드","track.title":"실시간 가동 중인 전략들",
     "track.livelabelB":"LIVE · AVENGERS 전략 by Henry","track.livelabelF":"LIVE · FRONTIER-A 전략 by Taku & Jamiro","track.livelabelFA":"LIVE · AVENGERS 전략 by Henry","track.m1":"초기 잔고","track.m2":"가동 일수","track.m3":"수익률","track.m3conv":" (환산)","track.m3win":" (최근 30일)","track.m3avg":"전기간","track.m3avgmon":" (평균 월수익)","track.m4":"전략","track.m5":"익절 / 손절 횟수","track.m6":"익절당 평균 수익","track.mdd":"최대 낙폭",
     "track.chart":"CRUISE(순항형) 전략 잔고 (가동 13일)","track.since":"2026.07.06 부터",
-    "track.foot":"표시된 라이브 성과는 짧은 기간의 과거 실적으로 통계적 유의성이 없으며, 미래 수익을 보장하지 않습니다. 암호화폐 파생상품 거래는 원금 전액을 잃을 위험이 있습니다. 수치는 실제 계좌와 연동되어 자동 갱신됩니다.",
-    "track.disLabel":"⏹ DISCONNECTED · 순항형(CRUISE) 전략","track.disBadge":"연결해제",
+    "track.foot":"각 카드는 실계좌 1개의 실거래 기록이며, 산출 기간은 각 전략의 가동 시작일부터 현재까지입니다(수치는 해당 실계좌와 연동되어 자동 갱신). 표시된 성과는 짧은 기간의 과거 실적으로 통계적 유의성이 없으며, 미래 수익을 보장하지 않습니다. 암호화폐 파생상품 거래는 원금 전액을 잃을 위험이 있습니다.",
+    "track.disLabel":"⏹ DISCONNECTED · 순항형(CRUISE) 전략","track.disBadge":"연결해제","track.disDays":"13일, 실거래",
     "nav.iface":"인터페이스",
     "iface.eyebrow":"인터페이스","iface.title":"봇은 텔레그램 안에서 돌아갑니다",
     "iface.desc":"설치할 앱도, 익혀야 할 대시보드도 없습니다. 잔고 확인, 자동 매매 on/off, 전략 전환, 수익 그래프 보기까지 — 채팅 하나로 끝납니다.",
@@ -665,12 +681,12 @@ const I18N = {
     "iface.f4t":"내 수익 그래프","iface.f4d":"성과 곡선을 실시간으로 확인하세요 — 오르든 내리든.",
     "iface.f5t":"내 포지션 정보","iface.f5d":"열린 라운드와 실시간 포지션을 언제든 확인하세요.",
     "sub.eyebrow":"구독료","sub.title":"간단한 구간별 정액 요금","sub.desc":"잔고 구간별 정액 요금. 수익 배분도, 숨은 비용도 없습니다.",
-    "sub.feesub":"$5,000 단위 구간마다 정액입니다 — 각 구간 상한의 1% — 10일마다 후불로 청구됩니다. 최소 운용 잔고는 $10,000입니다. 마감 48시간 전에 봇이 청구서를 보내드리며, 팀 지갑으로 USDC(Arbitrum One)를 보내시면 자동으로 확인됩니다.","sub.notavail":"사용 불가",
-    "sub.thBal":"운용 잔고","sub.thFee":"10일 구독료","sub.thMo":"≈ 월 환산",
+    "sub.feesub":"$5,000 단위 구간마다 정액입니다 — 각 구간 상한의 1% — 10일마다 후불로 청구됩니다. 최소 이용 잔고는 $10,000입니다. 마감 48시간 전에 봇이 청구서를 보내드리며, 팀 지갑으로 USDC(Arbitrum One)를 보내시면 자동으로 확인됩니다.","sub.notavail":"사용 불가",
+    "sub.thBal":"이용 잔고","sub.thFee":"10일 구독료","sub.thMo":"≈ 월 환산",
     "sub.tiernote":"✓ 구간 안에서는 요금이 고정입니다 — 잔고가 구간 내에서 오르내려도 요금이 늘지 않습니다. 구간 경계를 초과하면 다음 구간이 적용됩니다 (예: $15,000.05 → $200). 성과 보수 없음: 수익도 손실도 모두 본인 몫입니다.",
     "sub.min":"최저 $5,000","sub.max":"최고 $1,000,000",
-    "sub.note":"💬 $50,000를 초과해 운용하고 싶으신가요? 텔레그램 <a href='https://t.me/CashPipeBot_DM' target='_blank' rel='noopener'>@CashPipeBot_DM</a>로 DM 주세요.",
-    "sub.estimate":"내 구독료 찾기","sub.feelabel":"운용 잔고 (USD)","sub.fee10":"10일마다","sub.feemo":"월 환산",
+    "sub.note":"💬 $50,000를 초과해 이용하고 싶으신가요? 텔레그램 <a href='https://t.me/CashPipeBot_DM' target='_blank' rel='noopener'>@CashPipeBot_DM</a>로 DM 주세요.",
+    "sub.estimate":"내 구독료 찾기","sub.feelabel":"이용 잔고 (USD)","sub.fee10":"10일마다","sub.feemo":"월 환산",
     "sub.feenote":"요금은 잔고 구간으로 정해집니다. 월 환산은 10일 주기 3회 기준.",
     "apply.eyebrow":"신청","apply.title":"시작할 준비가 되셨나요?","apply.desc":"몇 분이면 등록 완료. 본인 계좌를 선택하신 전략으로 온보딩하도록 도와드립니다.","apply.btn":"지금 신청하기 →","apply.guide":"📘 초보자 가이드","apply.guidenote":"MetaMask·Lighter·API 키 설정이 처음이신가요? 초보자 가이드가 모든 단계를 언어별로 안내합니다.",
     "calc.eyebrow":"시나리오 시뮬레이터","calc.title":"가정 시나리오 살펴보기",
@@ -682,7 +698,8 @@ const I18N = {
     "calc.r2":"1년 후","calc.r2s":"가정 1년 후 잔고 (복리)",
     "calc.disc":"실제 결과는 플러스 또는 마이너스가 될 수 있으며, 구독료는 제외된 수치입니다.",
     "foot.channel":"텔레그램 채널","foot.dm":"관리자 DM","foot.email":"이메일 문의",
-    "foot.copy":"캐시파이프봇은 트레이딩 소프트웨어입니다. 투자자문이나 투자일임(자산운용)을 제공하지 않고, 고객 자금을 보관하거나 접근할 수 없으며, 어떠한 수익도 보장하지 않습니다. 암호화폐 파생상품 거래는 고위험이며 원금 전액을 잃을 수 있습니다. 백테스트·라이브 트랙레코드를 포함한 과거 성과는 미래 결과를 보장하지 않습니다. 레버리지를 사용하는 무기한 선물 자동매매이며, 이자·배당이 아닙니다."
+    "foot.copy":"캐시파이프봇은 트레이딩 소프트웨어입니다. 투자자문이나 투자일임(자산운용)을 제공하지 않고, 고객 자금을 보관하거나 접근할 수 없으며, 어떠한 수익도 보장하지 않습니다. 암호화폐 파생상품 거래는 고위험이며 원금 전액을 잃을 수 있습니다. 백테스트·라이브 트랙레코드를 포함한 과거 성과는 미래 결과를 보장하지 않습니다. 레버리지를 사용하는 무기한 선물 자동매매이며, 이자·배당이 아닙니다.",
+    "foot.biz":"상호: TODO · 대표자: TODO · 사업장 주소: TODO · 연락처: TODO · 이메일: admin@cashpipebot.com · 사업자등록번호: TODO · 통신판매업 신고번호: TODO"
   }
 };
 
