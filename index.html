@@ -347,38 +347,9 @@ section[hidden]{display:none!important}
     <p class="section-desc sim-note" data-i18n="track.simnote">⚠️ These are simulations on a virtual $10,000 balance — not real accounts. No real orders are placed.</p>
   </div>
 
-  <!-- FRONTIER (개척형) -->
-  <div class="track-wrap">
-    <div class="glass track-hero">
-      <div class="track-live sim"><span class="sim-dot"></span><span data-i18n="track.livelabelF">SIMULATED · FRONTIER-A Strategy (not a real account)</span></div>
-      <div class="track-headline">
-        <div class="track-equity font-digit" id="tEquityF">$10,000.00</div>
-        <div class="track-pnl font-digit" id="tPnlF">+$0.00</div>
-      </div>
-      <div class="track-meta">
-        <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
-        <div class="cell mret"><div class="l" data-i18n="track.m3" id="tMonthlyLabF">Monthly Return</div><div class="v font-digit" id="tMonthlyF">+0.0%</div></div>
-        <div class="cell"><div class="l" data-i18n="track.m6">Avg profit per take-profit</div><div class="v font-digit"><span id="tAvgTpF">$0.00</span> <span class="v-sub" id="tAvgDetF"></span></div></div>
-        <div class="cell"><div class="l" data-i18n="track.mdd">Max drawdown</div><div class="v font-digit" id="tMddF">0.00%</div></div>
-      </div>
-    </div>
-    <div class="glass track-chart-card">
-      <div class="track-chart-head">
-        <h3 id="chartTitleF">Equity curve</h3>
-      </div>
-      <div class="chart-box">
-        <canvas id="chartF"></canvas>
-        <div class="chart-tip chart-tip-top" id="tipBalF"></div>
-        <div class="chart-tip chart-tip-bot" id="tipDateF"></div>
-        <div class="chart-start" id="chartStartF"></div>
-        <div class="chart-now" id="chartNowF"></div>
-      </div>
-    </div>
-  </div>
-
   <!-- FRONTIER-A (중장기 전환형) — 스태프봇 라이브 트랙레코드 -->
   <!-- AVENGERS(by Henry) 카드: 스태프 봇(1143059490), 2026-07-28 재등재. 내부 키/id는 FRONTIER_A/FA 재사용 -->
-  <div class="track-wrap" style="margin-top:22px">
+  <div class="track-wrap">
     <div class="glass track-hero">
       <div class="track-live sim"><span class="sim-dot"></span><span data-i18n="track.livelabelFA">SIMULATED · AVENGERS Strategy (not a real account)</span></div>
       <div class="track-headline">
@@ -402,6 +373,35 @@ section[hidden]{display:none!important}
         <div class="chart-tip chart-tip-bot" id="tipDateFA"></div>
         <div class="chart-start" id="chartStartFA"></div>
         <div class="chart-now" id="chartNowFA"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FRONTIER (개척형) -->
+  <div class="track-wrap" style="margin-top:22px">
+    <div class="glass track-hero">
+      <div class="track-live sim"><span class="sim-dot"></span><span data-i18n="track.livelabelF">SIMULATED · FRONTIER-A Strategy (not a real account)</span></div>
+      <div class="track-headline">
+        <div class="track-equity font-digit" id="tEquityF">$10,000.00</div>
+        <div class="track-pnl font-digit" id="tPnlF">+$0.00</div>
+      </div>
+      <div class="track-meta">
+        <div class="cell"><div class="l" data-i18n="track.m1">Initial balance</div><div class="v font-digit">$10,000</div></div>
+        <div class="cell mret"><div class="l" data-i18n="track.m3" id="tMonthlyLabF">Monthly Return</div><div class="v font-digit" id="tMonthlyF">+0.0%</div></div>
+        <div class="cell"><div class="l" data-i18n="track.m6">Avg profit per take-profit</div><div class="v font-digit"><span id="tAvgTpF">$0.00</span> <span class="v-sub" id="tAvgDetF"></span></div></div>
+        <div class="cell"><div class="l" data-i18n="track.mdd">Max drawdown</div><div class="v font-digit" id="tMddF">0.00%</div></div>
+      </div>
+    </div>
+    <div class="glass track-chart-card">
+      <div class="track-chart-head">
+        <h3 id="chartTitleF">Equity curve</h3>
+      </div>
+      <div class="chart-box">
+        <canvas id="chartF"></canvas>
+        <div class="chart-tip chart-tip-top" id="tipBalF"></div>
+        <div class="chart-tip chart-tip-bot" id="tipDateF"></div>
+        <div class="chart-start" id="chartStartF"></div>
+        <div class="chart-now" id="chartNowF"></div>
       </div>
     </div>
   </div>
